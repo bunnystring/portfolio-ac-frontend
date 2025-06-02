@@ -1,0 +1,94 @@
+
+
+
+
+$lamp: 300px;
+$cover: 200px;
+$cable: 200px;
+
+.lamp {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 110px;
+  margin: 0px auto;
+  width: $lamp;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transform-origin: center top;
+  animation-timing-function: cubic-bezier(.6,0,.38,1);
+
+  animation: move 5s infinite ease-in-out; /* IE 10+, Fx 29+ */
+}
+
+@keyframes move {
+  0%   { transform: rotate(-60deg); }
+  50%   { transform: rotate(60deg); }
+  100%   { transform: rotate(-60deg); }
+}
+
+
+.cover {
+
+  width: $cover;
+  height: 80px;
+  background:#2d2a2ace;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+
+  position:relative;
+  z-index: 200;
+}
+
+.in-cover {
+  width: 100%;
+  max-width: $cover;
+  height: 20px;
+
+  border-radius: 100%;
+  background: #353131e8;
+  position:absolute;
+  left: 0px;
+  right: 0px;
+  margin: 0px auto;
+  bottom: -9px;
+  z-index:100;
+
+
+  .bulb {
+     width: 50px;
+     height: 50px;
+     background: #F5D76E;
+     border-radius: 50%;
+
+     position:absolute;
+     left:0px;
+     right:0px;
+     bottom: -20px;
+     margin: 0px auto;
+     cursor: pointer;
+
+  }
+}
+
+.light {
+
+  width: $cover;
+  height: 0px;
+
+  border-bottom: $cover*3 solid rgba(100, 100, 100, 0.126);
+  border-left: $cover/4 solid transparent;
+  border-right: $cover/4 solid transparent;
+
+  position:absolute;
+  left: 0px;
+  right: 0px;
+  top: 70px;
+  margin: 0px auto;
+  border-radius: 15px;
+  z-index:1;
+}
+
