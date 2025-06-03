@@ -7,22 +7,31 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrl: './reflector-bulb.component.scss',
 })
 export class ReflectorBulbComponent {
-  @ViewChild('lamp') lamp: ElementRef;
+  @ViewChild('lamp-light') lamp: ElementRef;
   turnOnLamp: boolean = true;
   constructor() {}
 
   ngOninit() {}
 
-  onClickLamp(event: any) {
-    console.log('event', event);
-    console.log("lamp" ,this.turnOnLamp);
-
+  /**
+   * Metodo para manejar el evento de clic en la luz del reflector.
+   * Cambia el estado de la luz entre encendida y apagada.
+   * Si la luz está encendida, se agrega la clase 'light' al elemento del DOM.
+   * Si la luz está apagada, se elimina la clase 'light'.
+   * @param event
+   */
+  onClickLight() {
+    const lamp = document.querySelector('.lamp-light');
     if (this.turnOnLamp) {
-      this.lamp.nativeElement.style.animation = '';
+      if (lamp) {
+        lamp.classList.add('light');
+      }
       this.turnOnLamp = false;
     } else {
-      const rs = ["move 5s infinite ease"]
-      this.lamp.nativeElement.style.animation = rs ;
+      if (lamp) {
+        lamp.classList.remove('light');
+      }
+      this.turnOnLamp = true;
     }
   }
 }
