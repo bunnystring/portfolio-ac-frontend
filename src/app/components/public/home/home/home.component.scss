@@ -1,1 +1,29 @@
 
+.profile-image {
+  animation: flotar 2s linear infinite; /* Animación de nombre "flotar", duración de 3 segundos, función de temporización lineal y repetición infinita */
+  /* Otras propiedades de la imagen, como la posición y el tamaño */
+}
+
+@keyframes flotar {
+  0% {
+    transform: translateY(0); /* Posición inicial */
+  }
+  50% {
+    transform: translateY(-10px); /* Movimiento vertical hacia arriba */
+  }
+  100% {
+    transform: translateY(0); /* Regreso a la posición inicial */
+  }
+}
+
+
+.profile-image > img{
+  height: 100%;
+  width: 80%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
+  }
+}

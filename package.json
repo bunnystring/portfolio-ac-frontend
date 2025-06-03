@@ -23,6 +23,7 @@
     "@ng-icons/ionicons": "^31.4.0",
     "@ng-icons/lucide": "^31.4.0",
     "@ngbracket/ngx-layout": "^19.0.0",
+    "bootstrap": "^5.3.6",
     "rxjs": "~7.8.0",
     "swiper": "^11.2.8",
     "tslib": "^2.3.0",
