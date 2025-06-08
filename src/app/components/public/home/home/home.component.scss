@@ -1,9 +1,13 @@
+:root {
+  //color golden
+  --pcolor: #ffc107; /* Color primario */
+  --scolor: #6c757d; /* Color secundario */
+}
 
 .profile-image {
   animation: flotar 2s linear infinite; /* Animación de nombre "flotar", duración de 3 segundos, función de temporización lineal y repetición infinita */
   /* Otras propiedades de la imagen, como la posición y el tamaño */
 }
-
 @keyframes flotar {
   0% {
     transform: translateY(0); /* Posición inicial */
@@ -17,13 +21,22 @@
 }
 
 
-.profile-image > img{
-  height: 100%;
-  width: 80%;
-  object-fit: cover;
-  transition: transform 0.3s ease-in-out;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
+.profile-image {
+  height: 550px !important;
+  align-content: center !important;
+
+  img {
+    height: 100%;
+    width: 100%;
+    height: 450px !important;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.05);
+      /* Efecto de zoom al pasar el cursor */
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
   }
 }

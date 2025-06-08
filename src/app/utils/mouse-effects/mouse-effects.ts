@@ -176,3 +176,13 @@ export function mouseEffectSnake() {
     return canvas;
 
 }
+
+// delete effect
+export function stopMouseEffectSnake() {
+  const canvas = document.querySelector('canvas');
+  if (canvas) {
+    canvas.removeEventListener('mousemove', () => {});
+    canvas.remove();
+  }
+  return canvas;
+}

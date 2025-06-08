@@ -1,5 +1,7 @@
 .wrap {
-  --pcolor: #1b1b1b;
+  //color negro primario
+  --pcolor: #141004c4;
+  --scolor: #ffc107; /* Color secundario */
   font-size: 16px;
   color: var(--pcolor);
 
@@ -33,9 +35,18 @@
     }
   }
 
+  button:hover {
+    background-color: var(--scolor) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+
   header {
     padding: 20px 20px;
     font-weight: 500;
+    width: 100% !important; /* o un valor específico */
+    overflow: hidden !important;
+
 
     .menu {
       @extend .flex;
@@ -46,19 +57,29 @@
         border-bottom: 1px solid transparent;
         border-bottom: 4px;
         transition: all .3s;
-        &:hover,
         &.active {
           border-bottom: 1px solid var(--pcolor);
+          text-decoration: none !important;
+          font-weight: bolder !important;
+          color: var(--pcolor);
         }
-
         &.border0 {
           border: 0;
         }
-
-
         &.theme {
           background-color: var(--pcolor);
         }
+        &:hover {
+          color: var(--pcolor);
+          text-decoration: none !important;
+          font-weight: bolder !important;
+
+
+        }
+      }
+      a > img:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
       }
     }
 
@@ -108,4 +129,26 @@
         }
       }
     }
+}
+
+.btn-wrap {
+
+  button:hover {
+    background-color: var(--scolor) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    transition: all .5s;
+  }
+}
+
+.secondary{
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none !important;
+  cursor: pointer;
+  &:hover {
+    color: var(--scolor);
+    text-decoration: none;
+    transition: all .5s;
+  }
 }
