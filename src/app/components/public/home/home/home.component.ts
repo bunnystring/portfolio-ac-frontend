@@ -1,18 +1,19 @@
+import { ReflectorBulbServices } from './../../../services/reflector-bulb-services/reflector-bulb-services';
 import {
   Component,
   OnInit,
-  ElementRef,
-  HostListener,
   OnDestroy,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { ReflectorBulbComponent } from '../../../shared/reflector-bulb/reflector-bulb.component';
 import {
-  mouseEffectMotion,
   mouseEffectSnake,
 } from '../../../../utils/mouse-effects/mouse-effects';
+
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,12 @@ import {
 })
 export class HomeComponent implements OnInit, OnDestroy {
   insertHtml: any;
+  @Output() pasarDatos = new EventEmitter<any>();
+
+  constructor(
+    private reflectorBulbServices: ReflectorBulbServices) {
+    // Aquí puedes inicializar cualquier cosa que necesites al cargar el componente
+  }
 
   ngOnDestroy() {
     // Remover el listener del elemento del DOM cuando el componente se destruye
@@ -31,8 +38,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.insertHtml = mouseEffectSnake();
     console.log('insertHtml', this.insertHtml);
 
+    this.validateReflectorBulb();
+
   }
 
-  onMovemouse() {}
+  validateReflectorBulb(){
+    console.log('Validating reflector bulb...');
+    this.reflectorBulbServices.reflectorBulbEvent.subscribe((event) => {
+      if (!event) {
+        throw new Error('Reflector bulb is not defined');
+      } else {
+        console.log('Reflector bulb is defined', event);
+        this.pasarDatos = event;
+      }
+    });
+  }
 
 }

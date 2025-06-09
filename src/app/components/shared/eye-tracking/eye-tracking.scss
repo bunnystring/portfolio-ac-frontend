@@ -1,0 +1,41 @@
+.eye-container {
+  display: flex;
+  gap: 20px;
+}
+.eye {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #e3e0e6, #073767);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.pupil {
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  transition: all 0.1s linear;
+}
+.reflection {
+  width: 8px;
+  height: 8px;
+  background: rgba(176, 167, 167, 0.751);
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+.eyelid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(161, 157, 157, 0.73);
+  top: -100%;
+  transition: top 0.1s;
+}
+
