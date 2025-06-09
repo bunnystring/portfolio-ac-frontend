@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ReflectorBulbServices } from './../../services/reflector-bulb-services/reflector-bulb-services';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-reflector-bulb',
@@ -9,9 +10,34 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class ReflectorBulbComponent {
   @ViewChild('lamp-light') lamp: ElementRef;
   turnOnLamp: boolean = true;
-  constructor() {}
+  @Input() reflectBulb: any;
 
-  ngOninit() {}
+
+  constructor(
+    private reflectorBulbServices: ReflectorBulbServices
+  ) {}
+
+  ngOninit() {
+    /* this.validateReflectorBulb();
+    this.onClickLight(); */
+    console.log('ReflectorBulbComponent finish', this.reflectBulb);
+  }
+
+  /**
+   * Metodo para validar el reflector bulb.
+   * Si el reflector bulb no está definido, se lanza un error.
+   */
+  validateReflectorBulb() {
+    console.log('Validating reflector bulb...');
+    this.reflectorBulbServices.reflectorBulbEvent.subscribe((event) => {
+      if (!event) {
+        throw new Error('Reflector bulb is not defined');
+      } else {
+        console.log('Reflector bulb is defined', event);
+      }
+    });
+  }
+
 
   /**
    * Metodo para manejar el evento de clic en la luz del reflector.

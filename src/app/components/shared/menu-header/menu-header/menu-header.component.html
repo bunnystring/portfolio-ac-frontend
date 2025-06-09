@@ -1,23 +1,35 @@
 <div class="wrap">
   <div class="container">
-   <div fxFlex="90%" fxLayout="column" fxLayoutGap="20px">
-    <header fxFlex="100%" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between center">
-      <div>
-        <div class="menu">
+   <div class="d-flex container col-md-12 justify-content-center align-items-center">
+    <header class="col-md-12 d-flex justify-content-between align-items-center mt-2">
+        <div class="menu d-flex justify-content-center mr-0 col-md-5">
           <a class="active">Home</a>
           <a>About</a>
           <a>Projects</a>
-          <a>Articles</a>
+          <a>Skills</a>
           <a>Contact me</a>
         </div>
+      <div class="menu mr-2 col-md-3 d-flex justify-content-center align-items-center">
+        <app-eye-tracking></app-eye-tracking>
       </div>
     <!--   <div class="logo">AC</div> -->
-      <div class="menu" style="text-align: right;">
-        <a class="border0"><img src="/src/assets/images/instagram.svg" alt="" width="50%" srcset=""></a>
-        <a class="border0"><img src="/src/assets/images/facebook.svg" alt="" width="50%" srcset=""></a>
-        <a class="border0"><img src="/src/assets/images/linkedin.svg" alt="" width="50%" srcset=""></a>
-        <a class="border0"><img src="/src/assets/images/github.svg" alt="" width="50%" srcset=""></a>
-        <a class="border0"><img src="/src/assets/images/game.gif" alt="" width="50%" srcset=""></a>
+      <div class="menu d-flex justify-content-center col-md-4 align-items-start">
+        <a class="border0"><img class="tooltip-header" id="instagram" src="/src/assets/images/ins.png" alt="" width="50%"
+            srcset=""></a>
+        <a class="border0"><img class="tooltip-header" id="facebook" src="/src/assets/images/face.png" alt="" width="50%"
+            srcset=""></a>
+        <a class="border0"><img class="tooltip-header" id="linkedin" src="/src/assets/images/linke.png" alt="" width="50%"
+            srcset=""></a>
+        <a class="border0"><img class="tooltip-header" id="github" src="/src/assets/images/git.png" alt="" width="50%"
+            srcset=""></a>
+        <a class="border0"><img class="joystick tooltip-header" id="Play with me" src="/src/assets/images/joystick.png" alt=""
+            width="50%" srcset=""></a>
+        <a class="border0">
+          <label>
+            <input type="checkbox" id="power-icon" (click)="onClickLight()">
+            <div class="power-toggle"></div>
+          </label>
+        </a>
       </div>
     </header>
    </div>
