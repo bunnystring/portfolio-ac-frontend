@@ -1,48 +1,82 @@
-
-
-
+// Bulb styles
 
 $lamp: 300px;
 $cover: 200px;
 $cable: 200px;
 
+// initial state of the lamp
+.lamp-init{
+  visibility: hidden;
+}
+
+// lamp principal
 .lamp {
   position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 110px;
-  margin: 0px auto;
-  width: $lamp;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
+  top: -100px;
+  left: 70%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  animation: dropLamp 1.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+  bounce 0.6s ease-in-out 2s 1 forwards;
   transform-origin: center top;
-  animation-timing-function: cubic-bezier(.6,0,.38,1);
-
-  animation: move 5s infinite ease-in-out; /* IE 10+, Fx 29+ */
 }
 
-@keyframes move {
-  0%   { transform: rotate(-60deg); }
-  50%   { transform: rotate(60deg); }
-  100%   { transform: rotate(-60deg); }
+// animación de caída de la lámpara
+@keyframes dropLamp {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  100% {
+    top: 140px;
+    opacity: 1;
+  }
+}
+
+// animación de rebote de la lámpara
+@keyframes bounce {
+  0%   { top: 140px; }
+  20%  { top: 80px; }   /* ¡Sube más alto ahora! */
+  40%  { top: 150px; }  /* Rebote más fuerte hacia abajo */
+  60%  { top: 120px; }
+  80%  { top: 138px; }
+  100% { top: 140px; }
+}
+
+// clase que contiene la animacion de movimiento de lado a lado
+.swinging {
+  position: absolute ;
+  top: 140px;
+  left: 70%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  animation: swing 3s ease-out;
 }
 
 
+// animación de movimiento de lado a lado
+@keyframes swing {
+  0%   { transform: translateX(-50%) rotate(0deg); }
+  25%  { transform: translateX(-50%) rotate(25deg); }
+  50%  { transform: translateX(-50%) rotate(-25deg); }
+  75%  { transform: translateX(-50%) rotate(15deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+
+}
+
+// cable de la lámpara
 .cover {
-
   width: $cover;
   height: 80px;
-  background:#2d2a2ace;
+  background: #2d2a2ace;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
 
-  position:relative;
+  position: relative;
   z-index: 200;
 }
 
+// interruptor de la lámpara
 .in-cover {
   width: 100%;
   max-width: $cover;
@@ -50,45 +84,89 @@ $cable: 200px;
 
   border-radius: 100%;
   background: #353131e8;
-  position:absolute;
+  position: absolute;
   left: 0px;
   right: 0px;
   margin: 0px auto;
   bottom: -9px;
-  z-index:100;
-
-
-  .bulb {
-     width: 50px;
-     height: 50px;
-     background: #F5D76E;
-     border-radius: 50%;
-
-     position:absolute;
-     left:0px;
-     right:0px;
-     bottom: -20px;
-     margin: 0px auto;
-     cursor: pointer;
-
-  }
+  z-index: 100;
 }
 
-.light {
+// Bombilla encendida
+.bulb-on {
+    background: radial-gradient(circle at 30% 30%, var(--scolor), var(--scolor));
+    box-shadow: 0 0 15px var(--scolor), 0 0 30px var(--scolor);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -20px;
+    margin: 0px auto;
+    cursor: pointer;
+
+  }
+
+// Bombilla apagada
+.bulb-off {
+    background: radial-gradient(circle at 30% 30%, #444, #222);
+    box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.1),
+      inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.6);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -20px;
+    margin: 0px auto;
+    cursor: pointer;
+  }
+
+
+// luz de la lámpara
+.light {
   width: $cover;
   height: 0px;
-
-  border-bottom: $cover*3 solid rgba(100, 100, 100, 0.126);
+  border-bottom: $cover*2 solid rgba(100, 100, 100, 0.126);
   border-left: $cover/4 solid transparent;
   border-right: $cover/4 solid transparent;
 
-  position:absolute;
+  position: absolute;
   left: 0px;
   right: 0px;
   top: 70px;
   margin: 0px auto;
   border-radius: 15px;
-  z-index:1;
+  z-index: 1;
+}
+
+
+// lámpara apagada con animación de caída y rebote
+.lamp-off {
+  position: absolute;
+  left: 70%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  animation: lampOffMoveUp 2.5s ease-in forwards;
+  /* Se asegura que al finalizar se quede arriba y transparente */
+}
+
+@keyframes lampOffMoveUp {
+  0% {
+    top: 140px;
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    top: -100px;
+    opacity: 0;
+  }
 }
 
