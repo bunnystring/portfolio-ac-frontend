@@ -14,9 +14,16 @@ export class EyeTracking  implements OnInit {
     this.initEyeTracking();
   }
 
+  /**
+   * Método para inicializar el seguimiento ocular.
+   * @description Este método agrega un evento de movimiento del mouse para rastrear la posición del cursor y mover las pupilas de los ojos en consecuencia.
+   * También agrega un evento de clic para simular el parpadeo de los ojos.
+   * @returns void
+   * @version 1.0.0
+   * @since 1.0.0
+   * @author Beclazar
+   */
   initEyeTracking() {
-    // Lógica para inicializar el seguimiento ocular
-    console.log('Eye tracking initialized');
     document.addEventListener('mousemove', (event) => {
       const eyes = document.querySelectorAll('.eye');
       eyes.forEach(eye => {
@@ -33,7 +40,6 @@ export class EyeTracking  implements OnInit {
       }
       });
     });
-
     document.addEventListener('click', () => {
       let eyelids = document.querySelectorAll('.eyelid');
       eyelids.forEach(eyelid => {

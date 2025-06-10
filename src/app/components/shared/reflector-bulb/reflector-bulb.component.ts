@@ -1,5 +1,5 @@
 import { ReflectorBulbServices } from './../../services/reflector-bulb-services/reflector-bulb-services';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-reflector-bulb',
@@ -7,20 +7,13 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   templateUrl: './reflector-bulb.component.html',
   styleUrl: './reflector-bulb.component.scss',
 })
-export class ReflectorBulbComponent {
+export class ReflectorBulbComponent implements OnInit {
   @ViewChild('lamp-light') lamp: ElementRef;
   turnOnLamp: boolean = true;
-  @Input() reflectBulb: any;
 
-
-  constructor(
-    private reflectorBulbServices: ReflectorBulbServices
-  ) {}
-
-  ngOninit() {
-    /* this.validateReflectorBulb();
-    this.onClickLight(); */
-    console.log('ReflectorBulbComponent finish', this.reflectBulb);
+  constructor(private reflectorBulbServices: ReflectorBulbServices) {}
+  ngOnInit() {
+    this.validateReflectorBulb();
   }
 
   /**
@@ -28,16 +21,20 @@ export class ReflectorBulbComponent {
    * Si el reflector bulb no está definido, se lanza un error.
    */
   validateReflectorBulb() {
-    console.log('Validating reflector bulb...');
     this.reflectorBulbServices.reflectorBulbEvent.subscribe((event) => {
       if (!event) {
         throw new Error('Reflector bulb is not defined');
       } else {
-        console.log('Reflector bulb is defined', event);
+        if (event.action === 'turnOn') {
+          this.turnOnLamp = true;
+          this.onClickLight();
+        } else if (event.action === 'turnOff') {
+          this.turnOnLamp = false;
+          this.onClickLight();
+        }
       }
     });
   }
-
 
   /**
    * Metodo para manejar el evento de clic en la luz del reflector.
@@ -48,14 +45,33 @@ export class ReflectorBulbComponent {
    */
   onClickLight() {
     const lamp = document.querySelector('.lamp-light');
+    const bulb = document.querySelector('#bulb');
+    const lampId = document.querySelector('#lamp') as HTMLElement | null;
+    const swinging = lampId?.classList.contains('swinging');
     if (this.turnOnLamp) {
       if (lamp) {
-        lamp.classList.add('light');
+        lampId?.classList.remove('lamp-init');
+        lampId?.classList.add('lamp');
+        lampId?.classList.remove('lamp-off');
+        bulb?.classList.remove('bulb-off');
+       if(!swinging){
+        setTimeout(() => {
+          lampId?.classList.add('swinging');
+          lamp.classList.add('light');
+          bulb?.classList.remove('bulb-off');
+          bulb?.classList.add('bulb-on');
+        }, 1300);
+       }
       }
       this.turnOnLamp = false;
     } else {
       if (lamp) {
-        lamp.classList.remove('light');
+          lampId?.classList.remove('swinging');
+          lamp.classList.remove('light');
+          bulb?.classList.remove('bulb-on');
+          bulb?.classList.add('bulb-off');
+          lampId?.classList.remove('lamp-on')
+          lampId?.classList.add('lamp-off');
       }
       this.turnOnLamp = true;
     }

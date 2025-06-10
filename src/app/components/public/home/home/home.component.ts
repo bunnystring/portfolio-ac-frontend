@@ -3,8 +3,6 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  EventEmitter,
-  Output,
 } from '@angular/core';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -13,18 +11,18 @@ import { ReflectorBulbComponent } from '../../../shared/reflector-bulb/reflector
 import {
   mouseEffectSnake,
 } from '../../../../utils/mouse-effects/mouse-effects';
+import { RocketScroll } from '../../../shared/rocket-scroll/rocket-scroll';
 
 
 @Component({
   selector: 'app-home',
-  imports: [NgIcon, FlexLayoutModule, ReflectorBulbComponent],
+  imports: [NgIcon, FlexLayoutModule, ReflectorBulbComponent, RocketScroll],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   viewProviders: [provideIcons({ lucideExternalLink })],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   insertHtml: any;
-  @Output() pasarDatos = new EventEmitter<any>();
 
   constructor(
     private reflectorBulbServices: ReflectorBulbServices) {
@@ -36,22 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.insertHtml = mouseEffectSnake();
-    console.log('insertHtml', this.insertHtml);
-
-    this.validateReflectorBulb();
-
-  }
-
-  validateReflectorBulb(){
-    console.log('Validating reflector bulb...');
-    this.reflectorBulbServices.reflectorBulbEvent.subscribe((event) => {
-      if (!event) {
-        throw new Error('Reflector bulb is not defined');
-      } else {
-        console.log('Reflector bulb is defined', event);
-        this.pasarDatos = event;
-      }
-    });
   }
 
 }

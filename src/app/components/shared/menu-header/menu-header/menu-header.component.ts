@@ -34,15 +34,12 @@ export class MenuHeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Aquí puedes inicializar cualquier cosa que necesites al cargar el componente
 
     //stop mouse effect
     this.insertHtml = stopMouseEffectSnake();
-
     this.initTippy();
-
-    // remove the mouse effect from the header
   }
+
 
   onClickMenu() {
     const menu = document.querySelector('.menu');
@@ -51,6 +48,13 @@ export class MenuHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   * Método para inicializar Tippy.js en los elementos con la clase 'tooltip-header'.
+   * Asigna el id del elemento como contenido del tooltip.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   initTippy() {
     const tippyElements = document.querySelectorAll('.tooltip-header');
     let idElement = Array.from(tippyElements).map((el) => el.id);
@@ -67,6 +71,13 @@ export class MenuHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   *  Metodo que se ejecuta cuando se hace click en el icono de la lampara
+   *  y emite un evento para encender o apagar la lampara
+   *  @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   onClickLight() {
     if (this.lampTurnOn) {
       console.log('Reflector bulb turned Off');

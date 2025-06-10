@@ -1,12 +1,12 @@
 * {
   font-family: 'Bungee' !important;
+  --pcolor: #141004c4;
+  --scolor: #ffc107;
+  /* Color secundario */
+  --tcolor: #fff;
 }
 
 .wrap {
-  //color negro primario
-  --pcolor: #141004c4;
-  --scolor: #ffc107; /* Color secundario */
-  --tcolor: #fff;
   font-size: 16px;
   color: var(--pcolor);
 
@@ -19,7 +19,9 @@
   .flex {
     display: flex;
   }
-  a,button {
+
+  a,
+  button {
     cursor: pointer;
   }
 
@@ -49,7 +51,8 @@
   header {
     padding: 20px 20px;
     font-weight: 500;
-    width: 100% !important; /* o un valor específico */
+    width: 100% !important;
+    /* o un valor específico */
     overflow: hidden !important;
 
 
@@ -70,12 +73,15 @@
           font-weight: bolder !important;
           color: var(--scolor);
         }
+
         &.border0 {
           border: 0;
         }
+
         &.theme {
           background-color: var(--tcolor);
         }
+
         &:hover {
 
 
@@ -96,7 +102,8 @@
 
         }
       }
-      a > img:hover {
+
+      a>img:hover {
         transform: scale(1.1);
         transition: transform 0.3s ease-in-out;
       }
@@ -115,64 +122,83 @@
       margin-right: 0 !important;
 
       &:hover {
-        background: linear-gradient(173deg,rgba(221, 0, 49, 0.49) 0%, rgba(171, 38, 46, 1) 51%, rgba(151, 50, 42, 1) 100%);
+        background: linear-gradient(173deg, rgba(221, 0, 49, 0.49) 0%, rgba(171, 38, 46, 1) 51%, rgba(151, 50, 42, 1) 100%);
         background-position: 100% 0;
       }
     }
 
-    .menu > a > img {
+    .menu>a>img {
       width: 30px;
       height: 30px;
     }
-    .menu > a > .joystick {
+
+    .menu>a>.joystick {
       // add animation move
-      animation: move 5s infinite ease-in-out; /* IE 10+, Fx 29+ */
+      animation: move 5s infinite ease-in-out;
+
+      /* IE 10+, Fx 29+ */
       @keyframes move {
-        0%   { transform: rotate(-60deg); }
-        50%   { transform: rotate(60deg); }
-        100%   { transform: rotate(-60deg); }
+        0% {
+          transform: rotate(-60deg);
+        }
+
+        50% {
+          transform: rotate(60deg);
+        }
+
+        100% {
+          transform: rotate(-60deg);
+        }
       }
+
       width: 30px;
       height: 35px;
     }
 
-    .menu > a > .joystick:hover{
+    .menu>a>.joystick:hover {
       //girar 360 grados
       animation: rotate 1s linear infinite;
+
       @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
       }
     }
   }
 
-    .content {
-      padding: 25px;
-      h1 {
-        margin: 0 0 30px;
-        font-size: 70px;
-        line-height:  65px;
-      }
+  .content {
+    padding: 25px;
 
-      p{
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 24px;
-        margin: 0 0 30px;
-      }
+    h1 {
+      margin: 0 0 30px;
+      font-size: 70px;
+      line-height: 65px;
+    }
 
-      .btn-wrap{
-        @extend .flex;
-        gap: 20px;
-        align-items: center;
+    p {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 24px;
+      margin: 0 0 30px;
+    }
 
-        a {
-          font-size: 16px;
-          font-weight: 600;
-          text-decoration: underline;
-        }
+    .btn-wrap {
+      @extend .flex;
+      gap: 20px;
+      align-items: center;
+
+      a {
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: underline;
       }
     }
+  }
 }
 
 .btn-wrap {
@@ -185,11 +211,12 @@
   }
 }
 
-.secondary{
+.secondary {
   color: #fff;
   font-weight: 600;
   text-decoration: none !important;
   cursor: pointer;
+
   &:hover {
     color: var(--scolor);
     text-decoration: none;
@@ -203,6 +230,7 @@
   display: flex;
   gap: 20px;
 }
+
 .eye {
   width: 50px;
   height: 50px;
@@ -215,6 +243,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .pupil {
   width: 30px;
   height: 30px;
@@ -223,6 +252,7 @@
   position: absolute;
   transition: all 0.1s linear;
 }
+
 .reflection {
   width: 8px;
   height: 8px;
@@ -232,6 +262,7 @@
   top: 5px;
   left: 10px;
 }
+
 .eyelid {
   position: absolute;
   width: 100%;
@@ -249,11 +280,16 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Ensure it stays behind other content */
-  background-image: url('/src/assets/images/background.png'); /* Replace with your image path */
-  background-size: cover; /* Cover the entire viewport */
-  background-position: center; /* Center the image */
-  opacity: 1.1; /* Adjust opacity as needed */
+  z-index: -1;
+  /* Ensure it stays behind other content */
+  background-image: url('/src/assets/images/background.png');
+  /* Replace with your image path */
+  background-size: cover;
+  /* Cover the entire viewport */
+  background-position: center;
+  /* Center the image */
+  opacity: 1.1;
+  /* Adjust opacity as needed */
 }
 
 
@@ -267,8 +303,8 @@ body {
   background: radial-gradient(circle at 30% 30%, #444, #222);
   border-radius: 50%;
   box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.1),
-              inset 4px 4px 10px rgba(0, 0, 0, 0.5),
-              0 4px 12px rgba(0, 0, 0, 0.6);
+    inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -304,17 +340,18 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked + .power-toggle {
+input[type="checkbox"]:checked+.power-toggle {
   background: radial-gradient(circle at 30% 30%, var(--scolor), var(--scolor));
   box-shadow: 0 0 15px var(--scolor), 0 0 30px var(--scolor);
 }
 
-input[type="checkbox"]:checked + .power-toggle::before {
+input[type="checkbox"]:checked+.power-toggle::before {
   background: #fff;
 }
 
-input[type="checkbox"]:checked + .power-toggle::after {
+input[type="checkbox"]:checked+.power-toggle::after {
   border-color: #fff;
   border-top-color: transparent;
 }
+
 
