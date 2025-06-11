@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuHeaderComponent } from "./components/shared/menu-header/menu-header/menu-header.component";
 import { FooterComponent } from "./components/shared/footer/footer/footer.component";
@@ -9,6 +9,10 @@ import { FooterComponent } from "./components/shared/footer/footer/footer.compon
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'portfolio-ac';
+
+  constructor() { }
+  ngOnInit(): void {
+  }
 }

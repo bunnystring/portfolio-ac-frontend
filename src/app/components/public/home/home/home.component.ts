@@ -9,9 +9,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { ReflectorBulbComponent } from '../../../shared/reflector-bulb/reflector-bulb.component';
 import {
-  mouseEffectSnake,
+  mouseEffectSnake, quitarCanvasSnake
 } from '../../../../utils/mouse-effects/mouse-effects';
 import { RocketScroll } from '../../../shared/rocket-scroll/rocket-scroll';
+import { HomeServices } from '../../../services/home-services/home-services';
 
 
 @Component({
@@ -22,18 +23,38 @@ import { RocketScroll } from '../../../shared/rocket-scroll/rocket-scroll';
   viewProviders: [provideIcons({ lucideExternalLink })],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  insertHtml: any;
-
   constructor(
-    private reflectorBulbServices: ReflectorBulbServices) {
+    private reflectorBulbServices: ReflectorBulbServices,
+    private homeServices: HomeServices) {
     // Aquí puedes inicializar cualquier cosa que necesites al cargar el componente
   }
 
   ngOnDestroy() {
-    // Remover el listener del elemento del DOM cuando el componente se destruye
+    quitarCanvasSnake();
+    this.homeServices.snakeService.unsubscribe();
   }
   ngOnInit(): void {
-    this.insertHtml = mouseEffectSnake();
+
+    this.validateModeGameSnake();
   }
 
+  /**
+   * Método para validar el modo del juego Snake.
+   * Si el modo es 'game-snake', se activa el efecto de mouse.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  validateModeGameSnake() {
+    mouseEffectSnake({ gameMode: false });
+    this.homeServices.snakeService.subscribe((mode: any) => {
+      if (mode.action === 'activeModeGame') {
+        quitarCanvasSnake();
+        mouseEffectSnake({ gameMode: true });
+      }else if (mode.action === 'leaveModeGame') {
+        quitarCanvasSnake();
+        mouseEffectSnake({ gameMode: false });
+      }
+    });
+  }
 }

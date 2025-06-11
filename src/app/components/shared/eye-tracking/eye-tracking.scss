@@ -1,34 +1,250 @@
 .eye-container {
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.eye-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 .eye {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #e3e0e6, #073767);
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #e3e0e6 60%, #073767 100%);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 16px #0002;
+  transition: background 0.5s, box-shadow 0.5s;
 }
+.vein {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  left: 5px;
+  top: 5px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.3s;
+  background: none;
+}
+.vein1 { /* Superior izquierda */
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-bottom: 0;
+  border-radius: 80% 60% 0 0/90% 70% 0 0;
+  transform: rotate(-30deg);
+}
+.vein2 { /* Inferior izquierda */
+  border-bottom: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-top: 0;
+  border-radius: 0 0 60% 80%/0 0 70% 90%;
+  transform: rotate(17deg);
+}
+.vein3 { /* Superior derecha */
+  border-top: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 0;
+  border-radius: 80% 60% 0 0/90% 70% 0 0;
+  transform: rotate(32deg) scaleX(-1);
+}
+.vein4 { /* Inferior derecha */
+  border-bottom: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-top: 0;
+  border-radius: 0 0 60% 80%/0 0 70% 90%;
+  transform: rotate(-20deg) scaleX(-1);
+}
+.vein5 { /* Centro abajo */
+  width: 28px;
+  height: 18px;
+  left: 10px;
+  top: 28px;
+  border-bottom: 2px solid transparent;
+  border-radius: 0 0 80% 80%/0 0 100% 100%;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+/* --- VENAS POR ESTADO (colores y grosor distintos) --- */
+.eye-angry .vein {
+  opacity: 1;
+  border-color: #c20000;
+  box-shadow: 0 0 4px 1px #c2000088;
+  border-width: 3px!important;
+}
+.eye-sad .vein {
+  opacity: 0.7;
+  border-color: #6499c2;
+  box-shadow: 0 0 2px 0 #6499c288;
+  border-width: 2px!important;
+}
+.eye-sleep .vein {
+  opacity: 0.6;
+  border-color: #6d7f91;
+  box-shadow: 0 0 2px 0 #6d7f9188;
+  border-width: 2px!important;
+}
+.eye-surprised .vein {
+  opacity: 0.9;
+  border-color: #ffe961;
+  box-shadow: 0 0 3px 1px #ffe96199;
+  border-width: 2px!important;
+}
+.eye-love .vein {
+  opacity: 1;
+  border-color: #fc3a7b;
+  box-shadow: 0 0 4px 1px #fc3a7b77;
+  border-width: 2.5px!important;
+}
+.eye-happy .vein {
+  opacity: 0.5;
+  border-color: #e6c964;
+  box-shadow: 0 0 2px 1px #ffe95455;
+  border-width: 2px!important;
+}
+.eye-normal .vein {
+  opacity: 0.18;
+  border-color: #b8b2a8;
+  border-width: 1.5px!important;
+}
+
+/* --- PUPILA POR EMOCIÓN --- */
 .pupil {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: black;
   border-radius: 50%;
   position: absolute;
-  transition: all 0.1s linear;
+  left: 13px; top: 13px;
+  z-index: 3;
+  transition: all 0.2s cubic-bezier(.45,2,.51,.36);
+  box-shadow: 0 1px 4px #2226;
 }
+.pupil-normal { background: #222; border-radius: 50%; box-shadow: 0 1px 4px #2226;}
+.pupil-happy {
+  background: radial-gradient(circle at 60% 40%, #222 60%, #ffe801 100%);
+  border-radius: 44% 60% 50% 60%/50% 60% 60% 44%;
+  box-shadow: 0 0 6px #ffe80199, 0 2px 7px #e9b70044;
+  animation: happy-pupil 1s infinite;
+}
+@keyframes happy-pupil {
+  0%,100% { filter: brightness(1);}
+  50% { filter: brightness(1.25);}
+}
+.pupil-sad {
+  background: #222;
+  border-radius: 60% 40% 60% 50%/60% 40% 40% 60%;
+  box-shadow: 0 2px 7px #5f8bb844;
+}
+.pupil-angry {
+  background: radial-gradient(circle at 40% 60%, #ff3030 80%, #222 100%);
+  border-radius: 60% 30% 80% 50%/30% 80% 30% 70%;
+  box-shadow: 0 0 8px #ff303099, 0 2px 7px #e4373744;
+  animation: angry-pulse 0.7s infinite;
+}
+@keyframes angry-pulse {
+  0%,100% { filter: brightness(1);}
+  50% { filter: brightness(1.2);}
+}
+.pupil-sleep {
+  background: #456;
+  border-radius: 46% 55% 60% 62%/52% 62% 52% 42%;
+  box-shadow: none;
+}
+.pupil-surprised {
+  background: radial-gradient(circle, #fff 55%, #222 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ffe961cc;
+  animation: surprised-pupil 0.7s infinite;
+}
+@keyframes surprised-pupil {
+  0%,100% { filter: drop-shadow(0 0 0 #ffe961); }
+  50% { filter: drop-shadow(0 0 15px #ffe961aa);}
+}
+.pupil-love {
+  background: #ff4e7a;
+  border-radius: 60% 60% 60% 60% / 60% 60% 80% 80%;
+  box-shadow: 0 0 8px #ff4e7a99, 0 2px 7px #fc3a7b44;
+  animation: love-pulse 1.1s infinite;
+}
+@keyframes love-pulse {
+  0%,100% { filter: brightness(1);}
+  50% { filter: brightness(1.2);}
+}
+
+/* --- OJO POR EMOCIÓN --- */
+.eye-normal { background: linear-gradient(135deg, #e3e0e6 60%, #073767 100%); box-shadow: 0 2px 16px #0002;}
+.eye-happy {
+  background: linear-gradient(135deg, #ffffd8 60%, #f5e95e 100%);
+  box-shadow: 0 0 24px #ffe95466;
+  animation: happy-bounce 1.2s infinite;
+}
+@keyframes happy-bounce {
+  0%, 100% { transform: scale(1);}
+  60% { transform: scale(1.07,0.96);}
+}
+.eye-sad {
+  background: linear-gradient(135deg, #e3eefc 60%, #5f8bb8 100%);
+  box-shadow: 0 0 18px #8cbce966;
+}
+.eye-angry {
+  background: linear-gradient(135deg, #fbe6e6 60%, #e43737 100%);
+  box-shadow: 0 0 18px #ff3c3c66;
+  animation: angry-shake 0.4s infinite;
+}
+@keyframes angry-shake {
+  0%,100% { transform: translateX(0);}
+  25% { transform: translateX(-2px);}
+  75% { transform: translateX(2px);}
+}
+.eye-sleep {
+  background: linear-gradient(135deg, #d5e2ea 60%, #8ca6b1 100%);
+  box-shadow: 0 0 14px #8ca6b166;
+  animation: sleep-blink 2.5s infinite;
+}
+@keyframes sleep-blink {
+  0%,92%,100% { filter: brightness(1);}
+  95% { filter: brightness(0.7);}
+}
+.eye-surprised {
+  background: linear-gradient(135deg, #fffdf0 80%, #ffe961 100%);
+  box-shadow: 0 0 30px #ffe96188;
+  animation: surprised-pulse 1s infinite;
+}
+@keyframes surprised-pulse {
+  0%,100% { filter: brightness(1);}
+  50% { filter: brightness(1.23);}
+}
+.eye-love {
+  background: linear-gradient(135deg, #fed6e3 80%, #fc3a7b 100%);
+  box-shadow: 0 0 22px #fc3a7b99;
+  animation: love-glow 1.1s infinite;
+}
+@keyframes love-glow {
+  0%,100% { filter: brightness(1);}
+  45% { filter: brightness(1.18);}
+}
+
+/* Detalles extra */
 .reflection {
   width: 8px;
   height: 8px;
-  background: rgba(176, 167, 167, 0.751);
+  background: rgba(255,255,255,0.7);
   border-radius: 50%;
   position: absolute;
-  top: 5px;
+  top: 4px;
   left: 10px;
+  pointer-events: none;
 }
 .eyelid {
   position: absolute;
@@ -36,6 +252,69 @@
   height: 100%;
   background: rgba(161, 157, 157, 0.73);
   top: -100%;
-  transition: top 0.1s;
+  left: 0;
+  transition: top 0.2s;
+  pointer-events: none;
+  z-index: 4;
+}
+.tear {
+  position: absolute;
+  left: 8px; top: 17px;
+  width: 7px; height: 12px;
+  background: linear-gradient(180deg, #9cd6fa 0%, #369cea 100%);
+  border-radius: 50% 50% 60% 60% / 60% 60% 100% 100%;
+  opacity: 0;
+  z-index: 0;
+  animation: tear-drop 1.2s infinite;
+  pointer-events: none;
+}
+@keyframes tear-drop {
+  0% { transform: translateY(0);}
+  80% { transform: translateY(9px);}
+  100% { transform: translateY(0);}
+}
+.heart {
+  position: absolute;
+  left: 4px; top: 7px;
+  width: 15px; height: 15px;
+  background: #ff4e7a;
+  opacity: 0;
+  z-index: 0;
+  clip-path: path("M7.5,5 C7.5,-1 15,-1 15,5 Q15,12 7.5,15 Q0,12 0,5 C0,-1 7.5,-1 7.5,5 Z");
+  animation: heart-pop 1.1s infinite;
+  pointer-events: none;
+}
+@keyframes heart-pop {
+  0% { transform: scale(0.8);}
+  60% { transform: scale(1.1);}
+  100% { transform: scale(0.8);}
 }
 
+
+.eyelid-wink {
+  transition: top 0.28s cubic-bezier(.7,2,.7,1.2);
+  background: rgba(161, 157, 157, 0.93);
+  box-shadow: 0 10px 12px 0 #0003 inset;
+}
+.pupil-wink {
+  animation: wink-pupil 0.6s cubic-bezier(.7,2,.7,1.2);
+  transform: scale(1.3, 0.35) !important;
+}
+@keyframes wink-pupil {
+  0% { transform: scale(1,1);}
+  25% { transform: scale(1.15,0.7);}
+  50% { transform: scale(1.3,0.35);}
+  70% { transform: scale(1.15,0.7);}
+  100% { transform: scale(1,1);}
+}
+.eyelid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(161, 157, 157, 0.73);
+  top: -100%;
+  left: 0;
+  transition: top 0.2s;
+  pointer-events: none;
+  z-index: 4;
+}
