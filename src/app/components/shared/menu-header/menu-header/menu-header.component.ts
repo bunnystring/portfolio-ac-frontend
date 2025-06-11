@@ -4,9 +4,9 @@ import { provideIcons } from '@ng-icons/core';
 import { featherAirplay, featherFacebook } from '@ng-icons/feather-icons';
 import {lucideFacebook, lucideLinkedin, lucideGithub, lucideInstagram, lucideGamepad2} from '@ng-icons/lucide'
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
-import {stopMouseEffectSnake } from '../../../../utils/mouse-effects/mouse-effects';
 import { EyeTracking } from '../../eye-tracking/eye-tracking';
 import { ReflectorBulbServices } from '../../../services/reflector-bulb-services/reflector-bulb-services';
+import { HomeServices } from '../../../services/home-services/home-services';
 
 @Component({
   selector: 'app-menu-header',
@@ -30,14 +30,14 @@ export class MenuHeaderComponent implements OnInit {
   lampTurnOn: boolean = false;
 
   constructor(
-    private reflectorBulbServices: ReflectorBulbServices
+    private reflectorBulbServices: ReflectorBulbServices,
+    private homeServices: HomeServices
   ) {}
 
   ngOnInit(): void {
-
-    //stop mouse effect
-    this.insertHtml = stopMouseEffectSnake();
+    console.log('MenuHeaderComponent initialized');
     this.initTippy();
+    this.activeModeGame(false);
   }
 
 
@@ -95,5 +95,42 @@ export class MenuHeaderComponent implements OnInit {
       });
       this.lampTurnOn = true;
     }
+  }
+  /**
+   * Método para activar el modo juego de la serpiente.
+   * Este método emite un evento a través del servicio `snakeService` para activar el modo juego.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  activeModeGame(turnOn?: boolean) {
+    console.log('Active mode game:', turnOn);
+    if (turnOn) {
+      this.homeServices.snakeService.emit({
+        action: 'activeModeGame',
+        message: 'Active mode game',
+      });
+    }else{
+      console.log('Leaving mode game');
+      this.homeServices.snakeService.emit({
+        action: 'leaveModeGame',
+        message: 'Leave mode game',
+      });
+    }
+
+  }
+
+  /**
+   * Método para dejar el modo juego de la serpiente.
+   * Este método emite un evento a través del servicio `snakeService` para dejar el modo juego.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  leaveModeGame() {
+    this.homeServices.snakeService.emit({
+      action: 'leaveModeGame',
+      message: 'Leave mode game',
+    });
   }
 }
