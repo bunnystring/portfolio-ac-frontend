@@ -1,39 +1,42 @@
 <div class="content">
-  <div class="wrap" style="margin-top: 30px;">
-  <div class="container">
-    <div fxFlex="90%" fxLayout="column" fxLayoutGap="20px">
-      <div class="content" fxFlex="100%" fxLayout="row" fxLayoutGap="30px"
-        style="border-radius: 20px; background-color: rgba(253, 232, 209, 0.48);"
-        style="background-image: url('src/assets/images/5525305.jpg'); width: 100%; height: 100vh; border-radius: 20px;">
-        <div fxFlex="50%" class="profile-image">
-          <img src="src/assets/images/profile12.png" alt="" srcset="" width="100%" height="100%">
-        </div>
-        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center">
-          <h1 style="color: white;"><div class="txt" id="txt">
-            <b>F</b><b>U</b><b>L</b><b>L</b>&nbsp; &nbsp;<b>S</b><b>T</b><b>A</b><b>C</b><b>K</b>
-    </div></h1>
-          <p style="color: white;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores ea quas sunt
-            dolor voluptatibus,
-            voluptas ipsum accusantium nam reprehenderit distinctio maiores aspernatur illum magnam quae, recusandae
-            culpa nemo excepturi dicta.</p>
-
-          <div class="btn-wrap">
-            <button class="primary btn-principal">
-              Resume <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
-            </button>
-            <a class="secondary">Contact</a>
+  <div class="wrap mt-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10">
+          <div class="card-content row gx-4">
+            <div class="profile-image avatar-animated-border col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <img src="/assets/images/profile12.png" class="w-100" loading="lazy" alt="Foto de Arlez Camilo Ceron Herrera"/>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <h1 class="text-white">
+                <div id="txt" class="fullstack-animated">
+                  <ng-container *ngFor="let char of activeTitle.split(''); let i = index">
+                    <b [style.--i]="i+1">{{char}}</b>
+                  </ng-container>
+                </div>
+              </h1>
+              <p class="text-white">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores ea quas sunt dolor voluptatibus,
+                voluptas ipsum accusantium nam reprehenderit distinctio maiores aspernatur illum magnam quae, recusandae
+                culpa nemo excepturi dicta.
+              </p>
+              <div class="col-md-12 btn-wrap">
+                <button class="primary btn-principal">
+                  Resume <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
+                </button>
+                <a class="secondary">Contact</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <app-reflector-bulb></app-reflector-bulb>
+    <div class="row">
+      <div class="col-12">
+        <app-rocket-scroll style="display:block; height: 100%;"></app-rocket-scroll>
+      </div>
+    </div>
   </div>
+  <canvas></canvas>
 </div>
-<app-reflector-bulb></app-reflector-bulb>
-<div class="row mt-5">
-  <div class="col-md-12">
-    <app-rocket-scroll></app-rocket-scroll>
-  </div>
-</div>
-</div>
-
-<canvas></canvas>

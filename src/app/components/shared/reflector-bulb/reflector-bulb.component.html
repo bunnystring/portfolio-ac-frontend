@@ -1,9 +1,22 @@
-<div class="lamp-init" #lamp id="lamp">
+<div
+  class="lamp-init"
+  #lamp
+  id="lamp"
+  [class.lamp]="!turnOnLamp"
+  [class.lamp-off]="turnOnLamp"
+>
   <div class="cover"></div>
   <div class="in-cover">
-   <div id="bulb" class="bulb-off"></div>
+    <div
+      id="bulb"
+      [class.bulb-on]="!turnOnLamp"
+      [class.bulb-off]="turnOnLamp"
+      tabindex="0"
+      aria-label="Interruptor de lámpara"
+      (click)="onClickLight()"
+      (keydown.enter)="onClickLight()"
+      (keydown.space)="onClickLight()"
+    ></div>
   </div>
-  <div class="lamp-light"></div>
+  <div class="lamp-light" [class.light]="!turnOnLamp"></div>
 </div>
-
-

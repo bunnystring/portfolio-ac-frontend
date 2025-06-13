@@ -1,14 +1,27 @@
+
+/* === ESPACIO PRINCIPAL === */
 #space {
   position: relative;
   width: 100%;
-  height: 300px;
-  overflow: hidden;
+  height: 200px;
   background: transparent;
+  overflow: hidden !important;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
+/* === COHETE Y SUS PARTES === */
 #rocket {
-  width: 125px;
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 120px;
   height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
   background:
     linear-gradient(to bottom, transparent 45%, firebrick 45%, firebrick 55%, transparent 55%),
     radial-gradient(circle at 60% 50%, rgba(255,255,255,1) 10%, #aaa 11%, #aaa 15%, transparent 16%),
@@ -19,17 +32,34 @@
   background-position: 5% 50%, 0 0, 0 0, 0 0, 0 0;
   background-repeat: no-repeat;
   border-radius: 10px 200px 200px 10px / 50px 50px 50px 50px;
+  transform: translateY(-50%);
+  transition:
+    left 0.5s cubic-bezier(.71,1.7,.82,1.01),
+    transform 0.5s cubic-bezier(.71,1.7,.82,1.01),
+    top 0.8s;
+}
+
+.wing {
   position: absolute;
-  top: 15%;
-  left: 10%;
-  transform: translate(0, -50%);
-  transition: left 0.5s ease-in-out, transform 0.5s ease-in-out;
+  width: 30px;
+  height: 18px;
+  background: firebrick;
+  border-radius: 50% 0 0 50%;
   z-index: 1;
+}
+.top-wing {
+  background: linear-gradient(to right, #b22222, firebrick);
+  top: 10px;
+  left: -15px;
+}
+.bottom-wing {
+  bottom: 10px;
+  left: -15px;
 }
 
 .flame {
   position: absolute;
-  left: -25px;
+  left: -22px;
   top: 50%;
   width: 20px;
   height: 20px;
@@ -38,49 +68,118 @@
   border-radius: 50%;
   animation: flame-flicker 0.1s infinite alternate;
   filter: blur(1px);
+  z-index: 0;
 }
-
 @keyframes flame-flicker {
-  0% { transform: translateY(-50%) scale(1); opacity: 0.9; }
+  0%   { transform: translateY(-50%) scale(1);   opacity: 0.9; }
   100% { transform: translateY(-50%) scale(1.4); opacity: 0.4; }
 }
 
-.wing {
+#trail {
   position: absolute;
-  width: 30px;
-  height: 18px;
-  background: firebrick;
-  z-index: 1;
-  border-radius: 50% 0 0 50%;
-}
-
-.top-wing {
-  background: linear-gradient(to right, #b22222, firebrick);
-  top: 10px;
-  left: -15px;
-}
-
-.bottom-wing {
-  bottom: 10px;
-  left: -15px;
-}
-
- /* Estilo para el rastro fugaz */
- .trail {
-  position: absolute;
-  width: 40px;
-  height: 15px;
+  left: -28px;
+  top: 50%;
+  width: 20px;
+  height: 40px;
+  transform: translateY(-50%);
+  border-radius: 60% 60% 80% 80% / 60% 60% 100% 100%;
   background: radial-gradient(circle, orange 30%, transparent 80%);
-  filter: blur(2px);
-  border-radius: 50% / 50%;
   opacity: 0.7;
+  filter: blur(2px);
   pointer-events: none;
-  z-index: 1;
-  animation: fadeOutTrail 0.5s forwards;
+  z-index: 0;
+  transition: height 0.15s, opacity 0.15s, background 0.15s;
+}
+
+/* --- Animaciones de despegue y aterrizaje --- */
+#rocket.takeoff {
+  animation: takeoffAnim 0.8s forwards;
+}
+@keyframes takeoffAnim {
+  to {
+    top: -120px;
+    opacity: 0;
+  }
+}
+#rocket.landing {
+  animation: landingAnim 0.7s forwards;
+}
+@keyframes landingAnim {
+  from {
+    top: -120px;
+    opacity: 0;
+  }
+  to {
+    top: 55%;
+    opacity: 1;
+  }
+}
+#rocket.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === SKILLS / RANKS === */
+.skill-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 10px 8px 5px 8px;
+  min-width: 84px;
+  background: transparent;
+}
+
+.img-rank-item {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  background: transparent;
+  transition: transform 0.2s;
+}
+
+.img-rank-item.animate {
+  animation: rank-pop 0.8s;
+}
+@keyframes rank-pop {
+  0%   { transform: scale(1) rotate(0deg);}
+  30%  { transform: scale(1.25) rotate(-10deg);}
+  55%  { transform: scale(1.1) rotate(10deg);}
+  80%  { transform: scale(1.18) rotate(-10deg);}
+  100% { transform: scale(1) rotate(0deg);}
+}
+
+.skill-label {
+  font-size: 0.95em;
+  color: #444;
+  font-weight: 500;
+  margin-top: 0px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  #space { height: 120px; }
+  #rocket { width: 80px; height: 27px; }
+  #trail { left: -18px; }
+  .img-rank-item { width: 40px; height: 40px; }
+  .skill-badge {
+    min-width: 62px;
+    padding: 7px 4px 3px 4px;
+  }
+}
+@media (max-width: 480px) {
+  #space { height: 80px; }
+  #rocket { width: 52px; height: 18px; }
+  #trail { left: -12px; }
+  .img-rank-item { width: 32px; height: 32px; }
+  .skill-badge {
+    min-width: 44px;
+    padding: 4px 2px 2px 2px;
+  }
 }
 
 
-@keyframes fadeOutTrail {
-  from { opacity: 0.7; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.5); }
-}

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Bulb styles
 
 $lamp: 300px;
@@ -133,8 +135,8 @@ $cable: 200px;
   width: $cover;
   height: 0px;
   border-bottom: $cover*2 solid rgba(100, 100, 100, 0.126);
-  border-left: $cover/4 solid transparent;
-  border-right: $cover/4 solid transparent;
+  border-left: math.div($cover, 4) solid transparent;
+  border-right: math.div($cover, 4) solid transparent;
 
   position: absolute;
   left: 0px;
@@ -169,4 +171,3 @@ $cable: 200px;
     opacity: 0;
   }
 }
-

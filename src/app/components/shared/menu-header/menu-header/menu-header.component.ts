@@ -28,6 +28,7 @@ import { HomeServices } from '../../../services/home-services/home-services';
 export class MenuHeaderComponent implements OnInit {
   insertHtml: any;
   lampTurnOn: boolean = false;
+  modePlaySnake = true;
 
   constructor(
     private reflectorBulbServices: ReflectorBulbServices,
@@ -35,7 +36,6 @@ export class MenuHeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('MenuHeaderComponent initialized');
     this.initTippy();
     this.activeModeGame(false);
   }
@@ -80,7 +80,6 @@ export class MenuHeaderComponent implements OnInit {
    */
   onClickLight() {
     if (this.lampTurnOn) {
-      console.log('Reflector bulb turned Off');
       this.reflectorBulbServices.reflectorBulbEvent.emit({
         action: 'turnOff',
         message: 'Reflector bulb turned off',
@@ -88,7 +87,6 @@ export class MenuHeaderComponent implements OnInit {
       this.lampTurnOn = false;
     }
     else {
-      console.log('Reflector bulb turned On');
       this.reflectorBulbServices.reflectorBulbEvent.emit({
         action: 'turnOn',
         message: 'Reflector bulb turned on',
@@ -104,20 +102,17 @@ export class MenuHeaderComponent implements OnInit {
    * @author Arlez Camilo Ceron Herrera
    */
   activeModeGame(turnOn?: boolean) {
-    console.log('Active mode game:', turnOn);
     if (turnOn) {
       this.homeServices.snakeService.emit({
         action: 'activeModeGame',
         message: 'Active mode game',
+        endGame: false
       });
+      this.modePlaySnake = false;
     }else{
-      console.log('Leaving mode game');
-      this.homeServices.snakeService.emit({
-        action: 'leaveModeGame',
-        message: 'Leave mode game',
-      });
+      this.leaveModeGame();
+      this.modePlaySnake = true;
     }
-
   }
 
   /**
@@ -131,6 +126,7 @@ export class MenuHeaderComponent implements OnInit {
     this.homeServices.snakeService.emit({
       action: 'leaveModeGame',
       message: 'Leave mode game',
+      endGame: true,
     });
   }
 }
