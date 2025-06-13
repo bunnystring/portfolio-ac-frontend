@@ -1,10 +1,13 @@
 /**
- * Función que añade efecto al cursor cuando se desplaza dentro del compoenente
- * @param event
- * @param colors
+ * Función que añade efecto al cursor cuando se desplaza dentro del componente
+ * o ejecuta el juego de la serpiente (snake). Permite alternar modos y finalizar
+ * el juego mostrando "Game Over" si se recibe endGame=true.
+ * @param options
+ *   - gameMode: boolean (modo juego serpiente)
+ *   - endGame: boolean (si es true finaliza el juego y muestra "Game Over")
  * @returns
  */
-export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = {}) {
+export function mouseEffectSnake({ gameMode = false, endGame = false }: { gameMode?: boolean, endGame?: boolean } = {}) {
   // --- CANVAS Y CONTEXTO ---
   let canvas = document.getElementById('snake-canvas') as HTMLCanvasElement | null;
   if (!canvas) {
@@ -22,7 +25,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     return;
   }
 
-  // --- RESIZE & STYLE ---
+  // ---- Ajusta el tamaño y estilo del canvas para ocupar toda la pantalla ----
   function resizeCanvas() {
     if (!canvas) return;
     canvas.width = window.innerWidth;
@@ -66,7 +69,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
   let followerY = 0;
   const followerSpeed = 0.22;
 
-  // --- INICIALIZACIÓN ---
+  // ---- Inicializa/reinicia el juego de la serpiente al estado inicial ----
   function resetGame() {
     if (!canvas) return;
     lost = false;
@@ -87,9 +90,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     followerY = snake[0].y;
   }
 
-  // Genera una posición aleatoria para la comida que no choque con la serpiente
-
-  // y asegura que esté dentro de los límites del canvas
+  // ---- Coloca la comida en una posición aleatoria, evitando superposición con la serpiente ----
   function spawnFood() {
     if (!canvas) return;
     let valid = false;
@@ -97,11 +98,10 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       food.x = Math.floor(Math.random() * (canvas.width / SNAKE_SIZE)) * SNAKE_SIZE + SNAKE_SIZE / 2;
       food.y = Math.floor(Math.random() * (canvas.height / SNAKE_SIZE)) * SNAKE_SIZE + SNAKE_SIZE / 2;
       valid = !snake.some(seg => seg.x === food.x && seg.y === food.y);
-
     }
   }
 
-  // Control de teclado SOLO ASWD
+  // ---- Controla la dirección de la serpiente usando las teclas WASD/R ----
   window.addEventListener('keydown', (e) => {
     if (!gameMode) return;
     if ((e.key === "w" || e.key === "W") && direction.y === 0) queuedDirection = { x: 0, y: -1 };
@@ -124,6 +124,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
   let exploded = false;
   let particles: { x: number, y: number, dx: number, dy: number, life: number }[] = [];
 
+  // ---- Inicializa/reinicia la estela visual del mouse ----
   function resetEffect() {
     if (!canvas) return;
     pointer = { x: canvas.width / 2, y: canvas.height / 2 };
@@ -138,12 +139,14 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     particles = [];
   }
 
+  // ---- Actualiza la posición del puntero para el efecto visual del mouse ----
   window.addEventListener('mousemove', (e) => {
     if (gameMode || exploded) return;
     pointer.x = e.clientX;
     pointer.y = e.clientY;
   });
 
+  // ---- Explosión de la estela al hacer click en el modo efecto visual ----
   window.addEventListener('mousedown', (e) => {
     if (gameMode || exploded) return;
     exploded = true;
@@ -164,13 +167,14 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     }, 1200);
   });
 
-  // --- Cuenta regresiva ---
+  // ---- Inicia la cuenta regresiva antes de jugar ----
   function startCountdown() {
     countdown = 3;
     countdownStartTime = performance.now();
     countdownFinished = false;
   }
 
+  // ---- Dibuja la cuenta regresiva en el canvas ----
   function drawCountdown() {
     if (!canvas || !ctx) return;
     ctx.save();
@@ -193,16 +197,15 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.restore();
   }
 
-  // --- Mouse Persigue la Serpiente ---
+  // ---- Actualiza la posición del círculo que sigue la serpiente ----
   function updateMouseFollower() {
     if (!gameMode || snake.length === 0) return;
     const head = snake[0];
-    // Movimiento suave hacia la cabeza de la serpiente
     followerX += (head.x - followerX) * followerSpeed;
     followerY += (head.y - followerY) * followerSpeed;
   }
 
-  // Dibuja un cursor visual cerca de la cabeza de la serpiente
+  // ---- Dibuja el círculo seguidor de la cabeza de la serpiente ----
   function drawMouseFollower() {
     if (!ctx || !gameMode) return;
     ctx.save();
@@ -221,12 +224,11 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.restore();
   }
 
-  // --- OJOS Y LENGUA ---
+  // ---- Dibuja la cara, ojos y lengua animada de la serpiente ----
   function drawSnakeFace(head: { x: number, y: number }, direction: { x: number, y: number }) {
     if (!ctx) return;
     ctx.save();
 
-    // Determina el ángulo de la cabeza según la dirección
     let angle = 0;
     if (direction.x === 1 && direction.y === 0) angle = 0;
     else if (direction.x === 0 && direction.y === 1) angle = Math.PI / 2;
@@ -236,12 +238,9 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.translate(head.x, head.y);
     ctx.rotate(angle);
 
-    // --- OJOS ---
-    // Posiciones relativas a la cabeza
     const eyeOffsetX = 5;
     const eyeOffsetY = -5;
     const eyeRadius = 3;
-    // Ojo derecho
     ctx.beginPath();
     ctx.arc(eyeOffsetX, eyeOffsetY, eyeRadius, 0, Math.PI * 2);
     ctx.fillStyle = "#fff";
@@ -250,7 +249,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.arc(eyeOffsetX, eyeOffsetY, 1, 0, Math.PI * 2);
     ctx.fillStyle = "#222";
     ctx.fill();
-    // Ojo izquierdo
     ctx.beginPath();
     ctx.arc(eyeOffsetX, -eyeOffsetY, eyeRadius, 0, Math.PI * 2);
     ctx.fillStyle = "#fff";
@@ -260,8 +258,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.fillStyle = "#222";
     ctx.fill();
 
-    // --- LENGUA ---
-    // Animación de lengua: parpadea cada ~0.6s
     const now = performance.now();
     if (Math.floor(now / 300) % 2 === 0 && !lost) {
       ctx.save();
@@ -274,7 +270,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       ctx.shadowColor = "#ff327a";
       ctx.shadowBlur = 4;
       ctx.fill();
-      // Lengua bifurcada
       ctx.beginPath();
       ctx.moveTo(SNAKE_SIZE / 2 + 12, -3);
       ctx.lineTo(SNAKE_SIZE / 2 + 17, -8);
@@ -293,12 +288,11 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.restore();
   }
 
-  // --- ANIMACIONES ---
+  // ---- Dibuja la serpiente, comida, puntaje y mensajes en el canvas ----
   function drawGame() {
     if (!canvas || !ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Comida
     ctx.save();
     ctx.beginPath();
     ctx.arc(food.x, food.y, FOOD_RADIUS, 0, Math.PI * 2);
@@ -308,7 +302,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.fill();
     ctx.restore();
 
-    // Serpiente: cuerpo
     for (let i = snake.length - 1; i >= 1; i--) {
       ctx.beginPath();
       ctx.arc(snake[i].x, snake[i].y, SNAKE_SIZE / 2, 0, Math.PI * 2);
@@ -320,7 +313,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     }
     ctx.globalAlpha = 1.0;
 
-    // Serpiente: cabeza con ojos y lengua
     if (snake.length > 0) {
       ctx.save();
       ctx.beginPath();
@@ -333,10 +325,8 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       drawSnakeFace(snake[0], direction);
     }
 
-    // Mouse visual sigue a la serpiente
     drawMouseFollower();
 
-    // Score
     ctx.save();
     ctx.font = "bold 32px monospace";
     ctx.fillStyle = "#fff";
@@ -357,12 +347,44 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     }
   }
 
+  // ---- Dibuja el mensaje "Game Over" centrado ----
+  function drawGameOver() {
+    if (!canvas || !ctx) return;
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "bold 60px monospace";
+    ctx.fillStyle = "#f44";
+    ctx.textAlign = "center";
+    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+    ctx.restore();
+  }
+
+  // ---- Después de Game Over, cambia a modo efecto visual (gameMode = false) ----
+  function finishAndSwitchToEffect() {
+    setTimeout(() => {
+      gameMode = false;
+      resetEffect();
+      if (canvas && canvas.parentNode) {
+        canvas.remove();
+      }
+      mouseEffectSnake({ gameMode: false });
+    }, 2000);
+  }
+
+  // ---- Lógica principal de animación y actualización del juego ----
   function updateGame(now?: number) {
     if (!canvas || !ctx) return;
+    if (endGame) {
+      running = false;
+      resetGame();
+      drawGame();
+      drawGameOver();
+      finishAndSwitchToEffect();
+      return;
+    }
     if (!running) return;
     if (!now) now = performance.now();
 
-    // --- CUENTA REGRESIVA ---
     if (countdown > 0 || !countdownFinished) {
       const elapsed = Math.floor((now - countdownStartTime) / 1000);
       if (elapsed < 3) {
@@ -382,7 +404,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       }
     }
 
-    // Actualiza el mouse visual que sigue a la serpiente
     updateMouseFollower();
 
     if (lost) {
@@ -391,16 +412,13 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       return;
     }
 
-    // Movimiento lento: solo mueve la serpiente cada MOVE_INTERVAL ms
     if (now - lastMove >= MOVE_INTERVAL) {
       direction = { ...queuedDirection };
-      // Nueva cabeza
       const newHead = {
         x: snake[0].x + direction.x * SNAKE_SIZE,
         y: snake[0].y + direction.y * SNAKE_SIZE,
       };
 
-      // ¿Choca con borde?
       if (
         newHead.x < SNAKE_SIZE/2 ||
         newHead.y < SNAKE_SIZE/2 ||
@@ -413,7 +431,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
         return;
       }
 
-      // ¿Choca consigo?
       if (snake.some(seg => seg.x === newHead.x && seg.y === newHead.y)) {
         lost = true;
         drawGame();
@@ -421,10 +438,8 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
         return;
       }
 
-      // Agrega la nueva cabeza
       snake.unshift(newHead);
 
-      // ¿Comió comida?
       if (Math.abs(newHead.x - food.x) < SNAKE_SIZE && Math.abs(newHead.y - food.y) < SNAKE_SIZE) {
         score++;
         spawnFood();
@@ -438,7 +453,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     animationFrameId = requestAnimationFrame(updateGame);
   }
 
-  // --- EFECTO MOUSE ---
+  // ---- Dibuja la estela visual y partículas en modo efecto ----
   function drawEffect() {
     if (!canvas || !ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -457,7 +472,6 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
       return;
     }
 
-    // Mueve el cuerpo
     for (let i = trail.length - 1; i > 0; i--) {
       trail[i].x = trail[i - 1].x;
       trail[i].y = trail[i - 1].y;
@@ -477,6 +491,19 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     ctx.globalAlpha = 1.0;
   }
 
+  // ---- Dibuja el mensaje "Game Over" en modo efecto visual ----
+  function drawEffectGameOver() {
+    if (!canvas || !ctx) return;
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "bold 60px monospace";
+    ctx.fillStyle = "#f44";
+    ctx.textAlign = "center";
+    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+    ctx.restore();
+  }
+
+  // ---- Lógica principal de animación del efecto visual ----
   function updateEffect() {
     if (!canvas || !ctx) return;
     if (!running) return;
@@ -494,11 +521,15 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
     animationFrameId = requestAnimationFrame(updateEffect);
   }
 
-  // --- INICIO ---
+  // ---- Inicializador: decide si inicia juego, efecto o Game Over ----
   function start() {
     running = true;
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    if (gameMode) {
+
+    if (endGame) {
+      // Si endGame es true, ejecuta la lógica especial (mostrar Game Over y pasar a modo efecto)
+      updateGame();
+    } else if (gameMode) {
       resetGame();
       lastMove = performance.now();
       updateGame();
@@ -510,7 +541,7 @@ export function mouseEffectSnake({ gameMode = false }: { gameMode?: boolean } = 
 
   start();
 
-  // Permite alternar modos fácilmente, SIN fullscreen ni pointerlock
+  // ---- Permite alternar modos desde fuera (game o effect) ----
   (mouseEffectSnake as any).setMode = function(mode: "game" | "effect") {
     gameMode = mode === "game";
     start();
@@ -530,3 +561,5 @@ export function quitarCanvasSnake() {
     canvas.remove();
   }
 }
+
+

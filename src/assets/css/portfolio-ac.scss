@@ -1,3 +1,23 @@
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  /* min-height: 100vh; */
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* Imagen de fondo */
+  background-image: url('/assets/images/background.png'); /* tu ruta aquí */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* No uses position: absolute ni z-index aquí */
+  /* opacity: 1;  (la opacidad del body afecta TODO, mejor no ponerla) */
+}
+
 * {
   font-family: 'Bungee' !important;
   --pcolor: #141004c4;
@@ -5,6 +25,7 @@
   /* Color secundario */
   --tcolor: #fff;
 }
+
 
 .wrap {
   font-size: 16px;
@@ -133,6 +154,8 @@
     }
 
     .menu>a>.joystick {
+      width: 30px;
+      height: 35px;
       // add animation move
       animation: move 5s infinite ease-in-out;
 
@@ -151,8 +174,7 @@
         }
       }
 
-      width: 30px;
-      height: 35px;
+
     }
 
     .menu>a>.joystick:hover {
@@ -273,24 +295,7 @@
 }
 
 
-// put in all page image background
-body {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  /* Ensure it stays behind other content */
-  background-image: url('/src/assets/images/background.png');
-  /* Replace with your image path */
-  background-size: cover;
-  /* Cover the entire viewport */
-  background-position: center;
-  /* Center the image */
-  opacity: 1.1;
-  /* Adjust opacity as needed */
-}
+
 
 
 
@@ -355,3 +360,16 @@ input[type="checkbox"]:checked+.power-toggle::after {
 }
 
 
+
+// Efecto parallax
+#star-canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0;
+  pointer-events: none;
+  background: transparent;
+  display: block;
+}

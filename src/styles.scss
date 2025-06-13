@@ -1,9 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "assets/css/portfolio-ac.scss";
-@import "swiper/css";
-@import 'bootstrap/scss/bootstrap';
+@use "../src/assets/css/portfolio-ac.scss" as *; // Import custom styles
+@use 'bootstrap/scss/bootstrap';
 @import 'tippy.js/dist/tippy.css'; // optional for styling
 @import url(https://fonts.googleapis.com/css?family=Bungee);
-/*
-@import "swiper/css/navigation";
-@import "swiper/css/pagination"; */
