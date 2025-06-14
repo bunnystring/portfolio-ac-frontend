@@ -1,5 +1,5 @@
 import tippy from 'tippy.js';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import { featherAirplay, featherFacebook } from '@ng-icons/feather-icons';
 import {lucideFacebook, lucideLinkedin, lucideGithub, lucideInstagram, lucideGamepad2} from '@ng-icons/lucide'
@@ -25,22 +25,51 @@ import { HomeServices } from '../../../services/home-services/home-services';
     }),
   ],
 })
-export class MenuHeaderComponent implements OnInit {
+export class MenuHeaderComponent implements OnInit, AfterViewInit {
+  // Variables para el menú
   insertHtml: any;
   lampTurnOn: boolean = false;
   modePlaySnake = true;
+  showMenu = false;
 
   constructor(
     private reflectorBulbServices: ReflectorBulbServices,
     private homeServices: HomeServices
   ) {}
 
-  ngOnInit(): void {
+  /**
+   * Propiedad para determinar si la pantalla es móvil.
+   * @returns {boolean} Verdadero si el ancho de la ventana es menor a 992px, falso en caso contrario.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  get isMobile() {
+    return window.innerWidth < 992;
+  }
+
+  ngAfterViewInit(): void {
     this.initTippy();
+  }
+
+  ngOnInit(): void {
     this.activeModeGame(false);
+    if (!this.isMobile) {
+      this.showMenu = true;
+    }
+    window.addEventListener('resize', () => {
+      if (!this.isMobile) this.showMenu = true;
+      else this.showMenu = false;
+    });
   }
 
 
+  /**
+   * Método para manejar el evento de clic en el menú.
+   * Alterna la clase 'active' en el elemento del menú.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   onClickMenu() {
     const menu = document.querySelector('.menu');
     if (menu) {
@@ -57,18 +86,15 @@ export class MenuHeaderComponent implements OnInit {
    */
   initTippy() {
     const tippyElements = document.querySelectorAll('.tooltip-header');
-    let idElement = Array.from(tippyElements).map((el) => el.id);
-    if (idElement) {
-      tippyElements.forEach((element) => {
-        const elementId = (element as HTMLElement).id; // Get the id of the current element
-        tippy(element, {
-          content: elementId, // Use the id as the content
-          placement: 'bottom',
-          arrow: true,
-          theme: 'light',
-        });
+    tippyElements.forEach((element) => {
+      const elementId = (element as HTMLElement).id;
+      tippy(element, {
+        content: elementId,
+        placement: 'bottom',
+        arrow: true,
+        theme: 'light',
       });
-    }
+    });
   }
 
   /**
