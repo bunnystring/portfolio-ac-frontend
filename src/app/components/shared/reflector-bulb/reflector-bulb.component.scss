@@ -1,173 +1,246 @@
-@use "sass:math";
-
-// Bulb styles
-
-$lamp: 300px;
-$cover: 200px;
-$cable: 200px;
-
-// initial state of the lamp
-.lamp-init{
-  visibility: hidden;
-}
-
-// lamp principal
-.lamp {
-  position: absolute;
-  top: -100px;
-  left: 70%;
-  transform: translateX(-50%);
-  font-size: 40px;
-  animation: dropLamp 1.5s cubic-bezier(0.25, 0.1, 0.25, 1),
-  bounce 0.6s ease-in-out 2s 1 forwards;
-  transform-origin: center top;
-}
-
-// animación de caída de la lámpara
-@keyframes dropLamp {
-  0% {
-    top: -100px;
-    opacity: 0;
-  }
-  100% {
-    top: 140px;
-    opacity: 1;
-  }
-}
-
-// animación de rebote de la lámpara
-@keyframes bounce {
-  0%   { top: 140px; }
-  20%  { top: 80px; }   /* ¡Sube más alto ahora! */
-  40%  { top: 150px; }  /* Rebote más fuerte hacia abajo */
-  60%  { top: 120px; }
-  80%  { top: 138px; }
-  100% { top: 140px; }
-}
-
-// clase que contiene la animacion de movimiento de lado a lado
-.swinging {
-  position: absolute ;
-  top: 140px;
-  left: 70%;
-  transform: translateX(-50%);
-  font-size: 40px;
-  animation: swing 3s ease-out;
-}
-
-
-// animación de movimiento de lado a lado
-@keyframes swing {
-  0%   { transform: translateX(-50%) rotate(0deg); }
-  25%  { transform: translateX(-50%) rotate(25deg); }
-  50%  { transform: translateX(-50%) rotate(-25deg); }
-  75%  { transform: translateX(-50%) rotate(15deg); }
-  100% { transform: translateX(-50%) rotate(0deg); }
-
-}
-
-// cable de la lámpara
-.cover {
-  width: $cover;
-  height: 80px;
-  background: #2d2a2ace;
-  border-top-left-radius: 50%;
-  border-top-right-radius: 50%;
-
-  position: relative;
-  z-index: 200;
-}
-
-// interruptor de la lámpara
-.in-cover {
-  width: 100%;
-  max-width: $cover;
-  height: 20px;
-
-  border-radius: 100%;
-  background: #353131e8;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  margin: 0px auto;
-  bottom: -9px;
-  z-index: 100;
-}
-
-// Bombilla encendida
-.bulb-on {
-    background: radial-gradient(circle at 30% 30%, var(--scolor), var(--scolor));
-    box-shadow: 0 0 15px var(--scolor), 0 0 30px var(--scolor);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: -20px;
-    margin: 0px auto;
-    cursor: pointer;
-
-  }
-
-// Bombilla apagada
-.bulb-off {
-    background: radial-gradient(circle at 30% 30%, #444, #222);
-    box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.1),
-      inset 4px 4px 10px rgba(0, 0, 0, 0.5),
-      0 4px 12px rgba(0, 0, 0, 0.6);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: -20px;
-    margin: 0px auto;
-    cursor: pointer;
-  }
-
-
-// luz de la lámpara
-.light {
-  width: $cover;
-  height: 0px;
-  border-bottom: $cover*2 solid rgba(100, 100, 100, 0.126);
-  border-left: math.div($cover, 4) solid transparent;
-  border-right: math.div($cover, 4) solid transparent;
-
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 70px;
-  margin: 0px auto;
-  border-radius: 15px;
-  z-index: 1;
-}
-
-
-// lámpara apagada con animación de caída y rebote
+.lamp-init,
 .lamp-off {
   position: absolute;
   left: 70%;
+  top: -130px; /* -160px + 30px */
+  z-index: 10;
+  width: 280px;
+  min-height: 220px;
+  display: block;
   transform: translateX(-50%);
-  font-size: 40px;
-  animation: lampOffMoveUp 2.5s ease-in forwards;
-  /* Se asegura que al finalizar se quede arriba y transparente */
+}
+
+.lamp,
+.swinging {
+  position: absolute;
+  left: 70%;
+  top: -10px; /* -40px + 30px */
+  z-index: 10;
+  width: 280px;
+  min-height: 220px;
+  display: block;
+  transform: translateX(-50%);
+}
+
+.lamp {
+  animation: dropLamp 1.1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform-origin: center top;
+}
+
+@keyframes dropLamp {
+  0%   { top: -130px; opacity: 0; }
+  100% { top: -10px;  opacity: 1; }
+}
+
+.lamp-off {
+  animation: lampOffMoveUp 1.1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 @keyframes lampOffMoveUp {
-  0% {
-    top: 140px;
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    top: -100px;
-    opacity: 0;
-  }
+  0%   { top: -10px; opacity: 1; }
+  100% { top: -130px; opacity: 0; }
+}
+
+.swinging {
+  animation: swing 2.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transform-origin: center top;
+}
+@keyframes swing {
+  0%   { transform: translateX(-50%) rotate(0deg);}
+  15%  { transform: translateX(-50%) rotate(23deg);}
+  35%  { transform: translateX(-50%) rotate(-18deg);}
+  55%  { transform: translateX(-50%) rotate(12deg);}
+  75%  { transform: translateX(-50%) rotate(-8deg);}
+  100% { transform: translateX(-50%) rotate(0deg);}
+}
+
+/* -------- Lámpara visual moderna --------- */
+
+.lamp-cable {
+  width: 12px;
+  height: 100px;
+  background: linear-gradient(180deg, #555 0%, #222 100%);
+  margin: 0 auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px #0008;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.cover {
+  width: 260px;
+  height: 90px;
+  background: linear-gradient(180deg, #444 0%, #1a1a1a 70%, #232323 100%);
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 30px 0 #0007, 0 2px 8px 0 #fff2 inset;
+  overflow: hidden;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.cover::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 18%;
+  top: 16px;
+  width: 60px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(120deg, #fff7 30%, #ffffff33 100%);
+  opacity: 0.7;
+  filter: blur(1px);
+}
+
+.in-cover {
+  width: 260px;
+  height: 26px;
+  border-radius: 100%;
+  background: linear-gradient(180deg, #353131e8 60%, #111 100%);
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: -13px;
+  z-index: 1;
+  box-shadow: 0 4px 14px #0006 inset;
+  pointer-events: none;
+}
+
+.bulb-on, .bulb-off, #bulb {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  margin: 0 auto;
+  cursor: pointer;
+  box-shadow: 0 4px 24px #0004, 0 2px 14px #fff1 inset;
+  border: 2px solid #fff3;
+  z-index: 10;
+  transition: box-shadow 0.5s, background 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.bulb-on {
+  background: radial-gradient(circle at 60% 30%, #fffde4 0%, #ffe066 65%, #ffd700 100%);
+  box-shadow:
+    0 0 64px 18px #ffe06699,
+    0 0 24px 8px #fffde4cc,
+    0 4px 40px #ffd70066,
+    0 2px 12px #fff9 inset;
+  animation: bulbGlow 1.5s infinite alternate;
+}
+
+@keyframes bulbGlow {
+  0%   { box-shadow: 0 0 48px 16px #ffe06699, 0 0 18px 6px #fffde4bb, 0 4px 30px #ffd70066, 0 2px 12px #fff9 inset; }
+  100% { box-shadow: 0 0 70px 26px #ffe066e0, 0 0 32px 10px #fffde4cc, 0 4px 44px #ffd700bb, 0 2px 16px #fff inset;}
+}
+
+.bulb-off {
+  background: radial-gradient(circle at 40% 60%, #888 0%, #444 80%);
+  box-shadow: 0 2px 12px #fff2 inset, 0 4px 18px #2227;
+}
+
+/* ========== FILAMENTO ========== */
+.filament {
+  width: 26px;
+  height: 14px;
+  border: 2px solid #ffe066;
+  border-bottom: none;
+  border-radius: 0 0 16px 16px;
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  transform: translate(-50%, 0);
+  z-index: 14;
+  opacity: 0.95;
+  box-shadow: 0 0 8px 2px #ffe06699;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* -------- Luz y halo --------- */
+
+.lamp-light {
+  width: 260px;
+  height: 0;
+  border-bottom: 520px solid rgba(255, 255, 160, 0.17);
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  margin: 0 auto;
+  border-radius: 28px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+.lamp-light.light {
+  opacity: 1;
+  filter: blur(0.5px) brightness(1.15);
+  animation: lightSpread 2.4s cubic-bezier(0.25,0.1,0.25,1) infinite alternate;
+}
+
+@keyframes lightSpread {
+  0%   { filter: blur(0.5px) brightness(1.10);}
+  100% { filter: blur(2.5px) brightness(1.25);}
+}
+
+/* Efecto de halo moderno */
+.lamp-halo {
+  position: absolute;
+  left: 50%;
+  top: 520px;
+  width: 300px;
+  height: 80px;
+  margin-left: -150px;
+  background: radial-gradient(ellipse at center, #fffde422 60%, #ffe06606 100%);
+  border-radius: 60%/60%;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s;
+  filter: blur(1.5px);
+}
+
+.lamp-halo.on {
+  opacity: 1;
+  animation: haloPulse 2.9s ease-in-out infinite alternate;
+}
+
+@keyframes haloPulse {
+  0%   { opacity: 0.7; filter: blur(1.5px);}
+  100% { opacity: 1;   filter: blur(3px);}
+}
+
+/* ========== VIBRACIÓN ========== */
+.vibrate {
+  animation: vibrateLamp 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes vibrateLamp {
+  0% { transform: translateX(-50%) rotate(0deg);}
+  10% { transform: translateX(-50%) rotate(-2deg);}
+  20% { transform: translateX(-50%) rotate(2deg);}
+  30% { transform: translateX(-50%) rotate(-3deg);}
+  40% { transform: translateX(-50%) rotate(3deg);}
+  50% { transform: translateX(-50%) rotate(-2deg);}
+  60% { transform: translateX(-50%) rotate(2deg);}
+  70% { transform: translateX(-50%) rotate(-1deg);}
+  80% { transform: translateX(-50%) rotate(1deg);}
+  90% { transform: translateX(-50%) rotate(0deg);}
+  100% { transform: translateX(-50%) rotate(0deg);}
 }
