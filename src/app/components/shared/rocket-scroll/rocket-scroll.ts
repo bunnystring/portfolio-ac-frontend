@@ -1,21 +1,11 @@
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  HostListener,
-  ChangeDetectorRef,
+  Component, ElementRef, OnInit, ViewChild, HostListener, AfterViewInit, NgZone
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface SkillRank {
   rank: string;
   src: string;
-  top: number;
-  left: number;
 }
 
 @Component({
@@ -26,297 +16,256 @@ interface SkillRank {
   styleUrl: './rocket-scroll.scss',
 })
 export class RocketScroll implements OnInit, AfterViewInit {
-  @ViewChild('rocket', { static: true }) rocketRef!: ElementRef<HTMLDivElement>;
-  @ViewChild('trail', { static: true }) trailRef!: ElementRef<HTMLDivElement>;
-  @ViewChildren('rankImg') rankImgs!: QueryList<ElementRef<HTMLImageElement>>;
   @ViewChild('spaceRef', { static: true }) spaceRef!: ElementRef<HTMLDivElement>;
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.updateRocketPosFromScroll();
-    this.checkCollisions();
+  public ranks: SkillRank[] = [
+    { rank: 'Angular', src: '/assets/images/angularRank.png' },
+    { rank: 'Mysql', src: '/assets/images/mysqlRank.png' },
+    { rank: 'JavaScript', src: '/assets/images/javaScriptRank.png' },
+    { rank: 'SpringBoot', src: '/assets/images/springBootRank.png' },
+    { rank: 'Bootstrap', src: '/assets/images/bootstrapRank.png' },
+    { rank: 'MongoDB', src: '/assets/images/mongoDbRank.png' },
+  ];
+  public rocketPos = { left: 0 };
+  public cardsOffset: number[] = [];
+  public percent = 0;
+  private spread = 300;
+
+  // Animación automática tras detener scroll en el centro
+  private animating = false;
+  private animationFrame: number | null = null;
+  private lastDirection: 'up' | 'down' | null = null;
+  private lastScrollPercent = 0;
+  private animationTarget: number | null = null;
+  private animationSpeed = 0.015; // Ajusta para la suavidad/velocidad
+
+  constructor(private ngZone: NgZone) {}
+
+  ngOnInit(): void {
+    this.updateRocketAndBaraja();
   }
 
-  public ranks: SkillRank[] = [
-    { rank: 'Angular', src: '/assets/images/angularRank.png', top: 0, left: 0 },
-    { rank: 'Mysql', src: '/assets/images/mysqlRank.png', top: 0, left: 0 },
-    { rank: 'JavaScript', src: '/assets/images/javaScriptRank.png', top: 0, left: 0 },
-    { rank: 'SpringBoot', src: '/assets/images/springBootRank.png', top: 0, left: 0 },
-    { rank: 'Bootstrap', src: '/assets/images/bootstrapRank.png', top: 0, left: 0 },
-    { rank: 'MongoDB', src: '/assets/images/mongoDbRank.png', top: 0, left: 0 },
-  ];
-  public animatedRanks: boolean[] = [];
-  public rocketPos = { top: 50, left: 10 };
-
-  private currentXPercent = 10;
-  private lastScroll = 0;
-  private readonly minDistance = 35;
-  private readonly collisionRadius = 8;
-  private dragging = false;
-
-  constructor(private cdr: ChangeDetectorRef) {}
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {
-    this.placeSkillsWithSeparation();
-    this.animatedRanks = this.ranks.map(() => false);
-    this.initRocketScroll();
-    this.animateTrail();
-    this.updateRocketPosFromScroll();
-    this.checkCollisions();
-    this.setupMobileDrag();
-    this.cdr.detectChanges();
+  ngAfterViewInit(): void {
+    this.calculateSpread();
+    this.updateRocketAndBaraja();
+    window.addEventListener('resize', () => {
+      this.calculateSpread();
+      this.updateRocketAndBaraja();
+    });
+  }
+  /**
+   * Detecta el scroll en la ventana y actualiza la posición del cohete y las cartas.
+   * También inicia la animación si el scroll se detiene cerca del centro.
+   * @returns void
+   * @version 2.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @description Este método se ejecuta cada vez que se detecta un evento de scroll en la ventana.
+   */
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.stopAnimation();
+    this.updateRocketAndBaraja();
+    this.detectScrollDirectionAndMaybeAnimate();
   }
 
   /**
-   * Método para colocar las skills con separación mínima entre ellas.
-   * @param {number} minDistance - Distancia mínima entre las skills.
-   * @returns {void}
-   * @version 1.0.0
+   * Método que calcula el spread (espacio entre las cartas) basado en el ancho de la ventana.
+   * Ajusta el spread para que las cartas se distribuyan uniformemente en el viewport.
+   * @returns void
+   * @version 2.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método itera sobre las habilidades y coloca cada una en una posición aleatoria,
+   * @description Este método se ejecuta al inicializar el componente y al redimensionar la ventana.
    */
-  private placeSkillsWithSeparation(): void {
-    const placed: Array<{ top: number; left: number }> = [];
-    for (let i = 0; i < this.ranks.length; i++) {
-      let tries = 0;
-      let valid = false;
-      let candidate = { top: 0, left: 0 };
-      while (!valid && tries < 300) {
-        candidate.top = this.getRandomInt(18, 82);
-        candidate.left = this.getRandomInt(18, 82);
-        valid = placed.every((p) => this.distance(candidate, p) >= this.minDistance);
-        tries++;
-      }
-      this.ranks[i].top = candidate.top;
-      this.ranks[i].left = candidate.left;
-      placed.push({ ...candidate });
+  private calculateSpread() {
+    const minCardMargin = 30;
+    const availableWidth = Math.max(
+      window.innerWidth - 60,
+      this.ranks.length * (minCardMargin + 80)
+    );
+    const n = this.ranks.length;
+    if (n > 1) {
+      this.spread = Math.min(
+        (availableWidth * 0.5) - 60,
+        (availableWidth - n * 120) / 2 + (minCardMargin * ((n-1)/2))
+      );
+      this.spread = Math.max(this.spread, (n-1)/2 * minCardMargin);
+    } else {
+      this.spread = 0;
     }
   }
 
   /**
-   * Método para calcular la distancia entre dos puntos.
-   * @param a
-   * @param b
+   * Método que actualiza la posición del cohete y el desplazamiento de las cartas
+   * basado en el porcentaje de scroll actual.
+   * Calcula la posición del cohete y el desplazamiento de las cartas según el scroll.
+   * @returns void
+   * @version 2.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @description Este método se ejecuta al inicializar el componente, al redimensionar la ventana
+   */
+  private updateRocketAndBaraja(): void {
+    const space = this.spaceRef.nativeElement as HTMLElement;
+    const rect = space.getBoundingClientRect();
+
+    const viewportHeight = window.innerHeight;
+    let percent = 0;
+    if (rect.bottom > 0 && rect.top < viewportHeight) {
+      const totalScroll = viewportHeight + rect.height;
+      percent = (viewportHeight - rect.top) / totalScroll;
+      percent = Math.max(0, Math.min(1, percent));
+    }
+    this.lastScrollPercent = percent;
+    if (!this.animating) this.percent = percent;
+
+    // Recorrido del cohete
+    const minLeft = 0;
+    const maxLeft = 100;
+    this.rocketPos.left = minLeft + this.percent * (maxLeft - minLeft);
+
+    // Cartas: apertura acelerada
+    const accelerated = Math.min(1, Math.sqrt(this.percent) * 1.2);
+    const n = this.ranks.length;
+    const spread = this.spread;
+    this.cardsOffset = this.ranks.map((_, i) => {
+      const mid = (n - 1) / 2;
+      const rel = i - mid;
+      return rel * spread * accelerated / mid;
+    });
+  }
+
+  /**
+   * Método que calcula el estilo de cada carta basado en su índice.
+   * Utiliza el índice para determinar la posición, escala y rotación de cada carta.
+   * @param i - Índice de la carta para calcular su estilo.
    * @returns
-   * @version 1.0.0
+   * {Object} - Estilo CSS para la carta.
+   * @version 2.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método utiliza la fórmula de distancia euclidiana para calcular la distancia entre dos puntos
+   * @description Este método se utiliza para aplicar estilos dinámicos a las cartas en la baraja.
    */
-  private distance(a: { top: number; left: number }, b: { top: number; left: number }): number {
-    const dx = a.left - b.left;
-    const dy = a.top - b.top;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-
-  /**
-   * Método para obtener un número entero aleatorio entre un rango.
-   * @param min
-   * @param max
-   * @returns
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método utiliza Math.random() para generar un número aleatorio entre min y max, ambos incluidos.
-   */
-  private getRandomInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  /**
-   * Método para inicializar el scroll del cohete.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método se encarga de actualizar la posición del cohete en función del scroll de la página,
-   */
-  private initRocketScroll(): void {
-    const rocket = this.rocketRef.nativeElement;
-    const space = document.getElementById('space') as HTMLElement;
-    const getMaxXPercent = () => {
-      const spaceWidth = space?.clientWidth || 1;
-      const rocketWidth = rocket?.clientWidth || 1;
-      return 90 - (rocketWidth / spaceWidth) * 100;
+  getCardStyle(i: number) {
+    const mid = (this.ranks.length - 1) / 2;
+    // Apertura acelerada
+    const openAmount = this.percent < 0.5
+      ? Math.min(1, Math.sqrt(this.percent * 2) * 1.2)
+      : 1;
+    return {
+      left: `calc(50% + ${this.cardsOffset[i]}px)`,
+      zIndex: this.ranks.length - Math.abs(i - mid),
+      transform: `translate(-50%, -50%) scale(${1 + 0.1 * openAmount}) rotate(${(i - mid) * 8 * openAmount}deg)`,
+      transition: 'transform 1s cubic-bezier(.71,1.7,.82,1.01), left 1.2s cubic-bezier(.71,1.7,.82,1.01), box-shadow 0.5s, opacity 0.5s, top 0.4s'
     };
-    const clampXPercent = (x: number) => Math.max(10, Math.min(getMaxXPercent(), x));
-
-    const updateRocket = () => {
-      rocket.style.left = `${this.currentXPercent}%`;
-      this.rocketPos.left = this.currentXPercent;
-      this.checkCollisions();
-    };
-
-    this.currentXPercent = 10;
-    updateRocket();
-
-    window.addEventListener('scroll', () => {
-      const newScroll = window.scrollY;
-      const delta = newScroll - this.lastScroll;
-      this.currentXPercent += delta * 0.2;
-      this.currentXPercent = clampXPercent(this.currentXPercent);
-      updateRocket();
-      this.lastScroll = newScroll;
-    });
-
-    window.addEventListener('resize', () => {
-      this.currentXPercent = clampXPercent(this.currentXPercent);
-      updateRocket();
-    });
   }
 
   /**
-   * Método para animar la estela del cohete.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método se encarga de animar la estela del cohete en función de su velocidad y posición.
-   */
-  private animateTrail(): void {
-    const rocket = this.rocketRef.nativeElement;
-    const trail = this.trailRef.nativeElement;
-    let lastLeft = this.currentXPercent;
-
-    const animate = () => {
-      const rocketLeft = parseFloat(rocket.style.left) || 10;
-      const velocity = Math.abs(rocketLeft - lastLeft);
-      lastLeft = rocketLeft;
-
-      const trailLength = 15 + velocity * 30;
-      const intensity = Math.min(1, velocity / 2 + 0.3);
-
-      trail.style.height = `${trailLength}px`;
-      trail.style.opacity = `${0.6 + intensity * 0.3}`;
-      trail.style.background = `radial-gradient(circle, orange 30%, transparent 80%)`;
-
-      requestAnimationFrame(animate);
-    };
-    animate();
-  }
-
-
-  /**
-   * Método para actualizar la posición del cohete en función del scroll de la página.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método calcula la posición vertical del cohete en función del scroll de la página,
-   * asegurando que se mantenga dentro de un rango específico.
-   */
-  private updateRocketPosFromScroll(): void {
-    const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const percentY = pageHeight > 0 ? (window.scrollY / pageHeight) * 100 : 50;
-    this.rocketPos.top = Math.max(10, Math.min(90, percentY));
-  }
-
-  /**
-   * Método para verificar colisiones entre el cohete y las habilidades.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método itera sobre las habilidades y verifica si hay colisión con el cohete,
-   * activando la animación correspondiente si es necesario.
-   */
-  private checkCollisions(): void {
-    this.ranks.forEach((rank, i) => {
-      if (this.isColliding(this.rocketPos, rank)) {
-        this.triggerSkillAnimation(i);
-      }
-    });
-  }
-
-  /**
-   * Método para verificar si el cohete está colisionando con una habilidad.
-   * @param rocket - Objeto que representa la posición del cohete.
-   * @param skill - Objeto que representa la posición de la habilidad.
-   * @returns {boolean} - Retorna true si hay colisión, false en caso contrario.
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método calcula la distancia entre el cohete y la habilidad,
-   * y verifica si es menor que el radio de colisión definido.
-   */
-  private isColliding(
-    rocket: { top: number; left: number },
-    skill: { top: number; left: number }
-  ): boolean {
-    const dx = rocket.left - skill.left;
-    const dy = rocket.top - skill.top;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    return distance < this.collisionRadius;
-  }
-
-  /**
-   * Método para activar la animación de una habilidad específica.
-   * @param index - Índice de la habilidad en el array de habilidades.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método activa la animación de una habilidad al hacer colisión con el cohete,
-   * y luego desactiva la animación después de un tiempo.
-   */
-  public triggerSkillAnimation(index: number): void {
-    this.animatedRanks[index] = false;
-    setTimeout(() => {
-      this.animatedRanks[index] = true;
-      setTimeout(() => (this.animatedRanks[index] = false), 900);
-    }, 10);
-  }
-
-  /**
-   * Método para rastrear las habilidades por su fuente.
+   * Método que devuelve el estilo del cohete basado en el porcentaje de scroll.
    * @param index
    * @param item
    * @returns
+   * {Object} - Estilo CSS para el cohete.
+   * @version 2.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @description Este método se utiliza para aplicar estilos dinámicos al cohete en el recorrido.
    */
   trackBySrc(index: number, item: SkillRank) {
     return item.src;
   }
 
   /**
-   * Método para configurar el arrastre del cohete en dispositivos móviles.
-   * Permite arrastrar el cohete verticalmente dentro del espacio definido.
+   * Método que detecta la dirección del scroll y tal vez inicia una animación.
+   * @param {MouseEvent} event - El evento del mouse que contiene la posición actual.
    * @returns {void}
-   * @version 1.0.0
+   * @version 2.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método agrega eventos de touch y mouse para permitir el arrastre del cohete,
-   * actualizando su posición en función del movimiento del dedo o del mouse.
+   * @description Este método se ejecuta cada vez que se detecta un evento de scroll en la ventana.
    */
-  private setupMobileDrag() {
-    const rocket = this.rocketRef.nativeElement;
-    const space = this.spaceRef.nativeElement;
+  private detectScrollDirectionAndMaybeAnimate(): void {
+    // Centro del recorrido (ajusta el umbral según lo sensible que quieras)
+    const centerMin = 0.48;
+    const centerMax = 0.52;
+    if (
+      this.lastScrollPercent >= centerMin &&
+      this.lastScrollPercent <= centerMax &&
+      !this.animating
+    ) {
+      // Detecta la última dirección
+      if (this.lastDirection !== 'up') {
+        this.startAnimation('up');
+      }
+    } else if (
+      (
+        this.percent > centerMax && this.lastScrollPercent < centerMax ||
+        this.percent < centerMin && this.lastScrollPercent > centerMin
+      ) && !this.animating
+    ) {
+      if (this.lastDirection !== 'down' && this.lastScrollPercent < centerMin) {
+        this.startAnimation('down');
+      }
+    }
+    // Actualiza la última dirección
+    if (this.lastScrollPercent > this.percent) {
+      this.lastDirection = 'down';
+    } else if (this.lastScrollPercent < this.percent) {
+      this.lastDirection = 'up';
+    }
+  }
 
-    let spaceRect = space.getBoundingClientRect();
-    let moveHandler = (event: TouchEvent | MouseEvent) => {
-      let clientY =
-        event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
-      let percentY =
-        ((clientY - spaceRect.top) / spaceRect.height) * 100;
-      this.rocketPos.top = Math.max(10, Math.min(90, percentY));
-      this.checkCollisions();
-    };
+  /**
+   * Método que inicia la animación del cohete y las cartas.
+   * Dependiendo de la dirección del scroll, ajusta el objetivo de la animación.
+   * @param direction - Dirección de la animación ('up' o 'down').
+   * @returns {void}
+   * @version 2.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @description Este método se ejecuta al detectar que el scroll se detiene en el centro del recorrido.
+   */
+  private startAnimation(direction: 'up' | 'down') {
+    this.animating = true;
+    if (direction === 'up') {
+      this.animationTarget = 1;
+    } else {
+      this.animationTarget = 0;
+    }
+    this.animatePercent();
+  }
 
-    // arrastrar con toque
-    rocket.addEventListener('touchstart', (e) => {
-      this.dragging = true;
-      spaceRect = space.getBoundingClientRect();
-      e.preventDefault();
-    });
-    rocket.addEventListener('touchmove', (e) => {
-      if (this.dragging) moveHandler(e);
-    });
-    rocket.addEventListener('touchend', () => {
-      this.dragging = false;
-    });
+  private animatePercent() {
+    if (this.animationTarget === null) return;
+    this.ngZone.runOutsideAngular(() => {
+      const step = () => {
+        if (this.animationTarget === null) return;
 
-    // Drag with mouse (optional for desktop)
-    rocket.addEventListener('mousedown', (e) => {
-      this.dragging = true;
-      spaceRect = space.getBoundingClientRect();
-      e.preventDefault();
+        // Easing suave
+        const diff = this.animationTarget - this.percent;
+        if (Math.abs(diff) < 0.001) {
+          this.percent = this.animationTarget;
+          this.animating = false;
+          this.animationTarget = null;
+          this.updateRocketAndBaraja();
+          return;
+        }
+        // Animación suave
+        this.percent += diff * this.animationSpeed;
+        this.updateRocketAndBaraja();
+        this.animationFrame = requestAnimationFrame(step);
+      };
+      this.animationFrame = requestAnimationFrame(step);
     });
-    window.addEventListener('mousemove', (e) => {
-      if (this.dragging) moveHandler(e);
-    });
-    window.addEventListener('mouseup', () => {
-      this.dragging = false;
-    });
+  }
+
+  /**
+   * Método que detiene la animación del cohete y las cartas.
+   * Limpia el estado de animación y cancela el frame de animación si está activo.
+   * @returns {void}
+   * @version 2.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @description Este método se ejecuta al detectar un scroll fuera del centro del recorrido.
+   */
+  private stopAnimation() {
+    this.animating = false;
+    this.animationTarget = null;
+    if (this.animationFrame !== null) {
+      cancelAnimationFrame(this.animationFrame);
+      this.animationFrame = null;
+    }
   }
 }
