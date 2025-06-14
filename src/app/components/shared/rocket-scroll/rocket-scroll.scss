@@ -17,57 +17,137 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  top: 0;
+  top: -220px; /* SUBIDO más arriba */
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 0;
 }
+
+/* ---- CARTAS CON EFECTO BARAJA ---- */
 .skill-badge {
   position: absolute;
-  top: 10%;
-  left: 20%;
-  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 210px;
+  min-width: unset;
+  min-height: unset;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 120px;
-  padding: 12px 10px 6px 10px;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  background: #fff;
+  padding: 18px 14px 12px 14px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.18);
+  border: 2.5px solid rgba(46, 200, 250, 0.18);
+  color: #23233b;
+  overflow: visible;
+  box-shadow:
+    0 8px 32px 0 rgba(44, 62, 80, 0.13),
+    0 2px 16px 0 rgba(46,200,250,0.14),
+    0 0 0 6px rgba(46, 200, 250, 0.07);
+  opacity: 0;
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
   transition:
-    left 0.7s cubic-bezier(.71,1.7,.82,1.01),
-    transform 0.7s cubic-bezier(.71,1.7,.82,1.01),
-    box-shadow 0.4s,
-    opacity 0.4s,
-    top 0.3s;
-  opacity: 1;
+    box-shadow 0.28s cubic-bezier(.44,1.7,.62,1.01),
+    transform 0.22s cubic-bezier(.44,1.7,.62,1.01),
+    opacity 0.38s,
+    border 0.2s,
+    background 0.22s;
+  z-index: 1;
+  background-image:
+    linear-gradient(135deg, rgba(46,200,250,0.09) 0%, rgba(162,89,247,0.11) 100%);
+  /* Efecto baraja: se sobreescribe con .cardN */
+  animation: card-fade-in-baraja 0.7s cubic-bezier(.44,1.7,.62,1.01) forwards;
+}
+
+@keyframes card-fade-in-baraja {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.92) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    /* La posición y rotación final la define cada carta con su clase */
+  }
+}
+
+/* Efecto baraja: ejemplo para 5 cartas (ajusta para más o menos) */
+.skill-badge.card1 {
+  transform: translate(-50%, -50%) translateX(-140px) rotate(-14deg) scale(1);
+  z-index: 2;
+}
+.skill-badge.card2 {
+  transform: translate(-50%, -50%) translateX(-70px) rotate(-7deg) scale(1.01);
+  z-index: 3;
+}
+.skill-badge.card3 {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.07);
+  z-index: 5;
+}
+.skill-badge.card4 {
+  transform: translate(-50%, -50%) translateX(70px) rotate(7deg) scale(1.01);
+  z-index: 3;
+}
+.skill-badge.card5 {
+  transform: translate(-50%, -50%) translateX(140px) rotate(14deg) scale(1);
   z-index: 2;
 }
 
-.img-rank-item {
+/* Hover: levantar la carta y sombra más intensa */
+.skill-badge:hover,
+.skill-badge.opened {
+  box-shadow:
+    0 16px 48px 0 rgba(30, 150, 255, 0.18),
+    0 0 42px 6px #2ec8fa44,
+    0 2px 24px 0 #a259f766;
+  background: rgba(255,255,255,0.32);
+  border: 2.5px solid #2ec8fa;
+  background-image:
+    linear-gradient(120deg, rgba(46,200,250,0.13) 0%, rgba(162,89,247,0.18) 100%);
+  transform: translate(-50%, -60%) scale(1.075) rotate(0deg);
+  z-index: 10;
+  opacity: 1;
+}
+
+.skill-badge .img-rank-item {
   width: 90px;
   height: 90px;
+  max-width: 100%;
+  max-height: 60%;
   object-fit: contain;
-  margin-bottom: 8px;
-  border-radius: 10px;
-  background: transparent;
-  transition: transform 0.3s;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: rgba(250,250,255,0.18);
+  box-shadow: 0 2px 14px 0 rgba(162,89,247,0.14);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.skill-badge.opened .img-rank-item,
+.skill-badge:hover .img-rank-item {
+  box-shadow: 0 6px 28px 0 rgba(46,200,250,0.19), 0 1px 6px 0 #a259f7aa;
+  transform: scale(1.05) rotate(-2deg);
 }
 
 .skill-label {
-  font-size: 1.1em;
-  color: #333;
-  font-weight: 600;
-  margin-top: 4px;
+  font-size: 1.13em;
+  color: #23233b;
+  font-weight: 700;
+  margin-top: 6px;
   text-align: center;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 1px 10px rgba(46,200,250,0.05),
+    0 1px 0 #fff;
 }
 
+/* ---- ROCKET ---- */
 #rocket {
   position: absolute;
-  top: 32%;
-  left: 10%;
+  top: 62%;
+  left: 0%;
   width: 120px;
   height: 40px;
   display: flex;
@@ -76,8 +156,8 @@
   z-index: 1;
   background:
     linear-gradient(to bottom, transparent 45%, firebrick 45%, firebrick 55%, transparent 55%),
-    radial-gradient(circle at 60% 50%, rgba(255,255,255,1) 10%, #aaa 11%, #aaa 15%, transparent 16%),
-    linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.1) 50%),
+    radial-gradient(circle at 60% 50%, rgba(255, 255, 255, 1) 10%, #aaa 11%, #aaa 15%, transparent 16%),
+    linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .1) 50%),
     linear-gradient(to left, firebrick 12%, transparent 12%),
     lightgray;
   background-size: 40% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
@@ -86,10 +166,11 @@
   border-radius: 10px 200px 200px 10px / 50px 50px 50px 50px;
   transform: translate(-50%, -50%);
   transition:
-    left 0.5s cubic-bezier(.71,1.7,.82,1.01),
-    transform 0.5s cubic-bezier(.71,1.7,.82,1.01),
-    top 0.8s;
+    left 1.2s cubic-bezier(.71, 1.7, .82, 1.01),
+    transform 1.2s cubic-bezier(.71, 1.7, .82, 1.01),
+    top 1.2s;
 }
+
 .wing {
   position: absolute;
   width: 30px;
@@ -98,11 +179,13 @@
   border-radius: 50% 0 0 50%;
   z-index: 1;
 }
+
 .top-wing {
   background: linear-gradient(to right, #b22222, firebrick);
   top: 10px;
   left: -15px;
 }
+
 .bottom-wing {
   bottom: 10px;
   left: -15px;
@@ -121,9 +204,16 @@
   filter: blur(1px);
   z-index: 0;
 }
+
 @keyframes flame-flicker {
-  0%   { transform: translateY(-50%) scale(1);   opacity: 0.9; }
-  100% { transform: translateY(-50%) scale(1.4); opacity: 0.4; }
+  0% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-50%) scale(1.4);
+    opacity: 0.4;
+  }
 }
 
 #trail {
@@ -142,25 +232,139 @@
   transition: height 0.15s, opacity 0.15s, background 0.15s;
 }
 
+/* ---- RESPONSIVE ---- */
 @media (max-width: 700px) {
-  #space { height: 240px; }
-  .img-rank-stack { height: 240px; }
-  #rocket { width: 80px; height: 27px; }
-  #trail { left: -18px; }
-  .img-rank-item { width: 50px; height: 50px; }
+  #space {
+    height: 240px;
+  }
+  .img-rank-stack {
+    height: 240px;
+    top: -90px; /* SUBIDO más arriba */
+  }
+  #rocket {
+    width: 80px;
+    height: 27px;
+  }
+  #trail {
+    left: -18px;
+  }
+  .img-rank-item {
+    width: 50px;
+    height: 50px;
+  }
   .skill-badge {
-    min-width: 62px;
+    width: 70px;
+    height: 90px;
+    min-width: unset;
     padding: 7px 4px 3px 4px;
   }
+  .skill-badge.card1 { transform: translate(-50%, -50%) translateX(-60px) rotate(-10deg) scale(1); }
+  .skill-badge.card2 { transform: translate(-50%, -50%) translateX(-30px) rotate(-5deg) scale(1.01); }
+  .skill-badge.card3 { transform: translate(-50%, -50%) rotate(0deg) scale(1.05); }
+  .skill-badge.card4 { transform: translate(-50%, -50%) translateX(30px) rotate(5deg) scale(1.01); }
+  .skill-badge.card5 { transform: translate(-50%, -50%) translateX(60px) rotate(10deg) scale(1); }
 }
+
 @media (max-width: 480px) {
-  #space { height: 160px; }
-  .img-rank-stack { height: 160px; }
-  #rocket { width: 52px; height: 18px; }
-  #trail { left: -12px; }
-  .img-rank-item { width: 32px; height: 32px; }
+  #space {
+    height: 160px;
+  }
+  .img-rank-stack {
+    height: 160px;
+    top: -50px; /* SUBIDO más arriba */
+  }
+  #rocket {
+    width: 52px;
+    height: 18px;
+  }
+  #trail {
+    left: -12px;
+  }
+  .img-rank-item {
+    width: 32px;
+    height: 32px;
+  }
   .skill-badge {
-    min-width: 44px;
+    width: 44px;
+    height: 56px;
+    min-width: unset;
     padding: 4px 2px 2px 2px;
+  }
+  .skill-badge.card1 { transform: translate(-50%, -50%) translateX(-30px) rotate(-8deg) scale(1); }
+  .skill-badge.card2 { transform: translate(-50%, -50%) translateX(-15px) rotate(-4deg) scale(1.01); }
+  .skill-badge.card3 { transform: translate(-50%, -50%) rotate(0deg) scale(1.03); }
+  .skill-badge.card4 { transform: translate(-50%, -50%) translateX(15px) rotate(4deg) scale(1.01); }
+  .skill-badge.card5 { transform: translate(-50%, -50%) translateX(30px) rotate(8deg) scale(1); }
+}
+
+/* ---- TITULO ---- */
+.skills-title-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: absolute;
+  top: 1vw; /* SUBIDO más arriba */
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.skills-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1d1d2b;
+  text-shadow:
+    0 2px 12px rgba(40, 40, 60, 0.11),
+    0 1px 0 #fff,
+    0 0px 26px #2ec8fa66;
+  margin: 0;
+  letter-spacing: 3px;
+  padding-bottom: 8px;
+  animation:
+    fadeInSlideDown 0.9s cubic-bezier(.55, 1.4, .82, 1.01),
+    skillsPulse 2.8s infinite cubic-bezier(.44, 1.7, .62, 1.01);
+  background: linear-gradient(90deg, #2ec8fa 20%, #ffc107 60%, #ff6f91 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes fadeInSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-32px) scale(0.9);
+    filter: blur(7px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes skillsPulse {
+  0% {
+    text-shadow:
+      0 2px 12px rgba(40, 40, 60, 0.14),
+      0 1px 0 #fff,
+      0 0px 26px #2ec8fa66;
+    letter-spacing: 2px;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow:
+      0 2px 18px #ffc107,
+      0 1px 0 #fff,
+      0 0px 42px #2ec8fa88;
+    letter-spacing: 6px;
+    transform: scale(1.08);
+  }
+  100% {
+    text-shadow:
+      0 2px 12px rgba(40, 40, 60, 0.14),
+      0 1px 0 #fff,
+      0 0px 26px #2ec8fa66;
+    letter-spacing: 2px;
+    transform: scale(1);
   }
 }

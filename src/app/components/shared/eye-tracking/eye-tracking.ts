@@ -46,7 +46,7 @@ export class EyeTracking implements AfterViewInit, OnDestroy {
     document.addEventListener('mousemove', this.mouseMoveHandler);
     document.addEventListener('click', this.clickHandler);
     document.addEventListener('dblclick', this.dblClickHandler);
-    this.estado = 'amor'; // Inicializar el estado visual
+    this.estado = 'feliz'; // Inicializar el estado visual
 
     this.setInactivityTimer();
   }
