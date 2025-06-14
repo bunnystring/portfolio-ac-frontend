@@ -1,3 +1,5 @@
+$img-rank-stack-offset: -220px;
+
 #space {
   position: relative;
   width: 100vw;
@@ -17,7 +19,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  top: -220px; /* Moved further up */
+  top: $img-rank-stack-offset; /* Moved further up */
   display: flex;
   justify-content: center;
   align-items: center;
