@@ -204,3 +204,13 @@
     box-shadow: 0 0 20px 6px #ffc107b7;
   }
 }
+
+.spotlight-section {
+  opacity: 0.3;
+  filter: grayscale(1) blur(1.5px);
+  transition: opacity 0.7s, filter 0.7s;
+  &.revealed {
+    opacity: 1;
+    filter: none;
+  }
+}

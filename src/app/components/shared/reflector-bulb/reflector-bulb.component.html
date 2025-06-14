@@ -1,22 +1,21 @@
 <div
-  class="lamp-init"
+  *ngIf="showLamp"
   #lamp
   id="lamp"
-  [class.lamp]="!turnOnLamp"
-  [class.lamp-off]="turnOnLamp"
+  [class]="lampClass + (vibrate ? ' vibrate' : '')"
+  (animationend)="onLampAnimationEnd($event)"
 >
+  <div class="lamp-cable"></div>
   <div class="cover"></div>
   <div class="in-cover">
     <div
       id="bulb"
-      [class.bulb-on]="!turnOnLamp"
-      [class.bulb-off]="turnOnLamp"
-      tabindex="0"
-      aria-label="Interruptor de lámpara"
-      (click)="onClickLight()"
-      (keydown.enter)="onClickLight()"
-      (keydown.space)="onClickLight()"
-    ></div>
+      [class.bulb-on]="turnOnLamp"
+      [class.bulb-off]="!turnOnLamp"
+    >
+      <div class="filament"></div>
+    </div>
   </div>
-  <div class="lamp-light" [class.light]="!turnOnLamp"></div>
+  <div class="lamp-light" [class.light]="turnOnLamp"></div>
+  <div class="lamp-halo" [class.on]="turnOnLamp"></div>
 </div>
