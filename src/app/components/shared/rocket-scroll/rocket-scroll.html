@@ -1,29 +1,28 @@
 <div #spaceRef id="space">
-  <div class="img-rank">
+  <div class="img-rank-stack">
     <ng-container *ngFor="let img of ranks; let i = index; trackBy: trackBySrc">
-      <div class="skill-badge" [ngStyle]="{
-          position: 'absolute',
-          top: img.top + '%',
-          left: img.left + '%',
-          transform: 'translate(-50%,-50%)'
-        }">
+      <div
+        class="skill-badge"
+        [ngStyle]="getCardStyle(i)"
+      >
         <img
-          #rankImg
           class="img-rank-item"
           [src]="img.src"
           [alt]="img.rank + ' Rank'"
-          [class.animate]="animatedRanks[i]"
         >
         <span class="skill-label">{{ img.rank }}</span>
       </div>
     </ng-container>
   </div>
-  <div #rocket id="rocket" [ngStyle]="{
+  <div
+    #rocket
+    id="rocket"
+    [ngStyle]="{
       position: 'absolute',
-      top: rocketPos.top + '%',
       left: rocketPos.left + '%',
       transform: 'translate(-50%, -50%)'
-    }">
+    }"
+  >
     <div class="wing top-wing"></div>
     <div class="wing bottom-wing"></div>
     <div class="flame"></div>

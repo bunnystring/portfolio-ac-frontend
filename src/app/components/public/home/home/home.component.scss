@@ -1,12 +1,32 @@
-
 :root {
   --pcolor: #ffc107;
   --scolor: #6c757d;
 }
 
 /* ---------- CONTENEDOR PRINCIPAL ---------- */
-.content {
-  // Puedes agregar estilos generales aquí
+.content.card-main {
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- WRAP AJUSTADO A 80% ---------- */
+.wrap {
+  width: 100vw;      /* O usa 100vw para ocupar todo el ancho */
+  max-width: 1000vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ---------- CARD CONTENEDORA ---------- */
@@ -166,8 +186,8 @@
 // -- BOTONES --
 .btn-wrap {
   display: flex;
-  align-items: center;     // Centra verticalmente si los botones tienen alturas distintas
-  gap: 1.2rem;             // Espacio horizontal entre los botones
+  align-items: center;
+  gap: 1.2rem;
   margin-top: 20px;
 }
 
@@ -202,5 +222,27 @@
   }
   &:active {
     box-shadow: 0 0 20px 6px #ffc107b7;
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1200px) {
+  .wrap {
+    width: 95vw;
+    max-width: 95vw;
+  }
+}
+@media (max-width: 768px) {
+  .wrap {
+    width: 99vw;
+    max-width: 99vw;
+  }
+  .card-content {
+    flex-direction: column !important;
+    padding: 1rem;
+  }
+  .profile-image {
+    margin-bottom: 1rem;
+    height: auto;
   }
 }
