@@ -1,21 +1,35 @@
 html, body {
+  min-height: 100vh;
   width: 100%;
-  max-width: 100vw;
-  /* min-height: 100vh; */
-  overflow-x: hidden;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
+}
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-bottom: 160px; // igual al footer
+  min-height: calc(100vh - 160px);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
-  /* Imagen de fondo */
-  background-image: url('/assets/images/background.png'); /* tu ruta aquí */
+  background-image: url('/assets/images/background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* No uses position: absolute ni z-index aquí */
-  /* opacity: 1;  (la opacidad del body afecta TODO, mejor no ponerla) */
 }
 
 * {

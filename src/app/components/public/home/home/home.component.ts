@@ -15,6 +15,7 @@ import {
   quitarCanvasSnake,
 } from '../../../../utils/mouse-effects/mouse-effects';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   activeTitleIdx = 0;
   activeTitle: string = this.titles[0];
   intervalId: any;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private homeServices: HomeServices
@@ -56,6 +58,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     quitarCanvasSnake();
     this.homeServices.snakeService.unsubscribe();
     if (this.intervalId) clearInterval(this.intervalId);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**

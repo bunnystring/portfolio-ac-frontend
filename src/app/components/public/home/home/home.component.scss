@@ -5,11 +5,11 @@
 
 /* ---------- CONTENEDOR PRINCIPAL ---------- */
 .content.card-main {
-  width: 100vw;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   height: 100vh;
-  min-width: 100vw;
   min-height: 100vh;
-  max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
   display: flex;
@@ -20,10 +20,10 @@
 
 /* ---------- WRAP AJUSTADO A 80% ---------- */
 .wrap {
-  height: 100vh; /* O usa 100vh para ocupar todo el alto */
-  min-height: 100vh; /* O usa 100vh para ocupar todo el alto */
-  width: 100vw;      /* O usa 100vw para ocupar todo el ancho */
-  max-width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -66,10 +66,10 @@
 }
 
 .profile-image img {
-  height: 450px !important;
-  width: 100%;
+  height: 550px !important;
+  width: 550px !important;    /* Aumenta el tamaño del círculo */
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 50%;         /* Mantiene la forma circular */
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
   animation: flotar 2.2s linear infinite, shadowPulse 2.5s infinite;
@@ -230,8 +230,8 @@
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 1200px) {
   .wrap {
-    width: 95vw;
-    max-width: 95vw;
+    width: 95%;
+    max-width: 95%;
   }
 }
 @media (max-width: 768px) {

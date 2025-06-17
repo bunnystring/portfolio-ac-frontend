@@ -2,10 +2,10 @@ $img-rank-stack-offset: -220px;
 
 #space {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 0;
   background: transparent;
   overflow: visible;
   display: flex;
@@ -17,9 +17,9 @@ $img-rank-stack-offset: -220px;
 
 .img-rank-stack {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  top: $img-rank-stack-offset; /* Moved further up */
+  top: $img-rank-stack-offset;
   display: flex;
   justify-content: center;
   align-items: center;
