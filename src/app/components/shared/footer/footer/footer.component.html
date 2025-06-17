@@ -56,73 +56,36 @@
         {{ currentQuote }}
       </span>
     </div>
-    <div class="footer-mascot-area">
-      <div class="footer-mascot" [class.wave]="isWaving" (mouseenter)="waveMascot()" (mouseleave)="stopWaveMascot()"
-        tabindex="0" aria-label="Mascota virtual: ¡Hola!">
-        <!-- SVG Zorro mascot -->
-        <svg width="88" height="96" viewBox="0 0 88 96" fill="none" xmlns="http://www.w3.org/2000/svg"
-          class="mascot-svg" aria-hidden="true">
-          <!-- Orejas (con movimiento animado) -->
-          <g class="mascot-ear mascot-ear-left">
-            <path d="M13 20 C8 6, 28 0, 37 16" fill="#F7C28B" stroke="#2D1810" stroke-width="3" />
-            <path d="M19 18 Q13 9, 24 7 Q29 10, 27 17 Z" fill="#FFDEB7" />
-          </g>
-          <g class="mascot-ear mascot-ear-right">
-            <path d="M75 20 C80 6, 60 0, 51 16" fill="#F7C28B" stroke="#2D1810" stroke-width="3" />
-            <path d="M69 18 Q75 9, 64 7 Q59 10, 61 17 Z" fill="#FFDEB7" />
-          </g>
-          <!-- Cabeza principal -->
-          <ellipse cx="44" cy="46" rx="35" ry="32" fill="#F7C28B" stroke="#2D1810" stroke-width="4" />
-          <!-- Mejilla sombra -->
-          <path d="M15 55 C15 65, 40 80, 65 70 Q55 80, 33 72 Q10 60, 15 55 Z" fill="#E09B5C" opacity="0.5" />
-          <!-- Hocico y boca -->
-          <ellipse cx="34" cy="58" rx="11" ry="9" fill="#F7C28B" stroke="#2D1810" stroke-width="2" />
-          <ellipse cx="34" cy="64" rx="7" ry="5" fill="#fff" />
-          <!-- Nariz -->
-          <ellipse cx="28" cy="59" rx="5" ry="3.5" fill="#181818" />
-          <!-- Boca (sonrisa animada) -->
-          <path class="mascot-mouth" d="M28 66 Q34 73 46 66" stroke="#2D1810" stroke-width="2.5" fill="none"
-            stroke-linecap="round" />
-          <path d="M38 68 Q41 75 54 68" stroke="#2D1810" stroke-width="2" fill="none" stroke-linecap="round" />
-          <!-- Lengua -->
-          <ellipse cx="45" cy="70" rx="7" ry="2.5" fill="#F65585" />
-          <!-- Ojos (con parpadeo animado) -->
-          <g class="mascot-eyes">
-            <ellipse class="mascot-eye" cx="29" cy="44" rx="7" ry="9" fill="#181818" />
-            <ellipse class="mascot-eye" cx="59" cy="44" rx="7" ry="9" fill="#181818" />
-          </g>
-          <!-- Cejas -->
-          <rect x="19" y="34" width="13" height="3" rx="1.5" fill="#2D1810" transform="rotate(-18 19 34)"
-            opacity="0.7" />
-          <rect x="56" y="34" width="13" height="3" rx="1.5" fill="#2D1810" transform="rotate(18 56 34)"
-            opacity="0.7" />
-          <!-- Mejilla derecha clara -->
-          <ellipse cx="60" cy="61" rx="8" ry="5" fill="#FFE0BA" opacity="0.6" />
-          <!-- Pañuelo (con ondeo animado) -->
-          <g class="mascot-bandana">
-            <path d="M16 78 Q44 100 72 78 Q60 92, 44 92 Q28 92, 16 78 Z" fill="#F65585" stroke="#2D1810"
-              stroke-width="3" />
-            <!-- Nudo pañuelo -->
-            <ellipse cx="72" cy="78" rx="4" ry="2.2" fill="#F65585" stroke="#2D1810" stroke-width="1" />
-            <!-- Huella -->
-            <g>
-              <ellipse cx="44" cy="88" rx="3" ry="2.3" fill="#fff" />
-              <ellipse cx="41" cy="85" rx="0.7" ry="1" fill="#fff" />
-              <ellipse cx="44" cy="85" rx="0.7" ry="1" fill="#fff" />
-              <ellipse cx="47" cy="85" rx="0.7" ry="1" fill="#fff" />
-              <ellipse cx="45.5" cy="87" rx="0.7" ry="1" fill="#fff" />
-            </g>
-          </g>
-          <!-- Contorno principal -->
-          <ellipse cx="44" cy="46" rx="35" ry="32" fill="none" stroke="#2D1810" stroke-width="4" />
-        </svg>
-        <div class="mascot-speech" *ngIf="showMascotSpeech">¡Hola! 👋</div>
-      </div>
-    </div>
     <div class="footer-copy text-white-50 small">
       © {{ currentYear }} | Soluciones con pasión
     </div>
   </div>
+  <div
+  class="footer-mascot-floating left"
+  (mouseenter)="showMascotSpeech()"
+  (mouseleave)="hideMascotSpeech()"
+  (click)="showMascotSpeech()"
+  tabindex="0"
+  (keydown.enter)="showMascotSpeech()"
+  (keydown.space)="showMascotSpeech()"
+>
+  <div class="milly-mascot-wrapper">
+    <div class="mascot-flip-animator">
+      <img
+        src="/assets/images/milly.svg"
+        alt="Mascota Milly"
+        class="footer-mascot-anim"
+        [class.bounce]="isBouncing"
+        (click)="jumpMascot()"
+        tabindex="0"
+      />
+    </div>
+    <div class="milly-speech-bubble" *ngIf="showSpeech">
+      <span class="milly-speech-text">{{ currentSpeech }}</span>
+      <span class="milly-speech-tail"></span>
+    </div>
+  </div>
+</div>
   <button class="noselect back-to-top-btn" (click)="scrollToTop()" (keydown.enter)="scrollToTop()"
     (keydown.space)="scrollToTop()" [class.visible]="showScrollTop" aria-label="Back to Top" tabindex="0" type="button">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

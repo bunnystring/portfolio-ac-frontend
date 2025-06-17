@@ -44,6 +44,7 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
   private typingTimeout?: number;
   private quoteTimeout?: number;
   private fadeTimeout?: number;
+millySvg: any;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
