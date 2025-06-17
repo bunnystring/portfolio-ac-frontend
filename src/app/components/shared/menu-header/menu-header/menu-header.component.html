@@ -1,37 +1,48 @@
 <div class="wrap">
   <div class="container">
-   <div class="d-flex container col-md-12 justify-content-center align-items-center">
-    <header class="col-md-12 d-flex justify-content-between align-items-center mt-2">
-        <div class="menu d-flex justify-content-center mr-0 col-md-5">
+    <div class="d-flex container col-12 justify-content-center align-items-center flex-wrap">
+      <header class="d-flex flex-wrap justify-content-between align-items-center px-3 py-2 w-100">
+        <!-- Botón hamburguesa visible solo en móvil -->
+        <button
+          class="btn navbar-toggler d-lg-none mb-2"
+          type="button"
+          (click)="showMenu = !showMenu"
+          aria-label="Toggle menu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Menú principal -->
+        <nav
+          class="menu d-flex flex-wrap justify-content-center align-items-center col-12 col-lg-5 mb-2 mb-lg-0"
+          [ngClass]="{'d-none': !showMenu && isMobile, 'd-flex': showMenu || !isMobile}"
+        >
           <a class="active">Home</a>
           <a>About</a>
           <a>Projects</a>
           <a>Skills</a>
           <a>Contact me</a>
+        </nav>
+        <!-- Eye tracking -->
+        <div class="menu d-flex justify-content-center align-items-center col-12 col-lg-3 mb-2 mb-lg-0">
+          <app-eye-tracking></app-eye-tracking>
         </div>
-      <div class="menu mr-2 col-md-3 d-flex justify-content-center align-items-center">
-        <app-eye-tracking></app-eye-tracking>
-      </div>
-    <!--   <div class="logo">AC</div> -->
-      <div class="menu d-flex justify-content-center col-md-4 align-items-start">
-        <a class="border0"><img class="tooltip-header" id="instagram" src="/src/assets/images/ins.png" alt="" width="50%"
-            srcset=""></a>
-        <a class="border0"><img class="tooltip-header" id="facebook" src="/src/assets/images/face.png" alt="" width="50%"
-            srcset=""></a>
-        <a class="border0"><img class="tooltip-header" id="linkedin" src="/src/assets/images/linke.png" alt="" width="50%"
-            srcset=""></a>
-        <a class="border0"><img class="tooltip-header" id="github" src="/src/assets/images/git.png" alt="" width="50%"
-            srcset=""></a>
-        <a class="border0"><img class="joystick tooltip-header" id="Play with me" src="/src/assets/images/joystick.png" alt=""
-            width="50%" srcset=""></a>
-        <a class="border0">
-          <label>
-            <input type="checkbox" id="power-icon" (click)="onClickLight()">
-            <div class="power-toggle"></div>
-          </label>
-        </a>
-      </div>
-    </header>
-   </div>
+        <!-- Íconos y extras -->
+        <div class="menu d-flex flex-wrap justify-content-center align-items-center col-12 col-lg-4">
+          <a class="border0"><img class="tooltip-header" id="instagram" src="/assets/images/ins.png" alt="Instagram" width="30"></a>
+          <a class="border0"><img class="tooltip-header" id="facebook" src="/assets/images/face.png" alt="Facebook" width="30"></a>
+          <a class="border0"><img class="tooltip-header" id="linkedin" src="/assets/images/linke.png" alt="LinkedIn" width="30"></a>
+          <a class="border0"><img class="tooltip-header" id="github" src="/assets/images/git.png" alt="GitHub" width="30"></a>
+          <a class="border0" (click)="activeModeGame(modePlaySnake)">
+            <img class="joystick tooltip-header" id="joystick" src="/assets/images/joystick.png" alt="Play with me" width="30">
+          </a>
+          <a class="border0">
+            <label class="tooltip-header" id="turn-on-lamp" data-tippy-content="Encender lámpara">
+              <input type="checkbox" id="power-icon" (click)="onClickLight()">
+              <div class="power-toggle"></div>
+            </label>
+          </a>
+        </div>
+      </header>
+    </div>
   </div>
 </div>

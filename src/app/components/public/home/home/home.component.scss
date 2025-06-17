@@ -1,105 +1,259 @@
 :root {
-  //color golden
-  --pcolor: #ffc107; /* Color primario */
-  --scolor: #6c757d; /* Color secundario */
+  --pcolor: #ffc107;
+  --scolor: #6c757d;
 }
 
-.profile-image {
-  animation: flotar 2s linear infinite; /* Animación de nombre "flotar", duración de 3 segundos, función de temporización lineal y repetición infinita */
-  /* Otras propiedades de la imagen, como la posición y el tamaño */
-}
-@keyframes flotar {
-  0% {
-    transform: translateY(0); /* Posición inicial */
-  }
-  50% {
-    transform: translateY(-10px); /* Movimiento vertical hacia arriba */
-  }
-  100% {
-    transform: translateY(0); /* Regreso a la posición inicial */
-  }
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.content.card-main {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+/* ---------- WRAP AJUSTADO A 80% ---------- */
+.wrap {
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+/* ---------- CARD CONTENEDORA ---------- */
+.card-content {
+  border-radius: 20px;
+  width: 100%;
+  display: flex;
+  padding: 24px 0;
+  position: relative;
+
+  /* Gradiente animado tipo burbuja, opacidad baja */
+  background:
+    radial-gradient(circle at 20% 40%, rgba(255,193,7,0.17) 0%, rgba(255,193,7,0.09) 40%, transparent 70%),
+    radial-gradient(circle at 80% 60%, rgba(0,174,255,0.12) 0%, rgba(0,174,255,0.07) 35%, transparent 75%),
+    radial-gradient(circle at 60% 20%, rgba(255,255,255,0.16) 0%, transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(240,142,255,0.13) 0%, transparent 60%),
+    linear-gradient(-45deg, rgba(252,234,187,0.15), rgba(248,181,0,0.08), rgba(252,203,144,0.16), rgba(224,195,252,0.13));
+  background-size: 400% 400%;
+  animation: gradientBubble 12s ease-in-out infinite;
+}
+
+@keyframes gradientBubble {
+  0% {background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* ---------- IMAGEN DE PERFIL ---------- */
 .profile-image {
   height: 550px !important;
   align-content: center !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image img {
+  height: 550px !important;
+  width: 550px !important;    /* Aumenta el tamaño del círculo */
+  object-fit: cover;
+  border-radius: 50%;         /* Mantiene la forma circular */
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  animation: flotar 2.2s linear infinite, shadowPulse 2.5s infinite;
+  box-shadow: 0 0 0 0 #ffc107, 0 0 40px 0 rgba(255,193,7,0.3);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+}
+
+@keyframes flotar {
+  0% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+  100% { transform: translateY(0);}
+}
+@keyframes shadowPulse {
+  0%,100% { box-shadow: 0 0 0 0 #ffc107, 0 0 40px 0 rgba(255,193,7,0.3);}
+  50% { box-shadow: 0 0 40px 10px #ffc107, 0 0 80px 10px rgba(255,193,7,0.07);}
+}
+
+.avatar-animated-border {
+  position: relative;
+  display: inline-flex; // garantiza ajuste del pseudo-elemento
 
   img {
-    height: 100%;
-    width: 100%;
-    height: 450px !important;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%; // Para un avatar circular
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.05);
-      /* Efecto de zoom al pasar el cursor */
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+    box-shadow: 0 0 24px 0 rgba(255,193,7,0.13);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    border-radius: 50%;
+    padding: 4px;
+    background: conic-gradient(
+      from 0deg,
+      #ffc107 0%,
+      #f083ff 25%,
+      #00aeff 50%,
+      #ffc107 75%,
+      #f083ff 100%
+    );
+    -webkit-mask:
+      radial-gradient(farthest-side, transparent calc(100% - 5px), white 100%);
+    mask:
+      radial-gradient(farthest-side, transparent calc(100% - 5px), white 100%);
+    animation: spinAvatar 2.2s linear infinite;
   }
 }
 
-
-
-// Estilos para el titulo full stack developer
-#txt{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex:1;
-  font-family:sans-serif;
-  letter-spacing:3.5px;
-  font-size:3.5rem;
-  font-weight:700;
-  position:relative;
-  transform-style:preserve-3d;
-  perspective:100px;
-  -webkit-transform-style:preserve-3d;
-  -webkit-perspective:100px;
-}
-#txt>b{
-  height:3.5rem;
-  box-shadow:0 .4rem .3rem -.3rem #aaa;
-  color:#979c9f;
-  background:#FFF;
-  background-clip:text;
-  text-fill-color:transparent;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  transform-origin:bottom;
-  transform:rotateX(-85deg);
-  -webkit-transform-origin:bottom;
-  -webkit-transform:rotateX(-85deg);
-  animation:getUp 7s infinite;
-}
-#txt>b:nth-child(2){
-  animation-delay:.25s;
-}
-#txt>b:nth-child(3){
-  animation-delay:.5s;
-}
-#txt>b:nth-child(4){
-  animation-delay:.75s;
-}
-#txt>b:nth-child(5){
-  animation-delay:1s;
-}
-#txt>b:nth-child(6){
-  animation-delay:1.25s;
-}
-#txt>b:nth-child(7){
-  animation-delay:1.5s;
-}
-#txt>b:nth-child(8){
-  animation-delay:1.75s;
-}
-@keyframes getUp{
-  10%,50%{
-     transform:rotateX(0);
+@keyframes spinAvatar {
+  100% {
+    transform: rotate(360deg);
   }
-  0%,60%,100%{
-     transform:rotateX(-85deg);
+}
+
+/* ---------- TÍTULO FULL STACK ANIMADO ---------- */
+#txt.fullstack-animated {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  perspective: 250px;
+}
+
+#txt.fullstack-animated > b {
+  display: inline-block;
+  color: #ffc107;
+  text-shadow: 0 2px 10px rgba(255,193,7,0.2);
+  transform-origin: bottom;
+  opacity: 0;
+  animation: flipBounce 1.1s cubic-bezier(.61,-0.11,.56,1.34) forwards;
+  animation-delay: calc(var(--i) * 0.12s);
+  margin: 0 1px;
+}
+
+#txt.fullstack-animated > span {
+  width: 1.5rem;
+  display: inline-block;
+}
+
+@keyframes flipBounce {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg) scale(0.2);
   }
+  40% {
+    opacity: 1;
+    transform: rotateX(10deg) scale(1.13);
+  }
+  65% {
+    transform: rotateX(-3deg) scale(0.96);
+  }
+  80% {
+    transform: rotateX(3deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0) scale(1);
+  }
+}
+
+// -- BOTONES --
+.btn-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 20px;
+}
+
+.primary.btn-principal {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .3s;
+  box-shadow: 0 0 0 0 #ffc107;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255, 255, 255, .28);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.35s cubic-bezier(.4,0,.2,1),
+                height 0.35s cubic-bezier(.4,0,.2,1),
+                opacity 0.5s;
+  }
+  &:active::after {
+    width: 220px;
+    height: 220px;
+    opacity: 1;
+    transition: 0s;
+  }
+  &:hover, &:focus-visible {
+    box-shadow: 0 0 16px 3px #ffc1078f, 0 0 32px 12px #fff6c14d;
+  }
+  &:active {
+    box-shadow: 0 0 20px 6px #ffc107b7;
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1200px) {
+  .wrap {
+    width: 95%;
+    max-width: 95%;
+  }
+}
+@media (max-width: 768px) {
+  .wrap {
+    width: 99vw;
+    max-width: 99vw;
+  }
+  .card-content {
+    flex-direction: column !important;
+    padding: 1rem;
+  }
+  .profile-image {
+    margin-bottom: 1rem;
+    height: auto;
+  }
+.spotlight-section {
+  opacity: 0.3;
+  filter: grayscale(1) blur(1.5px);
+  transition: opacity 0.7s, filter 0.7s;
+  &.revealed {
+    opacity: 1;
+    filter: none;
+  }
+}
 }

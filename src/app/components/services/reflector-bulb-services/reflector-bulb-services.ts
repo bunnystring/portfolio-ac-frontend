@@ -12,6 +12,7 @@ export class ReflectorBulbServices {
    * @type {EventEmitter<any>}
    * @memberof ReflectorBulbServices
    * @example
+   * @author Arlez Camilo Ceron Herrera
    */
   @Output() reflectorBulbEvent: EventEmitter<any> = new EventEmitter();
 

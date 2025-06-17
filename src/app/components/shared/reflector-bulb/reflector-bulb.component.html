@@ -1,10 +1,21 @@
-<div class="lamp" #lamp (click)="onClickLight()">
+<div
+  *ngIf="showLamp"
+  #lamp
+  id="lamp"
+  [class]="lampClass + (vibrate ? ' vibrate' : '')"
+  (animationend)="onLampAnimationEnd($event)"
+>
+  <div class="lamp-cable"></div>
   <div class="cover"></div>
   <div class="in-cover">
-   <div class="bulb"></div>
+    <div
+      id="bulb"
+      [class.bulb-on]="turnOnLamp"
+      [class.bulb-off]="!turnOnLamp"
+    >
+      <div class="filament"></div>
+    </div>
   </div>
-  <div class="lamp-light light"></div>
+  <div class="lamp-light" [class.light]="turnOnLamp"></div>
+  <div class="lamp-halo" [class.on]="turnOnLamp"></div>
 </div>
-
-
-
