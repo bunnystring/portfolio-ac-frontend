@@ -128,8 +128,8 @@ header {
   }
 
   .menu > a > img {
-    width: 30px;
-    height: 30px;
+    max-width: 100%;
+    height: auto;
   }
 
   .menu > a > .joystick {

@@ -1,0 +1,4 @@
+.main-content {
+  padding-bottom: 160px; // debe coincidir con el min-height del footer
+  min-height: calc(100vh - 160px);
+}
