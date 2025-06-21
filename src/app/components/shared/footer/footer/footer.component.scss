@@ -395,7 +395,6 @@
 }
 
 /* Mascot Animation Styles */
-/* ...otros estilos del footer... */
 .footer-mascot-floating.left {
   position: absolute;
   left: 24px;
@@ -418,8 +417,13 @@
   justify-content: center;
   /* Flip horizontal */
   transform: scaleX(-1);
+  background: radial-gradient(circle at 60% 30%, #fffbe6 65%, #ffe6f0 100%);
+  border-radius: 50%;
+  padding: 7px;
+  box-shadow: 0 4px 16px #b58ecc22, 0 0 0 4px #fff4 inset;
 }
 
+/* Mascot con color y sombra suave */
 .footer-mascot-anim {
   width: 100px;
   height: 100px;
@@ -429,7 +433,8 @@
   will-change: transform, filter;
   cursor: pointer;
   animation: mascot-tilt 4s ease-in-out infinite, mascot-bounce 2.3s ease-in-out infinite;
-  filter: drop-shadow(0 2px 10px #ff4081aa) brightness(1.2) sepia(0.5) hue-rotate(-20deg) saturate(1.7);
+  /* Tinte suave y luz */
+  filter: drop-shadow(0 2px 10px #b58ecc77) brightness(1.09) saturate(1.18);
 }
 
 /* Animaciones normales sin flip */
@@ -459,22 +464,39 @@
 /* Bocadillo diálogo alineado a la izquierda */
 .milly-speech-bubble {
   position: absolute;
-  /* Subimos más el bocadillo y lo separamos de la cabeza */
-  bottom: 125px;    /* antes estaba en 105px, ahora más arriba */
-  left: 20px;       /* lo separamos un poco a la derecha */
-  min-width: 80px;
-  max-width: 180px;
+  top: -125px;
+  left: 12px;
+  min-width: 140px;
+  max-width: 320px;
   background: #fff;
   color: #222;
-  padding: 10px 16px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 16px 22px;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
   font-size: 1rem;
   font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
   z-index: 2;
   opacity: 0;
   animation: speech-show 0.4s forwards;
   pointer-events: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+}
+@media (max-width: 480px) {
+  .milly-speech-bubble {
+    max-width: 95vw;
+    min-width: 80vw;
+    left: 0;
+    top: -110px;
+    font-size: 0.97rem;
+    padding: 12px 10px;
+  }
 }
 
 @keyframes speech-show {
@@ -483,10 +505,11 @@
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
+/* Ajusta la colita para que siga apuntando a la mascota */
 .milly-speech-tail {
   position: absolute;
   bottom: -16px;
-  left: 32px; /* mueve la colita más a la derecha si moviste el bocadillo */
+  left: 32px;
   width: 24px;
   height: 24px;
   background: transparent;

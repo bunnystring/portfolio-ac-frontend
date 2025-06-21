@@ -64,7 +64,13 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
     '¡Sigue codificando!',
     '¿Café o té? ☕',
     '¡Vamos por más!',
-    '✨ ¡Tú puedes! ✨'
+    '✨ ¡Tú puedes! ✨',
+    '¡Todo chill aquí! 😎',
+    'Aquí andamos, echando código. 🐾',
+    '¡Listos para rockear el footer! 🎸',
+    'Aquí, esperando tu click para saludar. 🐾',
+    '¡Solo buenas vibras por acá! 😊',
+    'Aquí andamos, echando código. 🐾',
   ];
   currentSpeech: string = this.speeches[0];
   showSpeech = false;

@@ -2,16 +2,19 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuHeaderComponent } from "./components/shared/menu-header/menu-header/menu-header.component";
 import { FooterComponent } from "./components/shared/footer/footer/footer.component";
+import { CommonModule } from '@angular/common';
+import { SpinnerIntro } from './components/shared/spinner-intro/spinner-intro';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenuHeaderComponent, FooterComponent],
+  imports: [RouterOutlet, MenuHeaderComponent, FooterComponent, CommonModule, SpinnerIntro],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   @ViewChild('starCanvas', { static: true }) starCanvas!: ElementRef<HTMLCanvasElement>;
   title = 'portfolio-ac';
+  showSpinner = true;
 
   constructor() { }
 
