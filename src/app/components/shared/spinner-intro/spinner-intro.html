@@ -1,0 +1,38 @@
+<div class="spinner-intro-bg" [class.fade-in]="showSpinner" [class.fade-out]="!showSpinner">
+  <img src="assets/images/spaceOne.png" class="space-bg" alt="Fondo espacial" />
+
+  <div class="spinner-center">
+    <div class="orbit" [class.collision]="showCollision">
+      <ng-container *ngFor="let planet of planetStates; let i = index">
+        <img
+        *ngIf="showPlanets"
+        [src]="'assets/images/planet' + (i+1) + '.png'"
+        [ngClass]="[
+          'planet',
+          'planet' + (i+1),
+          approaching && !showCollision ? 'planet-approach' : ''
+        ]"
+        alt="Planeta {{i+1}}"
+        [style.animation-duration]="!approaching ? planet.duration + 's' : null"
+        [style.animation-delay]="!approaching ? planet.delay + 's' : null"
+        [ngStyle]="
+        !approaching ? {'--orbit-radius': planet.radius + 'px'} :
+        {
+          '--planet-x': getPlanetX(planet.angle, planet.radius) + 'px',
+          '--planet-y': getPlanetY(planet.angle, planet.radius) + 'px'
+        }
+      "
+      />
+      </ng-container>
+    </div>
+    <div *ngIf="showExplosion" class="explosion">
+      <img src="assets/images/explosion.gif" class="explosion-gif zoom-in" alt="Explosión" />
+      <div class="explosion-text">¡Bang!</div>
+      <div *ngFor="let p of particles" class="particle" [ngStyle]="p.style"></div>
+    </div>
+  </div>
+
+  <div *ngIf="showAshes" class="ashes-reveal">
+    <div class="ashes-bg"></div>
+  </div>
+</div>

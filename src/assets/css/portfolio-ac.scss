@@ -1,3 +1,9 @@
+body.spinner-hide-cursor {
+  cursor: none !important;
+}
+body.spinner-hide-cursor canvas {
+  display: none !important;
+}
 html, body {
   min-height: 100vh;
   width: 100%;

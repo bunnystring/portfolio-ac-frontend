@@ -1,0 +1,199 @@
+.spinner-intro-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #05011a 0%, #130c3b 100%);
+  opacity: 1;
+  transition: opacity 0.5s;
+  cursor: none !important;
+}
+.fade-in {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.7s;
+}
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+.space-bg {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.spinner-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 700px;
+  height: 700px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.orbit:not(.collision) .planet:not(.planet-approach) {
+  animation-name: custom-orbit-rotate;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes custom-orbit-rotate {
+  from { transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);}
+  to   { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);}
+}
+
+/* Animación de acercamiento desde la posición actual */
+.planet-approach {
+  animation: planet-approach-center 0.7s cubic-bezier(0.77,0,0.175,1) forwards;
+  /* El punto de partida se calcula con --planet-x/y en ngStyle */
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(var(--planet-x, 0)), calc(var(--planet-y, 0)));
+}
+@keyframes planet-approach-center {
+  from {
+    transform: translate(var(--planet-x, 0), var(--planet-y, 0));
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+.collision .planet {
+  left: 50% !important;
+  top: 50% !important;
+  bottom: auto !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) scale(1.3) !important;
+  box-shadow: 0 0 42px 16px #fff9, 0 0 90px 8px #ffc10766;
+  opacity: 0.8;
+  animation: none !important;
+}
+
+.planet {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  box-shadow: 0 0 32px 8px #fff9;
+  transition: all 1.2s cubic-bezier(.55,2,.3,1);
+  object-fit: cover;
+  z-index: 2;
+  left: calc(50% - 34px);
+  top: calc(50% - 34px);
+}
+
+.explosion {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.explosion-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff, #ffc107, #f083ff, #00aeff);
+  opacity: 0.8;
+  filter: blur(1.2px);
+  animation: explode 0.9s cubic-bezier(.5,2.1,.7,1.1) forwards;
+}
+@keyframes explode {
+  to {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(2.1) rotate(270deg);
+  }
+}
+
+.explosion-text {
+  position: absolute;
+  width: 100%;
+  left: 0; top: 60%;
+  font-size: 1.8rem;
+  color: #ffc107;
+  text-shadow: 0 2px 16px #fff9;
+  pointer-events: none;
+}
+
+.ashes-reveal {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: ashes-fadein 1s;
+}
+.ashes-bg {
+  position: absolute;
+  width: 100vw; height: 100vh;
+  left: 0; top: 0;
+  background: linear-gradient(0deg, #222 70%, transparent 100%);
+  opacity: 0.8;
+  animation: ashes-bg-fade 1.2s;
+}
+@keyframes ashes-fadein {
+  from { opacity: 0;}
+  to { opacity: 1;}
+}
+@keyframes ashes-bg-fade {
+  from { opacity: 0;}
+  to { opacity: 0.8;}
+}
+
+@keyframes zoomExplosion {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.7;
+  }
+  80% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zoom-in {
+  animation: zoomExplosion 0.7s cubic-bezier(0.42,2,0.58,1) 1;
+}
