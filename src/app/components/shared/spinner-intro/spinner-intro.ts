@@ -37,6 +37,13 @@ export class SpinnerIntro {
     private renderer: Renderer2
   ) {}
 
+  /**
+   * Método que se ejecuta al inicializar el componente.
+   * Configura los planetas, oculta el cursor y los canvas, y maneja la animación de introducción.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   ngOnInit() {
     // Oculta el cursor en todo el body
     this.renderer.addClass(this.document.body, 'spinner-hide-cursor');
@@ -93,7 +100,15 @@ export class SpinnerIntro {
     }, 5000);
   }
 
-  // Oculta o muestra todos los elementos canvas del documento
+
+  /**
+   *  Método para alternar la visibilidad de los canvas en el documento.
+   *  Utiliza Renderer2 para cambiar el estilo de display de los elementos canvas.
+   *  @param {boolean} show - Si es true, muestra los canvas; si es false, los oculta.
+   *  @returns {void}
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
+   */
   toggleCanvasVisibility(show: boolean) {
     const canvases = this.document.querySelectorAll('canvas');
     canvases.forEach(canvas => {
@@ -101,6 +116,13 @@ export class SpinnerIntro {
     });
   }
 
+  /**
+   * Método para ocultar el spinner, el cursor y mostrar los canvas.
+   * Utiliza Renderer2 para eliminar la clase que oculta el cursor y muestra los canvas.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   hideSpinnerAndCursorAndShowCanvas() {
     this.showSpinner = false;
     // Quita la clase para volver a mostrar el cursor
@@ -109,6 +131,14 @@ export class SpinnerIntro {
     this.toggleCanvasVisibility(true);
   }
 
+  /**
+   * Método para crear partículas que simulan cenizas.
+   * Genera un número específico de partículas con posiciones y estilos aleatorios.
+   * @param {number} n - Número de partículas a crear.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   createParticles(n: number) {
     this.particles = Array(n).fill(0).map((_, i) => {
       const angle = (2 * Math.PI * i) / n;
@@ -123,10 +153,28 @@ export class SpinnerIntro {
     });
   }
 
+  /**
+   * Método para calcular las posiciones X de los planetas en función del ángulo y el radio.
+   * Utilizan funciones trigonométricas para determinar la posición en un círculo.
+   * @param {number} angle - Ángulo en radianes.
+   * @param {number} radius - Radio del círculo.
+   * @returns {number} - Posición X calculada.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   getPlanetX(angle: number, radius: number): number {
     return Math.cos(angle) * radius;
   }
 
+  /**
+   * Método para calcular la posición Y de un planeta en función del ángulo y el radio.
+   * Utiliza la función seno para determinar la posición vertical en un círculo.
+   * @param {number} angle - Ángulo en radianes.
+   * @param {number} radius - Radio del círculo.
+   * @returns {number} - Posición Y calculada.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   getPlanetY(angle: number, radius: number): number {
     return Math.sin(angle) * radius;
   }

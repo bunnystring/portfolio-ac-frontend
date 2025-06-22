@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
     this.initStars();
   }
   ngOnInit(): void {
+    const width = document.documentElement.scrollWidth;
+    const height = document.documentElement.scrollHeight;
   }
 
   initStars() {

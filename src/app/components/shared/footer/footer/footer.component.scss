@@ -1,29 +1,43 @@
-/* === Footer Styles === */
 :root {
   --pcolor: #ffc107;
   --scolor: #6c757d;
 }
 
+/* === FOOTER ROOT === */
+footer {
+  position: relative;
+  z-index: 999;
+  width: 100%;
+  background: transparent;
+  box-shadow: 0 -5px 32px 0 rgba(60, 60, 90, 0.13);
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* === Modern Footer Main Block === */
 .modern-footer {
   min-height: 160px;
   width: 100%;
   position: relative;
-  overflow: hidden;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   font-family: 'Montserrat', sans-serif;
-  background: none;
   box-shadow: 0 8px 32px 0 rgba(60, 60, 90, 0.13);
   opacity: 0;
-  transition: opacity 1s cubic-bezier(.32,0,.43,1.32), transform 1s cubic-bezier(.32,0,.43,1.32);
+  transition:
+    opacity 1s cubic-bezier(.32,0,.43,1.32),
+    transform 1s cubic-bezier(.32,0,.43,1.32);
+  border-radius: 0;
+  overflow: visible;
 }
 .modern-footer.revealed {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* Fondo glow animado para el footer (muy suave y transparente) */
 .footer-bg-glow {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -32,24 +46,30 @@
   min-width: 0;
   min-height: 0;
   z-index: 0;
-  background: linear-gradient(90deg, rgba(255,193,7,0.15) 0%, rgba(108,117,125,0.13) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,193,7,0.08) 0%,
+    rgba(181,142,204,0.06) 60%,
+    rgba(93,230,222,0.06) 100%
+  );
   pointer-events: none;
   animation: glowColorAlternate 6s linear infinite alternate, glowPulse 4.2s ease-in-out infinite;
-  filter: blur(16px);
-  opacity: 0.8;
+  filter: blur(22px);
+  opacity: 0.6;
   box-sizing: border-box;
 }
 @keyframes glowPulse {
-  0%,100% { opacity: 0.75; }
-  50% { opacity: 1; }
+  0%,100% { opacity: 0.55; }
+  50% { opacity: 0.7; }
 }
 @keyframes glowColorAlternate {
-  0%   { background: radial-gradient(ellipse at center, #ffc10766 0%, transparent 80%);}
-  33%  { background: radial-gradient(ellipse at center, #b58ecc66 0%, transparent 80%);}
-  66%  { background: radial-gradient(ellipse at center, #5de6de66 0%, transparent 80%);}
-  100% { background: radial-gradient(ellipse at center, #ffc10766 0%, transparent 80%);}
+  0%   { background: radial-gradient(ellipse at center, rgba(255,193,7,0.09) 0%, transparent 80%);}
+  33%  { background: radial-gradient(ellipse at center, rgba(181,142,204,0.08) 0%, transparent 80%);}
+  66%  { background: radial-gradient(ellipse at center, rgba(93,230,222,0.09) 0%, transparent 80%);}
+  100% { background: radial-gradient(ellipse at center, rgba(255,193,7,0.09) 0%, transparent 80%);}
 }
 
+/* Main content del footer */
 .footer-main {
   position: relative;
   z-index: 2;
@@ -61,12 +81,13 @@
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   border-radius: 22px;
   box-shadow: 0 2px 10px 0 rgba(135, 96, 238, 0.06);
   box-sizing: border-box;
 }
 
+/* Brand y animación arcoiris */
 .footer-brand .brand-name.rainbow-text {
   background: linear-gradient(270deg, #ffc107, #5de6de, #b58ecc, #ffc107);
   background-size: 600% 600%;
@@ -107,6 +128,7 @@
   50% { transform: scale(1.35);}
 }
 
+/* Indicador de estado */
 .status-indicator {
   display: flex;
   align-items: center;
@@ -184,6 +206,7 @@
   box-shadow: 0 1px 8px 0 rgba(181,142,204,0.09);
 }
 
+/* Redes sociales */
 .footer-social {
   display: flex;
   gap: 1.2rem;
@@ -205,6 +228,7 @@
   filter: drop-shadow(0 2px 8px var(--pcolor));
 }
 
+/* Accesibilidad */
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -216,6 +240,7 @@
   border: 0 !important;
 }
 
+/* Powered by */
 .footer-powered {
   color: #fff;
   font-size: 1em;
@@ -237,6 +262,7 @@
   100% { transform: rotate(360deg);}
 }
 
+/* Copyright */
 .footer-copy {
   color: #fff;
   font-size: 0.97em;
@@ -247,6 +273,7 @@
   text-shadow: 0 1px 2px #b58ecc11;
 }
 
+/* Frase animada */
 .footer-typing-quote {
   width: 450px;
   max-width: 90vw;
@@ -282,6 +309,7 @@
   transition: opacity 0.45s;
 }
 
+/* No seleccionar */
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -291,6 +319,8 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Botón back to top */
 .back-to-top-btn {
   position: fixed;
   right: 32px;
@@ -372,6 +402,7 @@
   outline: none;
 }
 
+/* Responsive */
 @media (max-width: 900px) {
   .footer-main {
     max-width: 100%;
@@ -394,7 +425,7 @@
   }
 }
 
-/* Mascot Animation Styles */
+/* Mascota flotante */
 .footer-mascot-floating.left {
   position: absolute;
   left: 24px;
@@ -408,14 +439,13 @@
   align-items: flex-start;
 }
 
-/* Contenedor para aplicar el flip y mantener animaciones independientes */
+/* Mascota con flip */
 .mascot-flip-animator {
   width: 100px;
   height: 100px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  /* Flip horizontal */
   transform: scaleX(-1);
   background: radial-gradient(circle at 60% 30%, #fffbe6 65%, #ffe6f0 100%);
   border-radius: 50%;
@@ -423,7 +453,7 @@
   box-shadow: 0 4px 16px #b58ecc22, 0 0 0 4px #fff4 inset;
 }
 
-/* Mascot con color y sombra suave */
+/* Mascota animada */
 .footer-mascot-anim {
   width: 100px;
   height: 100px;
@@ -433,11 +463,10 @@
   will-change: transform, filter;
   cursor: pointer;
   animation: mascot-tilt 4s ease-in-out infinite, mascot-bounce 2.3s ease-in-out infinite;
-  /* Tinte suave y luz */
   filter: drop-shadow(0 2px 10px #b58ecc77) brightness(1.09) saturate(1.18);
 }
 
-/* Animaciones normales sin flip */
+/* Mascota animaciones */
 @keyframes mascot-bounce {
   0%, 100% { transform: translateY(0);}
   45% { transform: translateY(-10px);}
@@ -450,7 +479,7 @@
   65% { transform: rotate(-4deg);}
 }
 
-/* Salto */
+/* Mascota salta */
 .footer-mascot-anim.bounce {
   animation: mascot-jump 0.8s cubic-bezier(0.4,1.6,0.4,1) 1;
 }
@@ -461,7 +490,7 @@
   100% { transform: translateY(0) scale(1);}
 }
 
-/* Bocadillo diálogo alineado a la izquierda */
+/* Bocadillo de diálogo */
 .milly-speech-bubble {
   position: absolute;
   top: -125px;
@@ -505,7 +534,6 @@
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Ajusta la colita para que siga apuntando a la mascota */
 .milly-speech-tail {
   position: absolute;
   bottom: -16px;
@@ -527,7 +555,7 @@
   transform: rotate(20deg);
 }
 
-/* Parpadeo de ojos (si tienes los ojos en el SVG con fill negro) */
+/* Parpadeo de ojos SVG */
 .footer-mascot-anim-container svg [fill="#000"],
 .footer-mascot-anim-container svg [fill="#000000"],
 .footer-mascot-floating.left svg [fill="#000"],

@@ -24,15 +24,20 @@ export class ProjectCard implements OnInit {
   selectedImageIndex: number[] = [];
   flipped: boolean[] = [];
 
+  /**
+   * Inicializa el componente y carga los proyectos después de un breve retraso.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   ngOnInit(): void {
     setTimeout(() => {
       this.projects = [
         {
           title: 'Portfolio Angular',
           images: [
-            'https://picsum.photos/seed/portfolio1/400/250',
-            'https://picsum.photos/seed/portfolio2/400/250',
-            'https://picsum.photos/seed/portfolio3/400/250'
+            '/assets/images/angularRank.png',
+            '/assets/images/javaScriptRank.png',
+            '/assets/images/bootstrapRank.png'
           ],
           description: 'Un portafolio moderno hecho con Angular 20 y Bootstrap 5. Incluye animaciones, responsive design y una mascota interactiva.',
           demoLink: 'https://tu-demo-angular.com',
@@ -73,18 +78,42 @@ export class ProjectCard implements OnInit {
     }, 1800);
   }
 
+  /**
+   * Cambia la imagen seleccionada hacia atrás en el carrusel de imágenes del proyecto.
+   * Si el proyecto no tiene imágenes o solo tiene una, no hace nada.
+   * @param i  Índice del proyecto
+   * @returns
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
+   */
   prevImage(i: number) {
     if (!this.projects[i] || this.projects[i].images.length < 2) return;
     this.selectedImageIndex[i] =
       (this.selectedImageIndex[i] - 1 + this.projects[i].images.length) % this.projects[i].images.length;
   }
 
+  /**
+   * Cambia la imagen seleccionada hacia adelante en el carrusel de imágenes del proyecto.
+   * Si el proyecto no tiene imágenes o solo tiene una, no hace nada.
+   * @param i  Índice del proyecto
+   * @returns
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
+   */
   nextImage(i: number) {
     if (!this.projects[i] || this.projects[i].images.length < 2) return;
     this.selectedImageIndex[i] =
       (this.selectedImageIndex[i] + 1) % this.projects[i].images.length;
   }
 
+  /**
+   * Alterna el estado de "volteado" de la tarjeta del proyecto.
+   * Si la tarjeta ya está volteada, la vuelve a su estado original.
+   * @param i Índice del proyecto
+   * @returns
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
+   */
   flipCard(i: number) {
     if (typeof this.flipped[i] === 'undefined') return;
     this.flipped[i] = !this.flipped[i];

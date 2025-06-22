@@ -3,12 +3,16 @@
   inset: 0;
   z-index: 9999;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
   overflow: hidden;
-  background: radial-gradient(ellipse at bottom, #05011a 0%, #130c3b 100%);
+  /* Remueve el background de gradiente, lo pondremos sobre la imagen */
+  background: none;
   opacity: 1;
   transition: opacity 0.5s;
   cursor: none !important;
+  /* Si quieres bloquear el scroll, puedes agregar: */
+  /* touch-action: none; */
 }
 .fade-in {
   opacity: 1;
@@ -21,13 +25,54 @@
   transition: opacity 0.6s;
 }
 
-.space-bg {
+/* Fondo espacial SIEMPRE visible y cubriendo todo */
+.spinner-intro-bg::before {
+  content: '';
   position: absolute;
+  left: 0; top: 0;
   width: 100vw;
-  height: 100vh;
-  object-fit: cover;
+  height: 100dvh;
+  min-height: 100vh;
   z-index: 0;
   pointer-events: none;
+  background:
+    radial-gradient(ellipse at bottom, #05011a 0%, #130c3b 100%),
+    url('/assets/images/spaceOneMobile.png') center center / contain no-repeat,
+    #130c3b;
+  /* Layer order: gradiente sobre la imagen, color de fondo base */
+  background-blend-mode: lighten;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-color: #16124b !important;
+ /*  min-height: 100dvh; */
+ /*  min-width: 100vw;
+  height: 100dvh; */
+  margin: 0;
+  padding: 0;
+}
+
+/* Si quieres que la imagen se adapte mejor a móvil y no se recorte: */
+@media (max-width: 800px), (max-aspect-ratio: 3/4) {
+  .spinner-intro-bg::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('/assets/images/spaceOneMobile.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    background-color: #16124b;           /* Color de fondo por si la imagen no carga */
+  }
+}
+
+.space-bg {
+  display: none !important; /* Para que no haya doble imagen */
 }
 
 .spinner-center {
@@ -44,6 +89,7 @@
   justify-content: center;
 }
 
+/* ...el resto de tu CSS (planets, explosion, etc) permanece igual... */
 .orbit {
   position: absolute;
   width: 100%;
@@ -62,10 +108,8 @@
   to   { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);}
 }
 
-/* Animación de acercamiento desde la posición actual */
 .planet-approach {
   animation: planet-approach-center 0.7s cubic-bezier(0.77,0,0.175,1) forwards;
-  /* El punto de partida se calcula con --planet-x/y en ngStyle */
   left: 50%;
   top: 50%;
   transform: translate(calc(var(--planet-x, 0)), calc(var(--planet-y, 0)));

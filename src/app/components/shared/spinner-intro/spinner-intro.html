@@ -1,6 +1,4 @@
 <div class="spinner-intro-bg" [class.fade-in]="showSpinner" [class.fade-out]="!showSpinner">
-  <img src="assets/images/spaceOne.png" class="space-bg" alt="Fondo espacial" />
-
   <div class="spinner-center">
     <div class="orbit" [class.collision]="showCollision">
       <ng-container *ngFor="let planet of planetStates; let i = index">

@@ -30,13 +30,12 @@ export class RocketScroll implements OnInit, AfterViewInit {
   public percent = 0;
   private spread = 300;
 
-  // Animación automática tras detener scroll en el centro
   private animating = false;
   private animationFrame: number | null = null;
   private lastDirection: 'up' | 'down' | null = null;
   private lastScrollPercent = 0;
   private animationTarget: number | null = null;
-  private animationSpeed = 0.015; // Ajusta para la suavidad/velocidad
+  private animationSpeed = 0.015;
 
   constructor(private ngZone: NgZone) {}
 
@@ -52,14 +51,7 @@ export class RocketScroll implements OnInit, AfterViewInit {
       this.updateRocketAndBaraja();
     });
   }
-  /**
-   * Detecta el scroll en la ventana y actualiza la posición del cohete y las cartas.
-   * También inicia la animación si el scroll se detiene cerca del centro.
-   * @returns void
-   * @version 2.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta cada vez que se detecta un evento de scroll en la ventana.
-   */
+
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.stopAnimation();
@@ -67,14 +59,6 @@ export class RocketScroll implements OnInit, AfterViewInit {
     this.detectScrollDirectionAndMaybeAnimate();
   }
 
-  /**
-   * Método que calcula el spread (espacio entre las cartas) basado en el ancho de la ventana.
-   * Ajusta el spread para que las cartas se distribuyan uniformemente en el viewport.
-   * @returns void
-   * @version 2.0.0
-   * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta al inicializar el componente y al redimensionar la ventana.
-   */
   private calculateSpread() {
     const minCardMargin = 30;
     const availableWidth = Math.max(
@@ -94,13 +78,14 @@ export class RocketScroll implements OnInit, AfterViewInit {
   }
 
   /**
-   * Método que actualiza la posición del cohete y el desplazamiento de las cartas
-   * basado en el porcentaje de scroll actual.
-   * Calcula la posición del cohete y el desplazamiento de las cartas según el scroll.
-   * @returns void
-   * @version 2.0.0
+   * Método para iniciar la animación del cohete y las cartas.
+   * Cambia el estado de animación y establece el objetivo de animación.
+   * @param {string} direction - Dirección de la animación ('up' o 'down').
+   * @returns {void}
+   * @description Este método se usa para iniciar una animación suave del cohete
+   * y las cartas en función de la dirección del scroll del usuario.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta al inicializar el componente, al redimensionar la ventana
    */
   private updateRocketAndBaraja(): void {
     const space = this.spaceRef.nativeElement as HTMLElement;
@@ -127,27 +112,40 @@ export class RocketScroll implements OnInit, AfterViewInit {
     const spread = this.spread;
     this.cardsOffset = this.ranks.map((_, i) => {
       const mid = (n - 1) / 2;
-      const rel = i - mid;
-      return rel * spread * accelerated / mid;
+      const rel = n === 1 ? 0 : i - mid;
+      return rel * spread * accelerated / (mid === 0 ? 1 : mid);
     });
   }
 
+  
   /**
-   * Método que calcula el estilo de cada carta basado en su índice.
-   * Utiliza el índice para determinar la posición, escala y rotación de cada carta.
-   * @param i - Índice de la carta para calcular su estilo.
-   * @returns
-   * {Object} - Estilo CSS para la carta.
-   * @version 2.0.0
+   * Método que calcula el estilo de cada carta en función de su índice.
+   * Utiliza la posición del cohete y el porcentaje de scroll para determinar la escala y
+   * rotación de las cartas, así como su posición en el eje X.
+   * @param {number} i - Índice de la carta.
+   * @returns {object} - Objeto con las propiedades de estilo para la carta.
+   * @description Este método se usa para aplicar estilos dinámicos a las cartas en función de
+   * el scroll del usuario y la posición del cohete. Permite que las cartas se
+   * abran y se posicionen de manera atractiva en la pantalla.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se utiliza para aplicar estilos dinámicos a las cartas en la baraja.
    */
   getCardStyle(i: number) {
     const mid = (this.ranks.length - 1) / 2;
-    // Apertura acelerada
-    const openAmount = this.percent < 0.5
-      ? Math.min(1, Math.sqrt(this.percent * 2) * 1.2)
-      : 1;
+    // Detectar mobile
+    const isMobile = window.innerWidth <= 700; // o el breakpoint que uses
+
+    // En mobile: forzar openAmount a 1 si percent >= 0.1 (o el umbral que prefieras)
+    // En desktop: lógica original
+    let openAmount: number;
+    if (isMobile) {
+      openAmount = this.percent >= 0.1 ? 1 : 0; // se abren apenas pase el cohete
+    } else {
+      openAmount = this.percent < 0.5
+        ? Math.min(1, Math.sqrt(this.percent * 2) * 1.2)
+        : 1;
+    }
+
     return {
       left: `calc(50% + ${this.cardsOffset[i]}px)`,
       zIndex: this.ranks.length - Math.abs(i - mid),
@@ -157,29 +155,31 @@ export class RocketScroll implements OnInit, AfterViewInit {
   }
 
   /**
-   * Método que devuelve el estilo del cohete basado en el porcentaje de scroll.
-   * @param index
-   * @param item
-   * @returns
-   * {Object} - Estilo CSS para el cohete.
-   * @version 2.0.0
+   * Método para rastrear las cartas por su fuente de imagen.
+   * Utilizado por Angular para optimizar el renderizado de listas.
+   * @param {number} index - Índice del elemento en la lista.
+   * @param {SkillRank} item - Objeto que representa la carta.
+   * @returns {string} - Fuente de la imagen de la carta.
+   * @description Este método se usa para mejorar el rendimiento al renderizar listas
+   * de elementos, permitiendo a Angular identificar cada elemento de manera única.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se utiliza para aplicar estilos dinámicos al cohete en el recorrido.
    */
   trackBySrc(index: number, item: SkillRank) {
     return item.src;
   }
 
   /**
-   * Método que detecta la dirección del scroll y tal vez inicia una animación.
-   * @param {MouseEvent} event - El evento del mouse que contiene la posición actual.
+   * Método para detectar la dirección del scroll y tal vez iniciar una animación.
+   * Si el scroll está cerca del centro, inicia la animación hacia arriba.
+   * Si el scroll se aleja del centro, inicia la animación hacia abajo.
    * @returns {void}
-   * @version 2.0.0
+   * @description Este método se usa para controlar la animación del cohete
+   * y las cartas en función de la dirección del scroll del usuario.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta cada vez que se detecta un evento de scroll en la ventana.
    */
   private detectScrollDirectionAndMaybeAnimate(): void {
-    // Centro del recorrido (ajusta el umbral según lo sensible que quieras)
     const centerMin = 0.48;
     const centerMax = 0.52;
     if (
@@ -187,7 +187,6 @@ export class RocketScroll implements OnInit, AfterViewInit {
       this.lastScrollPercent <= centerMax &&
       !this.animating
     ) {
-      // Detecta la última dirección
       if (this.lastDirection !== 'up') {
         this.startAnimation('up');
       }
@@ -201,7 +200,6 @@ export class RocketScroll implements OnInit, AfterViewInit {
         this.startAnimation('down');
       }
     }
-    // Actualiza la última dirección
     if (this.lastScrollPercent > this.percent) {
       this.lastDirection = 'down';
     } else if (this.lastScrollPercent < this.percent) {
@@ -210,13 +208,14 @@ export class RocketScroll implements OnInit, AfterViewInit {
   }
 
   /**
-   * Método que inicia la animación del cohete y las cartas.
-   * Dependiendo de la dirección del scroll, ajusta el objetivo de la animación.
-   * @param direction - Dirección de la animación ('up' o 'down').
+   * Método para iniciar la animación del cohete y las cartas.
+   * Dependiendo de la dirección, ajusta el objetivo de la animación.
+   * @param {string} direction - Dirección de la animación ('up' o 'down').
    * @returns {void}
-   * @version 2.0.0
+   * @description Este método se usa para iniciar una animación suave
+   * que ajusta la posición del cohete y las cartas en función del scroll.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta al detectar que el scroll se detiene en el centro del recorrido.
    */
   private startAnimation(direction: 'up' | 'down') {
     this.animating = true;
@@ -228,13 +227,21 @@ export class RocketScroll implements OnInit, AfterViewInit {
     this.animatePercent();
   }
 
+  /**
+   * Método para animar el porcentaje de scroll del cohete.
+   * Utiliza requestAnimationFrame para una animación suave.
+   * Actualiza la posición del cohete y las cartas en cada frame.
+   * @returns {void}
+   * @description Este método se usa para animar el cohete y las cartas
+   * de manera fluida, ajustando su posición y escala según el scroll.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   private animatePercent() {
     if (this.animationTarget === null) return;
     this.ngZone.runOutsideAngular(() => {
       const step = () => {
         if (this.animationTarget === null) return;
-
-        // Easing suave
         const diff = this.animationTarget - this.percent;
         if (Math.abs(diff) < 0.001) {
           this.percent = this.animationTarget;
@@ -243,7 +250,6 @@ export class RocketScroll implements OnInit, AfterViewInit {
           this.updateRocketAndBaraja();
           return;
         }
-        // Animación suave
         this.percent += diff * this.animationSpeed;
         this.updateRocketAndBaraja();
         this.animationFrame = requestAnimationFrame(step);
@@ -253,12 +259,13 @@ export class RocketScroll implements OnInit, AfterViewInit {
   }
 
   /**
-   * Método que detiene la animación del cohete y las cartas.
+   * Método para detener la animación del cohete y las cartas.
    * Limpia el estado de animación y cancela el frame de animación si está activo.
    * @returns {void}
-   * @version 2.0.0
+   * @description Este método se usa para detener cualquier animación en curso
+   * y restablecer el estado del cohete y las cartas.
+   * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
-   * @description Este método se ejecuta al detectar un scroll fuera del centro del recorrido.
    */
   private stopAnimation() {
     this.animating = false;

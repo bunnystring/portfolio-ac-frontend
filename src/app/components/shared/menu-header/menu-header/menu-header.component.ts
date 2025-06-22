@@ -7,29 +7,29 @@ import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { EyeTracking } from '../../eye-tracking/eye-tracking';
 import { ReflectorBulbServices } from '../../../services/reflector-bulb-services/reflector-bulb-services';
 import { HomeServices } from '../../../services/home-services/home-services';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-
+import { trigger, transition, style, animate } from '@angular/animations';
+export const headerSlideIn = trigger('headerSlideIn', [
+  transition(':enter', [
+    style({ transform: 'translateY(-100%)', opacity: 0 }),
+    animate('400ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+  ]),
+  transition(':leave', [
+    animate('300ms ease-in', style({ transform: 'translateY(-100%)', opacity: 0 }))
+  ])
+]);
 @Component({
   selector: 'app-menu-header',
   imports: [FlexLayoutModule, EyeTracking, CommonModule],
   standalone: true,
   templateUrl: './menu-header.component.html',
   styleUrl: './menu-header.component.scss',
-  animations: [
-    trigger('headerSlideIn', [
-      transition(':enter', [
-        style({ transform: 'translateY(-80px)', opacity: 0 }),
-        animate(
-          '700ms cubic-bezier(.41,1.01,.48,1.26)',
-          style({ transform: 'translateY(0)', opacity: 1 })
-        ),
-      ]),
-    ]),
-  ],
+  // Elimina o reduce la animación si quieres máxima fluidez
+  animations: [headerSlideIn],
   viewProviders: [
     provideIcons({
       featherAirplay,
+      featherFacebook,
       lucideFacebook,
       lucideLinkedin,
       lucideGithub,
@@ -39,8 +39,6 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class MenuHeaderComponent implements OnInit, AfterViewInit {
-  // Variables para el menú
-  insertHtml: any;
   lampTurnOn: boolean = false;
   modePlaySnake = true;
   showMenu = false;
@@ -51,10 +49,10 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
   ) {}
 
   /**
-   * Propiedad para determinar si la pantalla es móvil.
-   * @returns {boolean} Verdadero si el ancho de la ventana es menor a 992px, falso en caso contrario.
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
+   * Detecta si el dispositivo es móvil
+   * @returns true si el ancho de la ventana es menor a 992px, false en caso contrario
+   * Esta propiedad se usa para determinar si se debe mostrar el menú de navegación
+   * en modo móvil o de escritorio.
    */
   get isMobile() {
     return window.innerWidth < 992;
@@ -66,35 +64,18 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.activeModeGame(false);
-    if (!this.isMobile) {
-      this.showMenu = true;
-    }
-    window.addEventListener('resize', () => {
-      if (!this.isMobile) this.showMenu = true;
-      else this.showMenu = false;
-    });
-  }
-
-  /**
-   * Método para manejar el evento de clic en el menú.
-   * Alterna la clase 'active' en el elemento del menú.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   */
-  onClickMenu() {
-    const menu = document.querySelector('.menu');
-    if (menu) {
-      menu.classList.toggle('active');
-    }
+    this.onResize();
+    window.addEventListener('resize', () => this.onResize());
   }
 
   /**
    * Método para inicializar Tippy.js en los elementos con la clase 'tooltip-header'.
-   * Asigna el id del elemento como contenido del tooltip.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
+   * Cada elemento recibe su propio ID como contenido del tooltip.
+   *
+   *  @returns void
+   *  @description Este método se llama después de que la vista se ha inicializado,
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
    */
   initTippy() {
     const tippyElements = document.querySelectorAll('.tooltip-header');
@@ -110,9 +91,11 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   *  Metodo que se ejecuta cuando se hace click en el icono de la lampara
-   *  y emite un evento para encender o apagar la lampara
-   *  @returns {void}
+   * Método para alternar el estado de la lámpara.
+   * Envía un evento a los servicios del reflectorBulbServices para encender o apagar la lámpara.
+   * Actualiza la propiedad lampTurnOn para reflejar el estado actual de la lámpara.
+   *
+   * @returns void
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
    */
@@ -123,8 +106,7 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
         message: 'Reflector bulb turned off',
       });
       this.lampTurnOn = false;
-    }
-    else {
+    } else {
       this.reflectorBulbServices.reflectorBulbEvent.next({
         action: 'turnOn',
         message: 'Reflector bulb turned on',
@@ -132,10 +114,14 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
       this.lampTurnOn = true;
     }
   }
+
   /**
-   * Método para activar el modo juego de la serpiente.
-   * Este método emite un evento a través del servicio `snakeService` para activar el modo juego.
-   * @returns {void}
+   * Método para activar o desactivar el modo de juego.
+   * Si se activa, envía un evento a los servicios del snakeService para iniciar el juego.
+   * Si se desactiva, envía un evento para salir del modo de juego.
+   *
+   * @param turnOn - Si es true, activa el modo de juego; si es false, lo desactiva.
+   * @returns void
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
    */
@@ -144,19 +130,20 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
       this.homeServices.snakeService.next({
         action: 'activeModeGame',
         message: 'Active mode game',
-        endGame: false
+        endGame: false,
       });
       this.modePlaySnake = false;
-    }else{
+    } else {
       this.leaveModeGame();
       this.modePlaySnake = true;
     }
   }
 
   /**
-   * Método para dejar el modo juego de la serpiente.
-   * Este método emite un evento a través del servicio `snakeService` para dejar el modo juego.
-   * @returns {void}
+   * Método para salir del modo de juego.
+   * Envía un evento a los servicios del snakeService para finalizar el juego.
+   *
+   * @returns void
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
    */
@@ -169,10 +156,12 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Método para desplazar la ventana hacia una sección específica.
-   * Utiliza el método `scrollIntoView` para un desplazamiento suave.
-   * @param sectionId - ID de la sección a la que se desea desplazar.
-   * @returns {void}
+   * Método para desplazar la ventana hacia una sección específica del documento.
+   * Utiliza el método scrollIntoView para un desplazamiento suave.
+   * Si el dispositivo es móvil, oculta el menú después de hacer scroll.
+   *
+   * @param sectionId - El ID de la sección a la que se desea desplazar.
+   * @returns void
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
    */
@@ -180,8 +169,44 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      // Si quieres cerrar el menú en móvil:
       if (this.isMobile) this.showMenu = false;
+    }
+  }
+
+  /**
+   * Método para manejar el evento de cambio de tamaño de la ventana.
+   * Si el dispositivo no es móvil, muestra el menú y elimina la clase 'no-scroll' del body.
+   * Si es móvil, oculta el menú y también elimina la clase 'no-scroll'.
+   *
+   * @returns void
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  onResize() {
+    if (!this.isMobile) {
+      this.showMenu = true;
+      document.body.classList.remove('no-scroll');
+    } else {
+      this.showMenu = false;
+      document.body.classList.remove('no-scroll');
+    }
+  }
+
+
+  /**
+   * Método para alternar la visibilidad del menú.
+   * Cambia el estado de showMenu y agrega o quita la clase 'no-scroll' del body según corresponda.
+   *
+   * @returns void
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+    if (this.showMenu && this.isMobile) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
     }
   }
 }
