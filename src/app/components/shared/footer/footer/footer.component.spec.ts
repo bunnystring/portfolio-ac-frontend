@@ -22,12 +22,6 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
 isBouncing: any;
 showSpeech: any;
 currentSpeech: any;
-jumpMascot() {
-throw new Error('Method not implemented.');
-}
-showMascotSpeech() {
-throw new Error('Method not implemented.');
-}
   currentYear = new Date().getFullYear();
   isOnline = true;
   showScrollTop = false;
