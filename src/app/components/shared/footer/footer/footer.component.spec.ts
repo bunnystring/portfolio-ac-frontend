@@ -19,6 +19,9 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
+isBouncing: any;
+showSpeech: any;
+currentSpeech: any;
   currentYear = new Date().getFullYear();
   isOnline = true;
   showScrollTop = false;

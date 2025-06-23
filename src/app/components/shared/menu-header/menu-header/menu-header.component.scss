@@ -1,7 +1,6 @@
 /* =======================
    Variables y fuentes
 ======================= */
-
 * {
   font-family: 'Bungee', cursive !important;
   --pcolor: #141004c4;
@@ -21,16 +20,12 @@
     margin: 0;
     justify-content: center;
   }
-
   .flex {
     display: flex;
   }
-
-  a,
-  button {
+  a, button {
     cursor: pointer;
   }
-
   button {
     padding: 12px 20px;
     border: 1px solid transparent;
@@ -38,17 +33,15 @@
     border-radius: 8px;
     @extend .flex;
     gap: 12px;
-    width: 24%;
+    width: 15%;
     font-size: 16px;
     font-weight: 600;
-
     &.primary {
       background-color: var(--pcolor);
       color: #fff;
     }
   }
 }
-
 button:hover {
   background-color: var(--scolor) !important;
   color: #fff !important;
@@ -66,18 +59,44 @@ header {
   flex-wrap: wrap;
   min-height: 60px;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  > .menu {
+    &.col-lg-6 {
+      order: 2;
+      flex: 1 1 0;
+      min-width: 220px;
+      justify-content: flex-start;
+    }
+    &.col-lg-2 {
+      order: 3;
+      flex: 0 1 160px;
+      justify-content: center;
+    }
+    &.col-lg-4 {
+      order: 4;
+      flex: 0 0 auto;
+      justify-content: flex-end;
+      min-width: 220px;
+    }
+  }
+  .navbar-toggler {
+    order: 1;
+    z-index: 20;
+  }
 
   .menu {
     display: flex;
     gap: 30px;
-    flex-wrap: nowrap; /* <-- Cambia wrap por nowrap para evitar salto de "Contact me" */
-    align-items: center; /* <-- Asegura alineación vertical */
+    flex-wrap: nowrap;
+    align-items: center;
 
-    // Base para TODOS los hijos directos <a> y <label>
     > a,
     > label {
       min-height: 40px;
-      height: 40px; /* <-- Fuerza altura uniforme */
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -87,16 +106,11 @@ header {
       background: transparent;
       border-radius: 12px;
       border-bottom: 2px solid transparent;
-      transition:
-        color 0.3s,
-        border-color 0.3s,
-        background 0.3s;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
       font-weight: 500;
       color: var(--tcolor);
-      white-space: nowrap; /* <-- Evita que el texto pase a otra línea */
+      white-space: nowrap;
     }
-
-    // Solo para los anchors de menú principal (no .border0)
     > a:not(.border0) {
       cursor: pointer;
       &.active {
@@ -111,8 +125,6 @@ header {
         background: rgba(255, 193, 7, 0.09);
       }
     }
-
-    // Íconos sociales y joystick: misma altura visual
     > a.border0 {
       padding: 0 8px;
       min-height: 40px;
@@ -134,9 +146,8 @@ header {
         transform: scale(1.1);
       }
     }
-
-    // El label del power/lámpara también igualado en alto
-    > a > label.tooltip-header#turn-on-lamp {
+    > a > label.tooltip-header#turn-on-lamp,
+    > a > label.tooltip-header#turn-on-lamp-menu {
       min-height: 40px;
       height: 40px;
       padding: 0 8px;
@@ -150,58 +161,25 @@ header {
       }
     }
   }
-
-  .logo {
-    background-color: var(--pcolor);
-    padding: 12px;
-    border-radius: 40px;
-    font-weight: 800;
-    color: #fff;
-    transition: all .5s;
-    cursor: pointer;
-    background: linear-gradient(95deg, var(--pcolor), var(--pcolor));
-    background: all 0.5s ease;
-    margin-right: 0 !important;
-
-    &:hover {
-      background: linear-gradient(173deg, rgba(221, 0, 49, 0.49) 0%, rgba(171, 38, 46, 1) 51%, rgba(151, 50, 42, 1) 100%);
-      background-position: 100% 0;
-    }
-  }
-
   .menu > a > img {
     max-width: 100%;
     height: auto;
   }
-
   .menu > a > .joystick {
     width: 30px;
     height: 35px;
     animation: move 5s infinite ease-in-out;
-
     @keyframes move {
-      0% {
-        transform: rotate(-60deg);
-      }
-      50% {
-        transform: rotate(60deg);
-      }
-      100% {
-        transform: rotate(-60deg);
-      }
+      0% { transform: rotate(-60deg);}
+      50% { transform: rotate(60deg);}
+      100% { transform: rotate(-60deg);}
     }
   }
-
   .menu > a > .joystick:hover {
     animation: rotate 1s linear infinite;
-
     @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform: rotate(0deg);}
+      to { transform: rotate(360deg);}
     }
   }
 }
@@ -218,7 +196,6 @@ button.navbar-toggler {
   line-height: 1;
   display: inline-block;
 }
-
 .navbar-toggler-icon {
   display: inline-block;
   width: 2em;
@@ -229,6 +206,12 @@ button.navbar-toggler {
   background-position: center;
   background-size: 100% 100%;
 }
+.btn.navbar-toggler.active,
+button.navbar-toggler.active {
+  background: var(--scolor);
+  color: #fff;
+  border-radius: 8px;
+}
 
 /* =======================
    Responsive: Bootstrap + Personalizado
@@ -237,43 +220,91 @@ button.navbar-toggler {
   .wrap { font-size: 15px; }
 }
 
+/* ====== MOBILE HEADER FLEX ROW ====== */
 @media (max-width: 992px) {
   header {
     flex-direction: column;
     align-items: stretch;
+    padding: 10px 5px;
+    position: relative;
+  }
+  .mobile-header-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+    margin-bottom: 10px;
+    z-index: 101;
+  }
+  .mobile-header-row .navbar-toggler { order: 1; }
+  .mobile-header-row .eye-mobile { order: 2; display: flex; align-items: center; justify-content: center; }
+  .mobile-header-row .lamp-mobile { order: 3; display: flex; align-items: center; justify-content: center; }
 
-    .menu {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      margin-bottom: 10px;
-      flex-wrap: wrap !important; /* <-- Sí permite wrap en mobile */
-    }
-    .menu:last-child {
-      justify-content: center;
-    }
+  /* Oculta menús de escritorio en mobile */
+  .menu.col-lg-4,
+  .menu.col-lg-2 {
+    display: none !important;
+  }
+
+  nav.menu {
+    /* Oculto por defecto */
+    display: none !important;
+    opacity: 0 !important;
+    max-height: 0 !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 16px;
+    position: fixed !important;
+    left: 0; right: 0;
+    top: 60px; /* Ajusta a tu header real */
+    background: #181b20e6;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 24px #0002;
+    padding: 1.2rem 0 .8rem 0;
+    z-index: 2000 !important;
+    transition: none !important; /* instantáneo */
+    /* Si quieres pequeña animación usa: transition: max-height .15s, opacity .10s; */
+  }
+  nav.menu.open {
+    display: flex !important;
+    opacity: 1 !important;
+    max-height: 1000px !important;
+    pointer-events: auto !important;
+    overflow: visible !important;
+  }
+  nav.menu.d-none {
+    display: none !important;
+  }
+  nav.menu.open a {
+    color: #fff !important;
+    font-size: 1.15rem;
+    padding: 12px 0;
+    width: 100vw;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  nav.menu.open a:last-child {
+    border-bottom: none;
   }
 }
 
 @media (max-width: 768px) {
-  .wrap {
-    font-size: 14px;
-  }
+  .wrap { font-size: 14px; }
   header {
     flex-direction: column;
-    padding: 10px 5px;
-
+    padding: 10px 2px;
     .menu {
-      flex-direction: column;
-      align-items: center;
       gap: 10px;
-      width: 100%;
-      margin-bottom: 10px;
-      flex-wrap: wrap !important;
+      width: 100% !important;
+      margin-bottom: 8px;
     }
     .menu:last-child {
       flex-wrap: wrap;
+      gap: 8px;
     }
   }
   .container {
@@ -292,26 +323,26 @@ button.navbar-toggler {
         height: 22px;
       }
     }
+    .mobile-header-row {
+      gap: 10px;
+    }
   }
 }
 
 /* =======================
    Accesibilidad y detalles extra
 ======================= */
-
-/* Para que los tooltips no tapen elementos */
 .tippy-box[data-theme~='light'] {
   color: #222;
   background-color: #fff !important;
   border: 1px solid #eee;
 }
 
-
 /* =======================
    Botón de encendido (Lámpara)
 ======================= */
-
-label.tooltip-header#turn-on-lamp {
+label.tooltip-header#turn-on-lamp,
+label.tooltip-header#turn-on-lamp-menu {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -320,18 +351,14 @@ label.tooltip-header#turn-on-lamp {
   border-radius: 20px;
   transition: background 0.2s;
   user-select: none;
-
   &:hover, &:focus-within {
-    background: rgba(255, 193, 7, 0.09); // Suave amarillito al pasar el mouse
+    background: rgba(255, 193, 7, 0.09);
   }
 }
-
-/* Oculta el checkbox visualmente */
-input[type="checkbox"]#power-icon {
+input[type="checkbox"]#power-icon,
+input[type="checkbox"]#power-icon-menu {
   display: none;
 }
-
-/* El círculo del botón */
 .power-toggle {
   position: relative;
   width: 35px;
@@ -344,8 +371,6 @@ input[type="checkbox"]#power-icon {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
-/* Línea vertical */
 .power-toggle::before {
   content: "";
   position: absolute;
@@ -358,8 +383,6 @@ input[type="checkbox"]#power-icon {
   border-radius: 2px;
   transition: background 0.3s;
 }
-
-/* Semicírculo */
 .power-toggle::after {
   content: "";
   position: absolute;
@@ -373,18 +396,74 @@ input[type="checkbox"]#power-icon {
   border-radius: 50%;
   transition: border-color 0.3s;
 }
-
-/* Cuando está encendida */
-input[type="checkbox"]#power-icon:checked + .power-toggle {
+input[type="checkbox"]#power-icon:checked + .power-toggle,
+input[type="checkbox"]#power-icon-menu:checked + .power-toggle {
   background: radial-gradient(circle at 30% 30%, var(--scolor), var(--scolor));
   box-shadow: 0 0 15px var(--scolor), 0 0 30px var(--scolor);
 }
-
-input[type="checkbox"]#power-icon:checked + .power-toggle::before {
+input[type="checkbox"]#power-icon:checked + .power-toggle::before,
+input[type="checkbox"]#power-icon-menu:checked + .power-toggle::before {
   background: #fff;
 }
-
-input[type="checkbox"]#power-icon:checked + .power-toggle::after {
+input[type="checkbox"]#power-icon:checked + .power-toggle::after,
+input[type="checkbox"]#power-icon-menu:checked + .power-toggle::after {
   border-color: #fff;
   border-top-color: transparent;
+}
+
+body.no-scroll {
+  overflow: hidden !important;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media (max-width: 992px) {
+  nav.menu.open {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - 60px) !important;
+  }
+}
+@media (max-width: 992px) {
+  .wrap {
+    width: 100vw !important;
+    overflow: hidden !important;
+    position: fixed !important;
+    top: 0;
+    z-index: 2000 !important;
+    opacity: 5 !important;
+    background: #02112be6;
+  }
+  nav.menu {
+    position: fixed !important;
+    left: 0;
+    right: 0;
+    top: 60px; // Ajusta este valor al alto de tu header
+    width: 100vw;
+    height: calc(100vh - 60px); // Ocupará todo el viewport debajo del header
+    z-index: 2000 !important;
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    overflow-y: auto !important;
+    background: #02112be6;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 24px #0002;
+    padding: 1.2rem 0 .8rem 0;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px;
+    transition: opacity 0.15s;
+  }
+  nav.menu.open {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  nav.menu.d-none {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
