@@ -6,6 +6,7 @@ type EyeState = 'normal' | 'feliz' | 'triste' | 'enojado' | 'dormido' | 'sorpren
   imports: [],
   templateUrl: './eye-tracking.html',
   styleUrl: './eye-tracking.scss',
+  standalone: true,
 })
 export class EyeTracking implements AfterViewInit, OnDestroy {
 

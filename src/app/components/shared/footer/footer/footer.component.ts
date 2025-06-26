@@ -43,7 +43,6 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
   private quoteTimeout?: number;
   private fadeTimeout?: number;
   isWaving = false;
-  showMascotSpeech = false;
   private mascotSpeechTimeout?: any;
 
   @HostListener('window:scroll', [])
@@ -57,21 +56,48 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  speeches: string[] = [
+    '¡Hola humano! 🐶',
+    '¿Ya probaste Angular hoy?',
+    '¡No olvides sonreír!',
+    '¿Necesitas ayuda?',
+    '¡Sigue codificando!',
+    '¿Café o té? ☕',
+    '¡Vamos por más!',
+    '✨ ¡Tú puedes! ✨',
+    '¡Todo chill aquí! 😎',
+    'Aquí andamos, echando código. 🐾',
+    '¡Listos para rockear el footer! 🎸',
+    'Aquí, esperando tu click para saludar. 🐾',
+    '¡Solo buenas vibras por acá! 😊',
+    'Aquí andamos, echando código. 🐾',
+  ];
+  currentSpeech: string = this.speeches[0];
+  showSpeech = false;
+  isBouncing = false;
+
+
+
   constructor() {}
 
-  /**
-   * Método que se ejecuta al inicializar el componente.
-   * Configura el estado de conexión a internet y agrega los eventos para manejar la conexión.
-   * También inicia el ciclo de escritura de citas y configura el desplazamiento inicial.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   */
   ngOnInit() {
     this.isOnline = navigator.onLine;
     window.addEventListener('online', this.handleOnline);
     window.addEventListener('offline', this.handleOffline);
     this.onWindowScroll();
+    this.startSpeechLoop();
+  }
+
+  showMascotSpeech() {
+    this.currentSpeech = this.speeches[Math.floor(Math.random() * this.speeches.length)];
+    this.showSpeech = true;
+  }
+  hideMascotSpeech() {
+    this.showSpeech = false;
+  }
+  jumpMascot() {
+    this.isBouncing = true;
+    setTimeout(() => this.isBouncing = false, 800);
   }
 
   /**
@@ -171,23 +197,6 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
     }, 50);
   }
 
-  /**
-   * Método para iniciar el saludo del personaje.
-   * Cambia el estado de `isWaving` a `true` y muestra el discurso del personaje.
-   * Después de 1.5 segundos, oculta el discurso del personaje.
-   * @returns {void}
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   */
-  waveMascot() {
-    this.isWaving = true;
-    this.showMascotSpeech = true;
-    clearTimeout(this.mascotSpeechTimeout);
-    this.mascotSpeechTimeout = setTimeout(() => {
-      this.showMascotSpeech = false;
-    }, 1500);
-  }
-
 
   /**
    * Método para detener el saludo del personaje.
@@ -200,5 +209,34 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
     this.isWaving = false;
   }
 
+  /**
+   * Método para iniciar el saludo del personaje.
+   * Cambia el estado de `isWaving` a `true` y establece un timeout para detener el saludo después de 2 segundos.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  startSpeechLoop() {
+    this.showSpeech = true;
+    this.randomizeSpeech();
+    setInterval(() => {
+      this.showSpeech = false;
+      setTimeout(() => {
+        this.randomizeSpeech();
+        this.showSpeech = true;
+      }, 700); // Tiempo sin burbuja antes de la siguiente
+    }, 3800); // Tiempo total entre mensajes (incluye animación)
+  }
 
+  /**
+   * Método para seleccionar un discurso aleatorio de la lista de discursos.
+   * Actualiza la propiedad `currentSpeech` con un discurso aleatorio.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  randomizeSpeech() {
+    const idx = Math.floor(Math.random() * this.speeches.length);
+    this.currentSpeech = this.speeches[idx];
+  }
 }

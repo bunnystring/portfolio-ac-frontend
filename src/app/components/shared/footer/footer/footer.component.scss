@@ -1,29 +1,43 @@
-/* === Footer Styles === */
 :root {
   --pcolor: #ffc107;
   --scolor: #6c757d;
 }
 
+/* === FOOTER ROOT === */
+footer {
+  position: relative;
+  z-index: 999;
+  width: 100%;
+  background: transparent;
+  box-shadow: 0 -5px 32px 0 rgba(60, 60, 90, 0.13);
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* === Modern Footer Main Block === */
 .modern-footer {
   min-height: 160px;
   width: 100%;
   position: relative;
-  overflow: hidden;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   font-family: 'Montserrat', sans-serif;
-  background: none;
   box-shadow: 0 8px 32px 0 rgba(60, 60, 90, 0.13);
   opacity: 0;
-  transition: opacity 1s cubic-bezier(.32,0,.43,1.32), transform 1s cubic-bezier(.32,0,.43,1.32);
+  transition:
+    opacity 1s cubic-bezier(.32,0,.43,1.32),
+    transform 1s cubic-bezier(.32,0,.43,1.32);
+  border-radius: 0;
+  overflow: visible;
 }
 .modern-footer.revealed {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* Fondo glow animado para el footer (muy suave y transparente) */
 .footer-bg-glow {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -32,24 +46,30 @@
   min-width: 0;
   min-height: 0;
   z-index: 0;
-  background: linear-gradient(90deg, rgba(255,193,7,0.15) 0%, rgba(108,117,125,0.13) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,193,7,0.08) 0%,
+    rgba(181,142,204,0.06) 60%,
+    rgba(93,230,222,0.06) 100%
+  );
   pointer-events: none;
   animation: glowColorAlternate 6s linear infinite alternate, glowPulse 4.2s ease-in-out infinite;
-  filter: blur(16px);
-  opacity: 0.8;
+  filter: blur(22px);
+  opacity: 0.6;
   box-sizing: border-box;
 }
 @keyframes glowPulse {
-  0%,100% { opacity: 0.75; }
-  50% { opacity: 1; }
+  0%,100% { opacity: 0.55; }
+  50% { opacity: 0.7; }
 }
 @keyframes glowColorAlternate {
-  0%   { background: radial-gradient(ellipse at center, #ffc10766 0%, transparent 80%);}
-  33%  { background: radial-gradient(ellipse at center, #b58ecc66 0%, transparent 80%);}
-  66%  { background: radial-gradient(ellipse at center, #5de6de66 0%, transparent 80%);}
-  100% { background: radial-gradient(ellipse at center, #ffc10766 0%, transparent 80%);}
+  0%   { background: radial-gradient(ellipse at center, rgba(255,193,7,0.09) 0%, transparent 80%);}
+  33%  { background: radial-gradient(ellipse at center, rgba(181,142,204,0.08) 0%, transparent 80%);}
+  66%  { background: radial-gradient(ellipse at center, rgba(93,230,222,0.09) 0%, transparent 80%);}
+  100% { background: radial-gradient(ellipse at center, rgba(255,193,7,0.09) 0%, transparent 80%);}
 }
 
+/* Main content del footer */
 .footer-main {
   position: relative;
   z-index: 2;
@@ -61,12 +81,13 @@
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   border-radius: 22px;
   box-shadow: 0 2px 10px 0 rgba(135, 96, 238, 0.06);
   box-sizing: border-box;
 }
 
+/* Brand y animación arcoiris */
 .footer-brand .brand-name.rainbow-text {
   background: linear-gradient(270deg, #ffc107, #5de6de, #b58ecc, #ffc107);
   background-size: 600% 600%;
@@ -107,6 +128,7 @@
   50% { transform: scale(1.35);}
 }
 
+/* Indicador de estado */
 .status-indicator {
   display: flex;
   align-items: center;
@@ -184,6 +206,7 @@
   box-shadow: 0 1px 8px 0 rgba(181,142,204,0.09);
 }
 
+/* Redes sociales */
 .footer-social {
   display: flex;
   gap: 1.2rem;
@@ -205,6 +228,7 @@
   filter: drop-shadow(0 2px 8px var(--pcolor));
 }
 
+/* Accesibilidad */
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -216,6 +240,7 @@
   border: 0 !important;
 }
 
+/* Powered by */
 .footer-powered {
   color: #fff;
   font-size: 1em;
@@ -237,6 +262,7 @@
   100% { transform: rotate(360deg);}
 }
 
+/* Copyright */
 .footer-copy {
   color: #fff;
   font-size: 0.97em;
@@ -247,6 +273,7 @@
   text-shadow: 0 1px 2px #b58ecc11;
 }
 
+/* Frase animada */
 .footer-typing-quote {
   width: 450px;
   max-width: 90vw;
@@ -282,6 +309,7 @@
   transition: opacity 0.45s;
 }
 
+/* No seleccionar */
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -291,6 +319,8 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Botón back to top */
 .back-to-top-btn {
   position: fixed;
   right: 32px;
@@ -372,6 +402,7 @@
   outline: none;
 }
 
+/* Responsive */
 @media (max-width: 900px) {
   .footer-main {
     max-width: 100%;
@@ -394,120 +425,147 @@
   }
 }
 
-/* Mascota zorro */
-.footer-mascot-area {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  margin-bottom: 10px;
-}
-
-.footer-mascot {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-  outline: none;
-  transition: filter 0.25s;
-  filter: drop-shadow(0 2px 12px #b58ecc55);
-}
-
-.footer-mascot:focus-visible {
-  outline: 2px solid #ffc107;
-}
-
-.footer-mascot .mascot-hand {
-  transform-origin: 48px 55px;
-  transition: transform 0.3s;
-}
-
-.footer-mascot.wave .mascot-hand {
-  animation: mascot-wave 0.7s infinite linear;
-}
-
-@keyframes mascot-wave {
-  0% { transform: rotate(0deg);}
-  20% { transform: rotate(-18deg);}
-  45% { transform: rotate(18deg);}
-  65% { transform: rotate(-7deg);}
-  100% { transform: rotate(0deg);}
-}
-
-.mascot-speech {
+/* Mascota flotante */
+.footer-mascot-floating.left {
   position: absolute;
-  left: 60px;
-  top: 10px;
-  background: #fff9e1;
-  color: #b58ecc;
-  font-size: 1em;
-  padding: 4px 12px;
-  border-radius: 16px;
-  box-shadow: 0 1px 6px #b58ecc33;
-  white-space: nowrap;
+  left: 24px;
+  bottom: 18px;
+  z-index: 20;
+  width: 120px;
+  height: 120px;
   pointer-events: none;
-  opacity: 0.92;
-  animation: mascot-speech-in 0.4s;
-}
-@keyframes mascot-speech-in {
-  from { opacity: 0; transform: translateY(8px);}
-  to { opacity: 0.92; transform: translateY(0);}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
+/* Mascota con flip */
+.mascot-flip-animator {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform: scaleX(-1);
+  background: radial-gradient(circle at 60% 30%, #fffbe6 65%, #ffe6f0 100%);
+  border-radius: 50%;
+  padding: 7px;
+  box-shadow: 0 4px 16px #b58ecc22, 0 0 0 4px #fff4 inset;
+}
 
-
-/* === Mascot Styles === */
-.mascot-svg {
+/* Mascota animada */
+.footer-mascot-anim {
+  width: 100px;
+  height: 100px;
+  user-select: none;
+  pointer-events: auto;
   display: block;
-  margin: 0 auto;
-  width: 90px;
-  max-width: 100%;
-  height: auto;
+  will-change: transform, filter;
+  cursor: pointer;
+  animation: mascot-tilt 4s ease-in-out infinite, mascot-bounce 2.3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 10px #b58ecc77) brightness(1.09) saturate(1.18);
 }
 
-.mascot-eye {
-  transform-origin: center 48px;
-  animation: mascot-blink 4s infinite;
+/* Mascota animaciones */
+@keyframes mascot-bounce {
+  0%, 100% { transform: translateY(0);}
+  45% { transform: translateY(-10px);}
+  60% { transform: translateY(2px);}
+  80% { transform: translateY(-4px);}
+}
+@keyframes mascot-tilt {
+  0%, 100% { transform: rotate(-5deg);}
+  35% { transform: rotate(7deg);}
+  65% { transform: rotate(-4deg);}
+}
+
+/* Mascota salta */
+.footer-mascot-anim.bounce {
+  animation: mascot-jump 0.8s cubic-bezier(0.4,1.6,0.4,1) 1;
+}
+@keyframes mascot-jump {
+  0% { transform: translateY(0) scale(1);}
+  20% { transform: translateY(-30px) scale(1.1);}
+  80% { transform: translateY(0) scale(1);}
+  100% { transform: translateY(0) scale(1);}
+}
+
+/* Bocadillo de diálogo */
+.milly-speech-bubble {
+  position: absolute;
+  top: -125px;
+  left: 12px;
+  min-width: 140px;
+  max-width: 320px;
+  background: #fff;
+  color: #222;
+  padding: 16px 22px;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  font-size: 1rem;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+  z-index: 2;
+  opacity: 0;
+  animation: speech-show 0.4s forwards;
+  pointer-events: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+}
+@media (max-width: 480px) {
+  .milly-speech-bubble {
+    max-width: 95vw;
+    min-width: 80vw;
+    left: 0;
+    top: -110px;
+    font-size: 0.97rem;
+    padding: 12px 10px;
+  }
+}
+
+@keyframes speech-show {
+  0% { transform: translateY(10px) scale(0.8); opacity: 0; }
+  60% { opacity: 1;}
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.milly-speech-tail {
+  position: absolute;
+  bottom: -16px;
+  left: 32px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+}
+.milly-speech-tail::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transform: rotate(20deg);
+}
+
+/* Parpadeo de ojos SVG */
+.footer-mascot-anim-container svg [fill="#000"],
+.footer-mascot-anim-container svg [fill="#000000"],
+.footer-mascot-floating.left svg [fill="#000"],
+.footer-mascot-floating.left svg [fill="#000000"] {
+  animation: mascot-blink 4.3s infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 60%;
 }
 @keyframes mascot-blink {
-  0%, 92% { ry: 9; }
-  93%, 96% { ry: 1; }
-  97%, 100% { ry: 9; }
-}
-
-.mascot-ear-left {
-  transform-origin: 20px 14px;
-  animation: mascot-ear-left-wave 2.2s infinite alternate;
-}
-@keyframes mascot-ear-left-wave {
-  0%, 100% { transform: rotate(-4deg);}
-  50% { transform: rotate(8deg);}
-}
-.mascot-ear-right {
-  transform-origin: 68px 14px;
-  animation: mascot-ear-right-wave 2.3s infinite alternate;
-}
-@keyframes mascot-ear-right-wave {
-  0%, 100% { transform: rotate(4deg);}
-  50% { transform: rotate(-6deg);}
-}
-
-.mascot-bandana {
-  transform-origin: 44px 86px;
-  animation: mascot-bandana-wave 2.6s infinite ease-in-out;
-}
-@keyframes mascot-bandana-wave {
-  0%,100% { transform: rotate(-4deg);}
-  30% { transform: rotate(6deg);}
-  60% { transform: rotate(-6deg);}
-}
-
-.mascot-mouth {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 0;
-  animation: mascot-smile 3s infinite ease-in-out;
-}
-@keyframes mascot-smile {
-  0%,100% { stroke-dashoffset: 0;}
-  40% { stroke-dashoffset: 4;}
-  60% { stroke-dashoffset: 0;}
+  0%, 96% { opacity: 1; }
+  97%, 99% { opacity: 0.09; }
+  100% { opacity: 1; }
 }

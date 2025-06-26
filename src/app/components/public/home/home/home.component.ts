@@ -16,6 +16,7 @@ import {
 } from '../../../../utils/mouse-effects/mouse-effects';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
+import { ProjectCard } from '../../../shared/project-card/project-card';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,8 @@ import { Subject } from 'rxjs';
     FlexLayoutModule,
     ReflectorBulbComponent,
     RocketScroll,
-    CommonModule
+    CommonModule,
+    ProjectCard,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -56,7 +58,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     quitarCanvasSnake();
-    this.homeServices.snakeService.unsubscribe();
     if (this.intervalId) clearInterval(this.intervalId);
     this.destroy$.next();
     this.destroy$.complete();

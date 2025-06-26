@@ -1,6 +1,11 @@
-<app-menu-header></app-menu-header>
+<app-spinner-intro *ngIf="showSpinner" (animationEnd)="showSpinner = false"></app-spinner-intro>
 <canvas #starCanvas id="star-canvas"></canvas>
-<main class="main-content">
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer>
+<!-- Agrupa todo el contenido principal bajo una condición para evitar contenido duplicado después del spinner -->
+<ng-container *ngIf="!showSpinner">
+  <app-menu-header></app-menu-header>
+  <main class="main-content" style="margin-bottom: 300px;">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</ng-container>
+

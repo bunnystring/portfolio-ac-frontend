@@ -1,0 +1,73 @@
+<!-- Fondo animado para la sección de proyectos -->
+<section class="projects-section mb-5">
+  <div class="projects-section-bg"></div>
+  <div class="section-header text-center mb-5 position-relative" style="z-index:1;">
+    <h2 class="projects-title text-center mb-4">
+      Proyectos que iluminan mi camino
+    </h2>
+    <p class="section-subtitle text-secondary mb-4">
+      Cada proyecto es una oportunidad para aprender y brillar.<br>
+      ¡Explora mis creaciones!
+    </p>
+  </div>
+
+  <!-- Loader personalizado -->
+  <div *ngIf="loading" class="projects-loader position-relative" style="z-index:1;">
+    <div class="loading-bubble"></div>
+    <div class="loading-bubble"></div>
+    <div class="loading-bubble"></div>
+    <span class="loader-text">Cargando proyectos...</span>
+  </div>
+
+  <!-- Tarjetas de proyectos -->
+  <div class="row justify-content-center position-relative" *ngIf="!loading" style="z-index:1;">
+    <div
+      class="col-12 col-sm-10 col-md-6 col-lg-5 mb-4 d-flex justify-content-center"
+      *ngFor="let project of projects; let idx = index"
+    >
+      <div class="project-card-3d shadow rounded-4"
+           [class.flipped]="flipped[idx]"
+           tabindex="0">
+        <div class="project-card-3d-inner">
+          <!-- Cara frontal -->
+          <div class="project-card-3d-front rounded-4 d-flex flex-column align-items-center"
+               (click)="flipCard(idx)">
+            <!-- Carrusel de imágenes -->
+            <div class="project-gallery mb-2">
+              <button *ngIf="project.images.length > 1" class="gallery-arrow left"
+                      (click)="$event.stopPropagation(); prevImage(idx)">&#8249;</button>
+              <img [src]="project.images[selectedImageIndex[idx]]"
+                   class="img-fluid rounded-top-4 project-thumb"
+                   [alt]="project.title" />
+              <button *ngIf="project.images.length > 1" class="gallery-arrow right"
+                      (click)="$event.stopPropagation(); nextImage(idx)">&#8250;</button>
+              <div *ngIf="project.images.length > 1" class="gallery-dots">
+                <span *ngFor="let img of project.images; let i = index"
+                      [class.active]="selectedImageIndex[idx] === i"></span>
+              </div>
+            </div>
+            <div class="fw-bold mt-2 project-title">{{ project.title }}</div>
+            <div class="project-dates mt-1">
+              <small>
+                <span class="date-label">Creado: </span>{{ project.createdAt | date:'mediumDate' }}
+                <span class="dot"></span>
+                <span class="date-label">Actualizado: </span>{{ project.updatedAt | date:'mediumDate' }}
+              </small>
+            </div>
+          </div>
+          <!-- Cara trasera -->
+          <div class="project-card-3d-back rounded-4">
+            <h5 class="fw-bold project-title-back">{{ project.title }}</h5>
+            <p class="project-desc">{{ project.description }}</p>
+            <div class="project-actions">
+              <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">Ver Demo</a>
+              <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank" class="btn btn-outline-project">GitHub</a>
+            </div>
+            <button class="btn btn-light mt-2" (click)="flipCard(idx)">Volver</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
