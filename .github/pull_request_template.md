@@ -26,3 +26,8 @@ Explica cómo se ha probado este cambio y los pasos para verificar su correcto f
 ## Información adicional
 
 Agrega aquí cualquier información adicional relevante.
+
+
+## Jíra Id 
+
+[](url)
