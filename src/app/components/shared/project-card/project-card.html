@@ -65,14 +65,15 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Paginador -->
-  <nav *ngIf="!loading && totalPages > 1"
-    class="projects-paginator d-flex justify-content-center align-items-center mt-2">
+  <nav *ngIf="!loading && totalPages > 1" class="projects-paginator d-flex justify-content-center align-items-center mt-2">
     <button class="paginator-btn" [disabled]="page === 1" (click)="prevPage()">&laquo;</button>
-    <ng-container *ngFor="let p of [].constructor(totalPages); let i = index">
-      <button class="paginator-btn" [class.active]="page === i + 1" (click)="goToPage(i + 1)">
-        {{ i + 1 }}
+    <ng-container *ngFor="let p of getPaginationArray()">
+      <button class="paginator-btn"
+              [class.active]="page === p"
+              (click)="goToPage(p)">
+        {{ p }}
       </button>
     </ng-container>
     <button class="paginator-btn" [disabled]="page === totalPages" (click)="nextPage()">&raquo;</button>

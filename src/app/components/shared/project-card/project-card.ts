@@ -213,4 +213,15 @@ export class ProjectCard implements OnInit {
   nextPage() {
     this.goToPage(this.page + 1);
   }
+
+  /**
+   * Devuelve un array con los números de las páginas para el paginador.
+   * Utiliza la propiedad `totalPages` para determinar cuántas páginas hay.
+   * @returns Un array de números representando las páginas.
+   *  @version 1.0.0
+   *  @author Arlez Camilo Ceron Herrera
+   */
+  getPaginationArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 }

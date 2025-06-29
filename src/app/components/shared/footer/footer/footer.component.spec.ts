@@ -58,9 +58,9 @@ describe('FooterComponent', () => {
   });
 
   it('should scroll to top when scrollToTop is called', () => {
-    spyOn(window, 'scrollTo');
+    spyOn(window as any, 'scrollTo');
     component.scrollToTop();
-    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+    expect((window.scrollTo as jasmine.Spy)).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
   });
 
   it('should go to next quote and update properties', (done) => {
