@@ -21,29 +21,24 @@
 
   <!-- Tarjetas de proyectos (SOLO 3 por página con paginador) -->
   <div class="row justify-content-center position-relative" *ngIf="!loading" style="z-index:1;">
-    <div
-      class="col-12 col-sm-10 col-md-6 col-lg-5 mb-4 d-flex justify-content-center"
-      *ngFor="let project of paginatedProjects; let idx = index"
-    >
-      <div class="project-card-3d shadow rounded-4"
-           [class.flipped]="flipped[idx + (page-1)*itemsPerPage]"
-           tabindex="0">
+    <div class="col-12 col-sm-10 col-md-6 col-lg-5 mb-4 d-flex justify-content-center"
+      *ngFor="let project of paginatedProjects; let idx = index">
+      <div class="project-card-3d shadow rounded-4" [class.flipped]="flipped[getGlobalIndex(idx)]" tabindex="0">
         <div class="project-card-3d-inner">
           <!-- Cara frontal -->
           <div class="project-card-3d-front rounded-4 d-flex flex-column align-items-center"
-               (click)="flipCard(idx + (page-1)*itemsPerPage)">
+            (click)="flipCard(getGlobalIndex(idx))">
             <!-- Carrusel de imágenes -->
             <div class="project-gallery mb-2">
               <button *ngIf="project.images.length > 1" class="gallery-arrow left"
-                      (click)="$event.stopPropagation(); prevImage(idx + (page-1)*itemsPerPage)">&#8249;</button>
-              <img [src]="project.images[selectedImageIndex[idx + (page-1)*itemsPerPage]]"
-                   class="img-fluid rounded-top-4 project-thumb"
-                   [alt]="project.title" />
+                (click)="$event.stopPropagation(); prevImage(getGlobalIndex(idx))">&#8249;</button>
+              <img [src]="project.images[selectedImageIndex[getGlobalIndex(idx)]]"
+                class="img-fluid rounded-top-4 project-thumb" [alt]="project.title" />
               <button *ngIf="project.images.length > 1" class="gallery-arrow right"
-                      (click)="$event.stopPropagation(); nextImage(idx + (page-1)*itemsPerPage)">&#8250;</button>
+                (click)="$event.stopPropagation(); nextImage(getGlobalIndex(idx))">&#8250;</button>
               <div *ngIf="project.images.length > 1" class="gallery-dots">
                 <span *ngFor="let img of project.images; let i = index"
-                      [class.active]="selectedImageIndex[idx + (page-1)*itemsPerPage] === i"></span>
+                  [class.active]="selectedImageIndex[getGlobalIndex(idx)] === i"></span>
               </div>
             </div>
             <div class="fw-bold mt-2 project-title">{{ project.title }}</div>
@@ -61,9 +56,10 @@
             <p class="project-desc">{{ project.description }}</p>
             <div class="project-actions">
               <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">Ver Demo</a>
-              <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank" class="btn btn-outline-project">GitHub</a>
+              <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank"
+                class="btn btn-outline-project">GitHub</a>
             </div>
-            <button class="btn btn-light mt-2" (click)="flipCard(idx + (page-1)*itemsPerPage)">Volver</button>
+            <button class="btn btn-light mt-2" (click)="flipCard(getGlobalIndex(idx))">Volver</button>
           </div>
         </div>
       </div>
@@ -71,12 +67,11 @@
   </div>
 
   <!-- Paginador -->
-  <nav *ngIf="!loading && totalPages > 1" class="projects-paginator d-flex justify-content-center align-items-center mt-2">
+  <nav *ngIf="!loading && totalPages > 1"
+    class="projects-paginator d-flex justify-content-center align-items-center mt-2">
     <button class="paginator-btn" [disabled]="page === 1" (click)="prevPage()">&laquo;</button>
     <ng-container *ngFor="let p of [].constructor(totalPages); let i = index">
-      <button class="paginator-btn"
-              [class.active]="page === i + 1"
-              (click)="goToPage(i + 1)">
+      <button class="paginator-btn" [class.active]="page === i + 1" (click)="goToPage(i + 1)">
         {{ i + 1 }}
       </button>
     </ng-container>

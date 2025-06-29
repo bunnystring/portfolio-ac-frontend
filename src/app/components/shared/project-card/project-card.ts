@@ -37,6 +37,10 @@ export class ProjectCard implements OnInit {
     return this.projects.slice(start, start + this.itemsPerPage);
   }
 
+  getGlobalIndex(idx: number): number {
+    return idx + (this.page - 1) * this.itemsPerPage;
+  }
+
   /**
    * Inicializa el componente y carga los proyectos después de un breve retraso.
    * @version 1.0.0
