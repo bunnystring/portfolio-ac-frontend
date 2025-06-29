@@ -19,31 +19,31 @@
     <span class="loader-text">Cargando proyectos...</span>
   </div>
 
-  <!-- Tarjetas de proyectos -->
+  <!-- Tarjetas de proyectos (SOLO 3 por página con paginador) -->
   <div class="row justify-content-center position-relative" *ngIf="!loading" style="z-index:1;">
     <div
       class="col-12 col-sm-10 col-md-6 col-lg-5 mb-4 d-flex justify-content-center"
-      *ngFor="let project of projects; let idx = index"
+      *ngFor="let project of paginatedProjects; let idx = index"
     >
       <div class="project-card-3d shadow rounded-4"
-           [class.flipped]="flipped[idx]"
+           [class.flipped]="flipped[idx + (page-1)*itemsPerPage]"
            tabindex="0">
         <div class="project-card-3d-inner">
           <!-- Cara frontal -->
           <div class="project-card-3d-front rounded-4 d-flex flex-column align-items-center"
-               (click)="flipCard(idx)">
+               (click)="flipCard(idx + (page-1)*itemsPerPage)">
             <!-- Carrusel de imágenes -->
             <div class="project-gallery mb-2">
               <button *ngIf="project.images.length > 1" class="gallery-arrow left"
-                      (click)="$event.stopPropagation(); prevImage(idx)">&#8249;</button>
-              <img [src]="project.images[selectedImageIndex[idx]]"
+                      (click)="$event.stopPropagation(); prevImage(idx + (page-1)*itemsPerPage)">&#8249;</button>
+              <img [src]="project.images[selectedImageIndex[idx + (page-1)*itemsPerPage]]"
                    class="img-fluid rounded-top-4 project-thumb"
                    [alt]="project.title" />
               <button *ngIf="project.images.length > 1" class="gallery-arrow right"
-                      (click)="$event.stopPropagation(); nextImage(idx)">&#8250;</button>
+                      (click)="$event.stopPropagation(); nextImage(idx + (page-1)*itemsPerPage)">&#8250;</button>
               <div *ngIf="project.images.length > 1" class="gallery-dots">
                 <span *ngFor="let img of project.images; let i = index"
-                      [class.active]="selectedImageIndex[idx] === i"></span>
+                      [class.active]="selectedImageIndex[idx + (page-1)*itemsPerPage] === i"></span>
               </div>
             </div>
             <div class="fw-bold mt-2 project-title">{{ project.title }}</div>
@@ -63,11 +63,23 @@
               <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">Ver Demo</a>
               <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank" class="btn btn-outline-project">GitHub</a>
             </div>
-            <button class="btn btn-light mt-2" (click)="flipCard(idx)">Volver</button>
+            <button class="btn btn-light mt-2" (click)="flipCard(idx + (page-1)*itemsPerPage)">Volver</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
+  <!-- Paginador -->
+  <nav *ngIf="!loading && totalPages > 1" class="projects-paginator d-flex justify-content-center align-items-center mt-2">
+    <button class="paginator-btn" [disabled]="page === 1" (click)="prevPage()">&laquo;</button>
+    <ng-container *ngFor="let p of [].constructor(totalPages); let i = index">
+      <button class="paginator-btn"
+              [class.active]="page === i + 1"
+              (click)="goToPage(i + 1)">
+        {{ i + 1 }}
+      </button>
+    </ng-container>
+    <button class="paginator-btn" [disabled]="page === totalPages" (click)="nextPage()">&raquo;</button>
+  </nav>
+</section>
