@@ -1,0 +1,68 @@
+<div class="aboutit-main mt-5 mb-5" @fadeInContainer>
+  <section class="aboutit-card glass-effect">
+    <div class="aboutit-content aboutit-wrap">
+      <!-- Título animado -->
+      <div id="txt" class="fullstack-animated" aria-label="About Me animado">
+        <b style="--i:0">A</b><b style="--i:1">b</b><b style="--i:2">o</b><b style="--i:3">u</b><b style="--i:4">t</b>
+        <span></span>
+        <b style="--i:5">M</b><b style="--i:6">e</b>
+      </div>
+      <h2 class="aboutit-title">
+        ¡Hi! I'm: <span class="highlight">{{name}}</span>
+      </h2>
+      <p class="aboutit-description">
+        Desarrollador Full Stack enfocado en la <b>construcción de soluciones robustas y escalables</b>, con especial interés
+        en la <b>arquitectura de software</b>, la <b>optimización de interfaces</b> y la <b>experiencia del usuario</b>.<br>
+        Apasionado por aplicar <b>principios de diseño funcional</b> y <b>patrones de desarrollo modernos</b> para crear productos digitales
+        eficientes, intuitivos y de alto impacto.<br>
+        Mi objetivo es <b>combinar creatividad, tecnología y buenas prácticas</b> para entregar valor real en cada proyecto.
+      </p>
+      <ul class="aboutit-list">
+        <li><strong>Rol:</strong> Full Stack Developer – Arquitectura, UI/UX & Optimización</li>
+        <li><strong>Experiencia:</strong> Más de 5 años en desarrollo web y móvil</li>
+      </ul>
+      <div class="aboutit-social">
+        <a href="https://github.com/tuusuario" target="_blank" aria-label="GitHub">
+          <img src="assets/images/github.svg" alt="GitHub" />
+        </a>
+        <a href="https://linkedin.com/in/tuusuario" target="_blank" aria-label="LinkedIn">
+          <img src="assets/images/linke.png" alt="LinkedIn" />
+        </a>
+        <a href="https://instagram.com/tuusuario" target="_blank" aria-label="Instagram">
+          <img src="assets/images/telephone.png" alt="Instagram" />
+        </a>
+      </div>
+      <div class="col-md-12 btn-wrap">
+        <button type="button" class="btn-primary primary btn-principal btn-cv-animated" (click)="createRipple($event)">
+          Descarga mi CV
+          <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
+        </button>
+        <a (click)="createRipple($event)" class="secondary">Contact</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="aboutit-flex-row mb-0">
+  <div class="aboutit-exp-modern m-0">
+    <div class="exp-badge">
+      <span class="years">{{ yearsExp }}</span>
+      <span class="exp-label">años de experiencia</span>
+    </div>
+    <ul class="aboutit-timeline-modern mb-0">
+      <li *ngFor="let step of careerTimeline">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="year">{{step.year}}</span>
+          <span class="desc">{{step.text}}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row d-block">
+    <pre class="typewriter-modern mb-4">Hola, soy Camilo...<span class="cursor"></span></pre>
+    <div class="aboutit-profile-image avatar-animated-border mt-4">
+      <img src="assets/images/profile0.png" alt="Foto profesional de {{name}}" />
+    </div>
+  </div>
+</div>

@@ -13,7 +13,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
         <div class="eye-mobile">
           <app-eye-tracking></app-eye-tracking>
         </div>
@@ -38,11 +38,11 @@
   [class.open]="showMenu && isMobile"
   [class.d-none]="!showMenu && isMobile"
   [class.d-flex]="!isMobile">
-  <a class="active">Home</a>
-  <a>About</a>
+  <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home')}">Home</a>
+  <a [routerLink]="'/about-it'" [ngClass]="{'active' : isActiveRoute('/about-it')}">About</a>
   <a (click)="scrollToSection('skills')">Skills</a>
   <a (click)="scrollToSection('projects')">Projects</a>
-  <a>Contact me</a>
+  <a [routerLink]="'/contact'" [ngClass]="{'active' : isActiveRoute('/contact')}">Contact me</a>
 </nav>
 
         <!-- Ojos (solo desktop) -->

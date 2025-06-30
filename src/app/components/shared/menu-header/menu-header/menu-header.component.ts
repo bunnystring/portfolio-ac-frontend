@@ -9,6 +9,7 @@ import { ReflectorBulbServices } from '../../../services/reflector-bulb-services
 import { HomeServices } from '../../../services/home-services/home-services';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Router, RouterModule } from '@angular/router';
 export const headerSlideIn = trigger('headerSlideIn', [
   transition(':enter', [
     style({ transform: 'translateY(-100%)', opacity: 0 }),
@@ -20,7 +21,7 @@ export const headerSlideIn = trigger('headerSlideIn', [
 ]);
 @Component({
   selector: 'app-menu-header',
-  imports: [FlexLayoutModule, EyeTracking, CommonModule],
+  imports: [FlexLayoutModule, EyeTracking, CommonModule, RouterModule],
   standalone: true,
   templateUrl: './menu-header.component.html',
   styleUrl: './menu-header.component.scss',
@@ -45,7 +46,8 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
 
   constructor(
     private reflectorBulbServices: ReflectorBulbServices,
-    private homeServices: HomeServices
+    private homeServices: HomeServices,
+    private router: Router,
   ) {}
 
   /**
@@ -208,5 +210,32 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
     } else {
       document.body.classList.remove('no-scroll');
     }
+  }
+
+  /**
+   * Método para navegar a una página específica.
+   * Utiliza el router de Angular para cambiar la URL y navegar a la página deseada.
+   *
+   * @param pageName - El nombre de la página a la que se desea navegar.
+   * @returns void
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  goToPage(pageName:string){
+    console.log('Navigating to:', pageName);
+  this.router.navigateByUrl(pageName);
+  }
+
+  /**
+   * Método para verificar si una ruta específica está activa.
+   * Compara la URL actual del router con la ruta proporcionada.
+   *
+   * @param route - La ruta a verificar.
+   * @returns true si la ruta está activa, false en caso contrario.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  isActiveRoute(route: string): boolean {
+    return this.router.url === route;
   }
 }
