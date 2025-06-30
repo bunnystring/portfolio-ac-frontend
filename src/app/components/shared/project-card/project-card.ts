@@ -26,7 +26,7 @@ export class ProjectCard implements OnInit {
 
   // Paginador
   page = 1;
-  itemsPerPage = 3;
+  itemsPerPage = 2;
 
   get totalPages(): number {
     return Math.ceil(this.projects.length / this.itemsPerPage);

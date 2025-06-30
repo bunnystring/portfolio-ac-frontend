@@ -27,7 +27,6 @@ img { user-drag: none; user-select: none; -webkit-user-drag: none; -webkit-user-
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  padding-bottom: 160px; // igual al footer
   min-height: calc(100vh - 160px);
 }
 
@@ -257,6 +256,7 @@ body {
   position: relative;
   z-index: 1;
   overflow: hidden;
+  margin-bottom: 300px !important;
 }
 .projects-section-bg {
   position: absolute;
@@ -267,4 +267,41 @@ body {
 footer {
   position: relative;
   z-index: 2;
+}
+
+.btn-cv-animated {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cv-animated .ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(0,0,0,0.2);
+  opacity: 1;
+  z-index: 2;
+  will-change: transform, opacity;
+  animation: ripple-appear 0.6s cubic-bezier(.32,.61,.36,1) both;
+  -webkit-animation: ripple-appear 0.6s cubic-bezier(.32,.61,.36,1) both;
+  transform: scale(0);
+  -webkit-transform: scale(0);
+}
+
+.btn-cv-animated:hover .ripple {
+  background: rgba(0,0,0,0.22);
+}
+
+@keyframes ripple-appear {
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes ripple-appear {
+  to {
+    -webkit-transform: scale(2.2);
+    opacity: 0;
+  }
 }
