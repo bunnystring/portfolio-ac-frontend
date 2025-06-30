@@ -7,8 +7,17 @@
         <span></span>
         <b style="--i:5">M</b><b style="--i:6">e</b>
       </div>
-      <h2 class="aboutit-title">
-        ¡Hi! I'm: <span class="highlight">{{name}}</span>
+      <h2 class="aboutit-title aboutit-title-icon">
+        ¡Hi! I'm:
+        <span class="aboutit-avatar-pic" [class.typing]="isTyping">
+          <img src="assets/images/profile0.png" alt="Foto de {{name}}" />
+        </span>
+        <span class="aboutit-name-gradient typewriter-name">
+          <ng-container *ngFor="let l of displayedName; let i = index">
+            <b [style.animation-delay]="(i * 0.06)+'s'">{{ l }}</b>
+          </ng-container>
+          <span class="typewriter-cursor" [class.blink]="showCursor"></span>
+        </span>
       </h2>
       <p class="aboutit-description">
         Desarrollador Full Stack enfocado en la <b>construcción de soluciones robustas y escalables</b>, con especial interés
@@ -18,18 +27,30 @@
         Mi objetivo es <b>combinar creatividad, tecnología y buenas prácticas</b> para entregar valor real en cada proyecto.
       </p>
       <ul class="aboutit-list">
-        <li><strong>Rol:</strong> Full Stack Developer – Arquitectura, UI/UX & Optimización</li>
-        <li><strong>Experiencia:</strong> Más de 5 años en desarrollo web y móvil</li>
+        <li>
+          <span class="aboutit-bullet"></span>
+          <div>
+            <strong>Rol</strong>
+            <span class="aboutit-detail">Full Stack Developer <span class="aboutit-skill">UI/UX</span> <span class="aboutit-skill">Arquitectura</span> <span class="aboutit-skill">Optimización</span></span>
+          </div>
+        </li>
+        <li>
+          <span class="aboutit-bullet"></span>
+          <div>
+            <strong>Experiencia</strong>
+            <span class="aboutit-detail">+5 años en <span class="aboutit-highlight">web</span>,<span class="aboutit-highlight">móvil</span>,  <span class="aboutit-highlight">backend</span></span>
+          </div>
+        </li>
       </ul>
       <div class="aboutit-social">
-        <a href="https://github.com/tuusuario" target="_blank" aria-label="GitHub">
+        <a href="https://github.com/bunnystring" target="_blank" aria-label="GitHub">
           <img src="assets/images/github.svg" alt="GitHub" />
         </a>
-        <a href="https://linkedin.com/in/tuusuario" target="_blank" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/arlez-camilo-ceron-herrera-ba2497235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" aria-label="LinkedIn">
           <img src="assets/images/linke.png" alt="LinkedIn" />
         </a>
-        <a href="https://instagram.com/tuusuario" target="_blank" aria-label="Instagram">
-          <img src="assets/images/telephone.png" alt="Instagram" />
+        <a href="tel:+34685305157" target="_blank" aria-label="telephone">
+          <img src="assets/images/telephone.png" alt="telephone" />
         </a>
       </div>
       <div class="col-md-12 btn-wrap">

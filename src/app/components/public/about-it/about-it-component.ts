@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,12 @@ import { lucideExternalLink } from '@ng-icons/lucide';
   ]
 })
 export class AboutItComponent implements OnInit {
-  name: string = 'Arlez Camilo Ceron Herrera';
+  
+  @Input() name = 'Arlez Camilo Ceron Herrera';
+  displayedName: string[] = [];
+  showCursor = true;
+  isTyping = false;
+
   yearsExp = 0;
   careerTimeline = [
     { year: 2017, text: 'Empecé a programar como hobby' },
@@ -34,7 +39,7 @@ export class AboutItComponent implements OnInit {
     { year: 2021, text: 'Me convertí en Full Stack' },
     { year: 2024, text: 'Lideré un equipo de desarrollo' }
   ];
-  
+
 
   ngOnInit(): void {
     let current = 0;
@@ -44,9 +49,21 @@ export class AboutItComponent implements OnInit {
     this.yearsExp = current;
     if (current === target) clearInterval(interval);
   }, 120);
+  this.typeName();
+  setInterval(() => this.showCursor = !this.showCursor, 500);
   }
 
 
+  /**
+   * Método para crear un efecto de "ripple" al hacer clic en el botón.
+   * Crea un elemento `span` que simula el efecto de onda expansiva.
+   * El tamaño del ripple se ajusta al tamaño del botón y se posiciona
+   * en el punto donde se hizo clic.
+   * @param {MouseEvent} event - Evento del clic del mouse.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   createRipple(event: MouseEvent) {
     const button = event.currentTarget as HTMLElement;
 
@@ -72,5 +89,24 @@ export class AboutItComponent implements OnInit {
 
     ripple.addEventListener('animationend', () => ripple.remove());
     ripple.addEventListener('webkitAnimationEnd', () => ripple.remove());
+  }
+
+  /**
+   * Método para simular la escritura del nombre.
+   * Utiliza un bucle para agregar cada letra del nombre al array `displayedName`.
+   * Cada letra se agrega con un retraso de 55 ms para simular el efecto de escritura.
+   * Al finalizar, se establece `isTyping` a false para indicar que la escritura ha terminado.  
+   * * @returns {Promise<void>}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  async typeName() {
+    this.isTyping = true;
+    this.displayedName = [];
+    for (let i = 0; i < this.name.length; i++) {
+      this.displayedName.push(this.name[i]);
+      await new Promise(r => setTimeout(r, 55));
+    }
+    this.isTyping = false;
   }
 }
