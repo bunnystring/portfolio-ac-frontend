@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="container">
-    <div class="d-flex container col-12 justify-content-center align-items-center flex-wrap">
+    <div class="d-flex container col-md-12 justify-content-center align-items-center flex-wrap w-100">
 
       <!-- Fila superior SOLO en móvil -->
       <div class="mobile-header-row d-lg-none">
@@ -34,7 +34,7 @@
 
         <!-- Menú principal SOLO links -->
         <nav
-  class="menu col-12 col-lg-5 mb-2 mb-lg-0"
+  class="menu mb-2 mb-lg-0"
   [class.open]="showMenu && isMobile"
   [class.d-none]="!showMenu && isMobile"
   [class.d-flex]="!isMobile">
@@ -46,12 +46,12 @@
 </nav>
 
         <!-- Ojos (solo desktop) -->
-        <div class="menu d-none d-lg-flex justify-content-center align-items-center col-12 col-lg-2 mb-2 mb-lg-0">
+        <div class="menu d-none d-lg-flex justify-content-center align-items-center mb-2 mb-lg-0">
           <app-eye-tracking></app-eye-tracking>
         </div>
 
         <!-- Íconos y lámpara (solo desktop) -->
-        <div class="menu d-none d-lg-flex flex-wrap justify-content-start align-items-center col-12 col-lg-4">
+        <div class="menu d-none d-lg-flex flex-wrap justify-content-start align-items-center">
           <a class="border0">
             <img class="tooltip-header" id="instagram" src="/assets/images/ins.png" alt="Instagram" width="25">
           </a>
