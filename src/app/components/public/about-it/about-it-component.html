@@ -54,10 +54,12 @@
         </a>
       </div>
       <div class="col-md-12 btn-wrap">
-        <button type="button" class="btn-primary primary btn-principal btn-cv-animated" (click)="createRipple($event)">
-          Descarga mi CV
-          <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
-        </button>
+        <a href="assets/docs/CV-ARLEZCAMILOCERONHERRERA.pdf" target="_blank" rel="noopener noreferrer" download>
+          <button type="button" class="btn-primary primary btn-principal btn-cv-animated" (click)="createRipple($event)">
+            Descarga mi CV
+            <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
+          </button>
+        </a>
         <a (click)="createRipple($event)" class="secondary">Contact</a>
       </div>
     </div>
