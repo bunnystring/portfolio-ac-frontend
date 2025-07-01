@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 @Component({
   selector: 'app-contact-me',
   imports: [NgIcon, CommonModule, ReactiveFormsModule ],
   templateUrl: './contact-me.html',
   styleUrl: './contact-me.scss',
+  providers: [provideAnimations()],
   standalone: true,
 })
 export class ContactMe {
