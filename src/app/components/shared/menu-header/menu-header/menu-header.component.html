@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="container">
-    <div class="d-flex container col-12 justify-content-center align-items-center flex-wrap">
+    <div class="d-flex container col-md-12 justify-content-center align-items-center flex-wrap w-100">
 
       <!-- Fila superior SOLO en móvil -->
       <div class="mobile-header-row d-lg-none">
@@ -13,7 +13,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
         <div class="eye-mobile">
           <app-eye-tracking></app-eye-tracking>
         </div>
@@ -27,45 +27,45 @@
       </div>
 
       <header
-      class="d-flex flex-wrap justify-content-between align-items-center px-3 py-2 w-100"
+      class="d-flex flex-wrap justify-content-center align-items-center px-3 py-2 w-100"
       [@headerSlideIn]
       *ngIf="(showMenu && isMobile) || !isMobile"
     >
 
         <!-- Menú principal SOLO links -->
         <nav
-  class="menu col-12 col-lg-5 mb-2 mb-lg-0"
+  class="menu mb-2 mb-lg-0"
   [class.open]="showMenu && isMobile"
   [class.d-none]="!showMenu && isMobile"
   [class.d-flex]="!isMobile">
-  <a class="active">Home</a>
-  <a>About</a>
-  <a (click)="scrollToSection('skills')">Skills</a>
-  <a (click)="scrollToSection('projects')">Projects</a>
-  <a>Contact me</a>
+  <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home')}">Home</a>
+  <a [routerLink]="'/about-it'"  [ngClass]="{'active' : isActiveRoute('/about-it')}">About</a>
+  <a [routerLink]="'/home'" (click)="scrollToSection('skills')">Skills</a>
+  <a [routerLink]="'/home'" (click)="scrollToSection('projects')">Projects</a>
+  <a [routerLink]="'/contact-me'" [ngClass]="{'active' : isActiveRoute('/contact-me')}">Contact me</a>
 </nav>
 
         <!-- Ojos (solo desktop) -->
-        <div class="menu d-none d-lg-flex justify-content-start align-items-center col-12 col-lg-2 mb-2 mb-lg-0">
+        <div class="menu d-none d-lg-flex justify-content-center align-items-center mb-2 mb-lg-0">
           <app-eye-tracking></app-eye-tracking>
         </div>
 
         <!-- Íconos y lámpara (solo desktop) -->
-        <div class="menu d-none d-lg-flex flex-wrap justify-content-center align-items-center col-12 col-lg-4">
+        <div class="menu d-none d-lg-flex flex-wrap justify-content-start align-items-center">
           <a class="border0">
-            <img class="tooltip-header" id="instagram" src="/assets/images/ins.png" alt="Instagram" width="30">
+            <img class="tooltip-header" id="instagram" src="/assets/images/ins.png" alt="Instagram" width="25">
           </a>
           <a class="border0">
-            <img class="tooltip-header" id="facebook" src="/assets/images/face.png" alt="Facebook" width="30">
+            <img class="tooltip-header" id="facebook" src="/assets/images/face.png" alt="Facebook" width="25">
           </a>
           <a class="border0">
-            <img class="tooltip-header" id="linkedin" src="/assets/images/linke.png" alt="LinkedIn" width="30">
+            <img class="tooltip-header" id="linkedin" src="/assets/images/linke.png" alt="LinkedIn" width="25">
           </a>
           <a class="border0">
-            <img class="tooltip-header" id="github" src="/assets/images/git.png" alt="GitHub" width="30">
+            <img class="tooltip-header" id="github" src="/assets/images/git.png" alt="GitHub" width="25">
           </a>
           <a class="border0" (click)="activeModeGame(modePlaySnake)">
-            <img class="joystick tooltip-header" id="joystick" src="/assets/images/joystick.png" alt="Play with me" width="30">
+            <img class="joystick tooltip-header" id="joystick" src="/assets/images/joystick.png" alt="Play with me" width="25">
           </a>
           <!-- Botón lámpara - NO MODIFICADO -->
           <a class="border0">

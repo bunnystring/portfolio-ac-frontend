@@ -88,13 +88,36 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
     this.startSpeechLoop();
   }
 
+  /**
+   * Método para mostrar el discurso del personaje.
+   * Selecciona un discurso aleatorio de la lista y lo muestra.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   showMascotSpeech() {
     this.currentSpeech = this.speeches[Math.floor(Math.random() * this.speeches.length)];
     this.showSpeech = true;
   }
+
+  /**
+   * Método para ocultar el discurso del personaje.
+   * Cambia el estado de `showSpeech` a `false`.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   hideMascotSpeech() {
     this.showSpeech = false;
   }
+
+  /**
+   * Método para hacer que el personaje salte.
+   * Cambia el estado de `isBouncing` a `true` y lo restablece a `false` después de 800 ms.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   jumpMascot() {
     this.isBouncing = true;
     setTimeout(() => this.isBouncing = false, 800);

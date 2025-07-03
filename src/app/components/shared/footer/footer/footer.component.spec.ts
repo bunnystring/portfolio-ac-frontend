@@ -1,119 +1,100 @@
-import {
-  Component,
-  HostListener,
-  ElementRef,
-  AfterViewInit,
-  ViewChild,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FooterComponent } from './footer.component';
 import { CommonModule } from '@angular/common';
 
-@Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
-})
-export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
-isBouncing: any;
-showSpeech: any;
-currentSpeech: any;
-  currentYear = new Date().getFullYear();
-  isOnline = true;
-  showScrollTop = false;
-  revealed = true;
+describe('FooterComponent', () => {
+  let component: FooterComponent;
+  let fixture: ComponentFixture<FooterComponent>;
 
-  @ViewChild('footerRef') footerRef?: ElementRef<HTMLElement>;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FooterComponent, CommonModule]
+    }).compileComponents();
 
-  quotes = [
-    'Transformando ideas en software, cada línea cuenta.',
-    'La perseverancia es el motor del éxito.',
-    'El código es poesía en movimiento.',
-    'Hazlo simple, pero significativo.',
-    'La tecnología es el arte de lo posible.',
-  ];
-  currentQuoteIdx = 0;
+    fixture = TestBed.createComponent(FooterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  showTyping = true;
-  currentQuote = this.quotes[2];
-  typingSteps = this.currentQuote.length;
+  it('should create the footer component', () => {
+    expect(component).toBeTruthy();
+  });
 
-  fadeClass: 'fade-in' | 'fade-out' = 'fade-in';
+  it('should show a random mascot speech', () => {
+    component.showSpeech = false;
+    component.currentSpeech = '';
+    component.showMascotSpeech();
+    expect(component.showSpeech).toBeTrue();
+    expect(component.speeches).toContain(component.currentSpeech);
+  });
 
-  private typingTimeout?: number;
-  private quoteTimeout?: number;
-  private fadeTimeout?: number;
-millySvg: any;
-typingClass: any;
+  it('should hide mascot speech', () => {
+    component.showSpeech = true;
+    component.hideMascotSpeech();
+    expect(component.showSpeech).toBeFalse();
+  });
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.showScrollTop = window.scrollY > 300;
-    if (this.footerRef?.nativeElement) {
-      const rect = this.footerRef.nativeElement.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 80) {
-        this.revealed = true;
-      }
-    }
-  }
+  it('should set isBouncing to true when jumpMascot is called and revert after timeout', (done) => {
+    jasmine.clock().install();
+    component.isBouncing = false;
+    component.jumpMascot();
+    expect(component.isBouncing).toBeTrue();
+    jasmine.clock().tick(801);
+    expect(component.isBouncing).toBeFalse();
+    jasmine.clock().uninstall();
+    done();
+  });
 
-  constructor() {}
+  it('should update isOnline to true when handleOnline is called', () => {
+    component.isOnline = false;
+    component.handleOnline();
+    expect(component.isOnline).toBeTrue();
+  });
 
-  ngOnInit() {
-    this.isOnline = navigator.onLine;
-    window.addEventListener('online', this.handleOnline);
-    window.addEventListener('offline', this.handleOffline);
-    this.onWindowScroll();
-  }
+  it('should update isOnline to false when handleOffline is called', () => {
+    component.isOnline = true;
+    component.handleOffline();
+    expect(component.isOnline).toBeFalse();
+  });
 
-  ngAfterViewInit() {
-    setTimeout(() => this.onWindowScroll(), 120);
-    this.startTypingCycle();
-  }
+  it('should scroll to top when scrollToTop is called', () => {
+    spyOn(window as any, 'scrollTo');
+    component.scrollToTop();
+    expect((window.scrollTo as jasmine.Spy)).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+  });
 
-  ngOnDestroy() {
-    clearTimeout(this.typingTimeout);
-    clearTimeout(this.quoteTimeout);
-    clearTimeout(this.fadeTimeout);
-    window.removeEventListener('online', this.handleOnline);
-    window.removeEventListener('offline', this.handleOffline);
-  }
-
-  handleOnline = () => {
-    this.isOnline = true;
-  };
-
-  handleOffline = () => {
-    this.isOnline = false;
-  };
-
-  scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  startTypingCycle() {
-    this.typingSteps = this.currentQuote.length;
-    this.typingTimeout = window.setTimeout(() => {
-      // Fade out before changing quote
-      this.fadeClass = 'fade-out';
-      this.fadeTimeout = window.setTimeout(() => this.nextQuote(), 450); // Match CSS transition
-    }, 2200 + this.typingSteps * 45);
-  }
-
-  nextQuote() {
-    this.showTyping = false;
+  it('should go to next quote and update properties', (done) => {
+    const prevIdx = component.currentQuoteIdx;
+    const prevQuote = component.currentQuote;
+    component.nextQuote();
     setTimeout(() => {
-      this.currentQuoteIdx = (this.currentQuoteIdx + 1) % this.quotes.length;
-      this.currentQuote = this.quotes[this.currentQuoteIdx];
-      this.typingSteps = this.currentQuote.length;
-      this.showTyping = true;
-      // Fade in new quote
-      this.fadeClass = 'fade-in';
-      this.startTypingCycle();
-    }, 50);
-  }
-}
+      expect(component.currentQuoteIdx).toBe((prevIdx + 1) % component.quotes.length);
+      expect(component.currentQuote).not.toBe(prevQuote);
+      expect(component.fadeClass).toBe('fade-in');
+      done();
+    }, 51);
+  });
+
+  it('should randomize speech', () => {
+    component.currentSpeech = '';
+    component.randomizeSpeech();
+    expect(component.speeches).toContain(component.currentSpeech);
+  });
+
+  it('should stop waving when stopWaveMascot is called', () => {
+    component.isWaving = true;
+    component.stopWaveMascot();
+    expect(component.isWaving).toBeFalse();
+  });
+
+  // Test onWindowScroll behavior (no DOM, just state logic)
+  it('should update showScrollTop on scroll', () => {
+    spyOnProperty(window, 'scrollY').and.returnValue(301);
+    component.showScrollTop = false;
+    component.onWindowScroll();
+    expect(component.showScrollTop).toBeTrue();
+  });
+
+  // Optionally, more tests for typing cycle/timeouts could be added with further setup
+
+});

@@ -78,6 +78,7 @@
     skillsPulse 2.8s infinite cubic-bezier(.44, 1.7, .62, 1.01);
   background: linear-gradient(90deg, #2ec8fa 20%, #ffc107 60%, #ff6f91 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 @keyframes fadeInSlideDown {
@@ -481,5 +482,51 @@
     font-size: 0.96em;
     max-width: 130px;
     margin-right: 4px;
+  }
+}
+
+/* Paginador responsive y centrado */
+.projects-paginator {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.paginator-btn {
+  background: #fff;
+  border: 2px solid var(--accent-cyan, #00aeff);
+  color: var(--accent-cyan, #00aeff);
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  padding: 4px 13px;
+  margin: 0 2px;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  cursor: pointer;
+  min-width: 38px;
+  outline: none;
+  &.active, &:hover, &:focus {
+    background: var(--accent-cyan, #00aeff);
+    color: #fff;
+    border-color: var(--accent-cyan, #00aeff);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f5f5f5;
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-paginator {
+    gap: 0.2rem;
+  }
+  .paginator-btn {
+    font-size: 0.97em;
+    min-width: 30px;
+    padding: 3px 8px;
   }
 }

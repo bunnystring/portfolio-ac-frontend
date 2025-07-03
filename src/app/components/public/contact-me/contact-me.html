@@ -1,0 +1,65 @@
+<div class="container contact-card mt-5 col-md-12" @fadeInContainer>
+  <div class="contact-info col-md-6">
+    <div class="d-flex justify-content-center align-items-center mb-4">
+      <h2 class="contact-title text-center">
+        ¡Hablemos!
+      </h2>
+    </div>
+   <div class="d-flex justify-content-center align-items-center mb-4 p-2">
+    <p class="contact-desc">
+      ¿Tienes un proyecto o una idea?<br>
+      <b>Envíame un mensaje</b> y te responderé lo antes posible.<br>
+      <span class="contact-tip">Respondo en menos de 24h</span>
+    </p>
+   </div>
+    <ul class="contact-social d-flex justify-content-center">
+      <li>
+        <a href="mailto:ziknaf_548@hotmail.com" aria-label="Email"><img src="assets/images/mailAct.png" alt="Email"></a>
+      </li>
+      <li>
+        <a href="https://wa.me/573008490788" target="_blank" aria-label="WhatsApp"><img src="assets/images/whatsapp.png"
+            alt="WhatsApp"></a>
+      </li>
+      <li>
+        <a href="https://t.me/Camilo_fs" target="_blank" aria-label="Telegram"><img src="assets/images/telegram.png"
+            alt="Telegram"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <form class="contact-form" autocomplete="off" [formGroup]="contactForm" (ngSubmit)="sendMessage()">
+      <div class="form-group">
+        <input formControlName="name" type="text" required [class.filled]="contactForm.get('name')?.value"
+          placeholder=" " />
+        <label for="name">Nombre</label>
+        <span class="form-icon"><ng-icon name="lucideUser" size="18"></ng-icon></span>
+        <div class="invalid" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+          Escribe tu nombre.
+        </div>
+      </div>
+      <div class="form-group">
+        <input formControlName="email" type="email" required [class.filled]="contactForm.get('email')?.value"
+          placeholder=" " />
+        <label for="email">Correo</label>
+        <span class="form-icon"><ng-icon name="lucideMail" size="18"></ng-icon></span>
+        <div class="invalid" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+          Correo inválido.
+        </div>
+      </div>
+      <div class="form-group">
+        <textarea formControlName="message" rows="4" required [class.filled]="contactForm.get('message')?.value"
+          placeholder=" "></textarea>
+        <label for="message">Mensaje</label>
+        <span class="form-icon"><ng-icon name="lucideMessageCircle" size="18"></ng-icon></span>
+        <div class="invalid" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+          Escribe tu mensaje.
+        </div>
+      </div>
+      <button class="btn-primary btn-send w-50" [disabled]="!contactForm.valid || sending">
+        <span *ngIf="!sending">Enviar <ng-icon name="lucideSend" size="18"></ng-icon></span>
+        <span *ngIf="sending" class="loading-dot">Enviando...</span>
+      </button>
+      <div class="form-success" *ngIf="sent">¡Mensaje enviado! 🚀</div>
+    </form>
+  </div>
+</div>
