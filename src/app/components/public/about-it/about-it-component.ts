@@ -26,7 +26,7 @@ import { lucideExternalLink } from '@ng-icons/lucide';
   ]
 })
 export class AboutItComponent implements OnInit {
-  
+
   @Input() name = 'Arlez Camilo Ceron Herrera';
   displayedName: string[] = [];
   showCursor = true;
@@ -34,10 +34,10 @@ export class AboutItComponent implements OnInit {
 
   yearsExp = 0;
   careerTimeline = [
-    { year: 2017, text: 'Empecé a programar como hobby' },
-    { year: 2019, text: 'Primer trabajo como Frontend' },
-    { year: 2021, text: 'Me convertí en Full Stack' },
-    { year: 2024, text: 'Lideré un equipo de desarrollo' }
+    { year: 2017, text: 'Started programming as a hobby' },
+    { year: 2019, text: 'First job as Frontend' },
+    { year: 2021, text: 'I became Full Stack' },
+    { year: 2024, text: 'I led a development team' }
   ];
 
 
@@ -95,7 +95,7 @@ export class AboutItComponent implements OnInit {
    * Método para simular la escritura del nombre.
    * Utiliza un bucle para agregar cada letra del nombre al array `displayedName`.
    * Cada letra se agrega con un retraso de 55 ms para simular el efecto de escritura.
-   * Al finalizar, se establece `isTyping` a false para indicar que la escritura ha terminado.  
+   * Al finalizar, se establece `isTyping` a false para indicar que la escritura ha terminado.
    * * @returns {Promise<void>}
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera

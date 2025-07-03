@@ -71,7 +71,7 @@ export class ProjectCard implements OnInit {
             '/assets/images/bootstrapRank.png',
           ],
           description:
-            'Un portafolio moderno hecho con Angular 20 y Bootstrap 5. Incluye animaciones, responsive design y una mascota interactiva.',
+            'A modern portfolio built with Angular 20 and Bootstrap 5. Featuring animations, responsive design, and an interactive pet.',
           demoLink: 'https://tu-demo-angular.com',
           repoLink: 'https://github.com/bunnystring/portfolio-angular',
           createdAt: '2024-09-01',
@@ -84,7 +84,7 @@ export class ProjectCard implements OnInit {
             'https://picsum.photos/seed/todo2/400/250',
           ],
           description:
-            'Aplicación para organizar tareas, con autenticación, drag & drop y sincronización en la nube (Firebase).',
+            'Task management app with authentication, drag & drop, and cloud sync (Firebase).',
           demoLink: 'https://tu-todo-app.com',
           repoLink: 'https://github.com/bunnystring/todo-app',
           createdAt: '2024-05-10',
@@ -99,7 +99,7 @@ export class ProjectCard implements OnInit {
             'https://picsum.photos/seed/todo2/400/250',
           ],
           description:
-            'Tienda online con Angular, carrito de compras, pasarela de pago y gestión de productos.',
+            'Store online with Angular, shopping cart, payment gateway and product management.',
           demoLink: 'https://tu-ecommerce-angular.com',
           repoLink: '',
           createdAt: '',
@@ -112,7 +112,7 @@ export class ProjectCard implements OnInit {
             'https://picsum.photos/seed/blog2/400/250',
           ],
           description:
-            'Blog personal con Angular, autenticación, comentarios y gestión de publicaciones.',
+            'Personal blog with Angular, authentication, comments, and post management.',
           demoLink: 'https://tu-blog-angular.com',
           repoLink: '',
           createdAt: '',
@@ -138,7 +138,7 @@ export class ProjectCard implements OnInit {
             'https://picsum.photos/seed/weather2/400/250',
           ],
           description:
-            'Aplicación del clima con Angular, API de clima y geolocalización.',
+            'Weather app with Angular, weather API and geolocation.',
           demoLink: 'https://tu-weather-app.com',
           repoLink: '',
           createdAt: '',
