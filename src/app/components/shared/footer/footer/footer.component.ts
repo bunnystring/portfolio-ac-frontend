@@ -27,11 +27,11 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('footerRef') footerRef?: ElementRef<HTMLElement>;
   typingClass = true;
   quotes = [
-    'Transformando ideas en software, cada línea cuenta.',
-    'La perseverancia es el motor del éxito.',
-    'El código es poesía en movimiento.',
-    'Hazlo simple, pero significativo.',
-    'La tecnología es el arte de lo posible.',
+    'Turning ideas into software, every line matters.',
+    'Perseverance is the engine of success.',
+    'Code is poetry in motion.',
+    'Make it simple, but significant.',
+    'Technology is the art of the possible.',
   ];
   currentQuoteIdx = 2;
   currentQuote = this.quotes[this.currentQuoteIdx];
@@ -57,20 +57,20 @@ export class FooterComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   speeches: string[] = [
-    '¡Hola humano! 🐶',
-    '¿Ya probaste Angular hoy?',
-    '¡No olvides sonreír!',
-    '¿Necesitas ayuda?',
-    '¡Sigue codificando!',
-    '¿Café o té? ☕',
-    '¡Vamos por más!',
-    '✨ ¡Tú puedes! ✨',
-    '¡Todo chill aquí! 😎',
-    'Aquí andamos, echando código. 🐾',
-    '¡Listos para rockear el footer! 🎸',
-    'Aquí, esperando tu click para saludar. 🐾',
-    '¡Solo buenas vibras por acá! 😊',
-    'Aquí andamos, echando código. 🐾',
+    'Hello human! 🐶',
+    'Have you tried Angular today?',
+    "Don't forget to smile!",
+    'Need any help?',
+    'Keep on coding!',
+    'Coffee or tea? ☕',
+    "Let's go for more!",
+    '✨ You can do it! ✨',
+    'All chill here! 😎',
+    'Here I am, coding away. 🐾',
+    "Ready to rock the footer! 🎸",
+    "Just waiting for your click to say hi. 🐾",
+    'Only good vibes around here! 😊',
+    'Still here, coding away. 🐾',
   ];
   currentSpeech: string = this.speeches[0];
   showSpeech = false;

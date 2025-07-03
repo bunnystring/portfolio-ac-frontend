@@ -3,11 +3,11 @@
   <div class="projects-section-bg"></div>
   <div class="section-header text-center mb-5 position-relative" style="z-index:1;">
     <h2 class="projects-title text-center mb-4">
-      Proyectos que iluminan mi camino
+      Projects that light my way
     </h2>
     <p class="section-subtitle text-secondary mb-4">
-      Cada proyecto es una oportunidad para aprender y brillar.<br>
-      ¡Explora mis creaciones!
+      Every project is an opportunity to learn and shine. <br>
+      ¡Explore my creations!
     </p>
   </div>
 
@@ -16,7 +16,7 @@
     <div class="loading-bubble"></div>
     <div class="loading-bubble"></div>
     <div class="loading-bubble"></div>
-    <span class="loader-text">Cargando proyectos...</span>
+    <span class="loader-text">Loading projects...</span>
   </div>
 
   <!-- Tarjetas de proyectos (SOLO 3 por página con paginador) -->
@@ -44,9 +44,9 @@
             <div class="fw-bold mt-2 project-title">{{ project.title }}</div>
             <div class="project-dates mt-1">
               <small>
-                <span class="date-label">Creado: </span>{{ project.createdAt | date:'mediumDate' }}
+                <span class="date-label">Created: </span>{{ project.createdAt | date:'mediumDate' }}
                 <span class="dot"></span>
-                <span class="date-label">Actualizado: </span>{{ project.updatedAt | date:'mediumDate' }}
+                <span class="date-label">Updated: </span>{{ project.updatedAt | date:'mediumDate' }}
               </small>
             </div>
           </div>
@@ -54,18 +54,24 @@
           <div class="project-card-3d-back rounded-4">
             <h5 class="fw-bold project-title-back">{{ project.title }}</h5>
             <p class="project-desc">{{ project.description }}</p>
-            <div class="project-actions">
-              <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">Ver Demo</a>
-              <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank"
+            <div class="row col-md-12 d-flex justify-content-center project-actions">
+              <div class="col-md-4">
+                <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">See Demo</a>
+              </div>
+              <div class="col-md-3">
+                <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank"
                 class="btn btn-outline-project">GitHub</a>
+              </div>
             </div>
-            <button class="btn btn-light mt-2" (click)="flipCard(getGlobalIndex(idx))">Volver</button>
+            <div class="row col-md-12 d-flex justify-content-center">
+              <button class="btn btn-primary mt-2 w-25" (click)="flipCard(getGlobalIndex(idx))">Return</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- Paginador -->
   <nav *ngIf="!loading && totalPages > 1" class="projects-paginator d-flex justify-content-center align-items-center mt-2">
     <button class="paginator-btn" [disabled]="page === 1" (click)="prevPage()">&laquo;</button>
