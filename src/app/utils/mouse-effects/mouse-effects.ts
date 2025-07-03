@@ -16,7 +16,7 @@ export function mouseEffectSnake({ gameMode = false, endGame = false }: { gameMo
     document.body.appendChild(canvas);
   }
   if (!canvas) {
-    console.error('No se pudo crear ni encontrar el canvas.');
+    console.error('No se pudo crear encontrar el canvas.');
     return;
   }
   let ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
@@ -191,8 +191,8 @@ export function mouseEffectSnake({ gameMode = false, endGame = false }: { gameMo
       ctx.strokeText(countdown.toString(), canvas.width / 2, canvas.height / 2);
       ctx.fillText(countdown.toString(), canvas.width / 2, canvas.height / 2);
     } else {
-      ctx.strokeText("¡JUEGA!", canvas.width / 2, canvas.height / 2);
-      ctx.fillText("¡JUEGA!", canvas.width / 2, canvas.height / 2);
+      ctx.strokeText("¡PLAY!", canvas.width / 2, canvas.height / 2);
+      ctx.fillText("¡PLAY!", canvas.width / 2, canvas.height / 2);
     }
     ctx.restore();
   }
@@ -341,7 +341,7 @@ export function mouseEffectSnake({ gameMode = false, endGame = false }: { gameMo
       ctx.font = "bold 48px monospace";
       ctx.fillStyle = "#f44";
       ctx.textAlign = "center";
-      ctx.fillText("¡PERDISTE! (presiona R)", canvas.width / 2, canvas.height / 2);
+      ctx.fillText("¡LOST! (press R)", canvas.width / 2, canvas.height / 2);
       ctx.textAlign = "start";
       ctx.restore();
     }
