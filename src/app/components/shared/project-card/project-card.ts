@@ -42,6 +42,19 @@ export class ProjectCard implements OnInit {
   }
 
   /**
+   * Función para detectar si el dispositivo es móvil.
+   * Utiliza el ancho de la ventana para determinar si es menor a 700px.
+   * @returns true si el ancho de la ventana es menor a 700px, false en caso contrario.
+   * Esta propiedad se usa para ajustar el diseño y la funcionalidad del componente
+   * según el tipo de dispositivo.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  get isMobile() {
+    return window.innerWidth < 700;
+  }
+
+  /**
    * Inicializa el componente y carga los proyectos después de un breve retraso.
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
@@ -136,6 +149,10 @@ export class ProjectCard implements OnInit {
       this.flipped = this.projects.map(() => false);
       this.loading = false;
     }, 1800);
+
+    if (this.isMobile) {
+      this.itemsPerPage = 1; // Ajusta el número de proyectos por página en dispositivos móviles
+    }
   }
 
   /**
