@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,14 +25,21 @@ import { Title, Meta } from '@angular/platform-browser';
   ],
   viewProviders: [provideIcons({ lucideUser, lucideMail, lucideMessageCircle })],
 })
-export class ContactMe implements OnInit {
+export class ContactMe implements OnInit, AfterViewInit {
   contactForm: FormGroup;
   sending = false;
   sent = false;
 
+  siteKey = '8f82eac2-f302-46a2-b68a-be009fa2705a';
+  captchaToken: string | null = null;
+  captchaPassed = false;
+  declare hcaptcha: any;
+
+
   constructor(
     private fb: FormBuilder,
-    private title: Title, private meta: Meta
+    private title: Title, private meta: Meta,
+    private ngZone: NgZone
   ){
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -41,9 +48,44 @@ export class ContactMe implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    if ((window as any)['hcaptcha']) {
+      this.hcaptcha.render('hcaptcha', {
+        sitekey: this.siteKey,
+        callback: (token: string) => {
+          this.ngZone.run(() => {
+            this.captchaToken = token;
+            this.captchaPassed = true;
+          });
+        },
+        'expired-callback': () => {
+          this.ngZone.run(() => {
+            this.captchaToken = null;
+            this.captchaPassed = false;
+          });
+        }
+      });
+    }
+
+  }
+
   ngOnInit(): void {
    this.setMetaData();
   }
+
+  /**
+   * Método para manejar el evento de éxito del captcha.
+   * Se activa cuando el usuario completa el captcha.
+   * @param token - El token generado por el captcha.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @returns {void}
+   */
+  onCaptchaSuccess(token: string) {
+    this.captchaPassed = true;
+    this.captchaToken = token;
+  }
+
 
   /**
    * Método para establecer los metadatos de la página.
@@ -60,6 +102,18 @@ export class ContactMe implements OnInit {
     this.meta.updateTag({ property: 'og:image', content: 'https://tu-dominio.com/assets/images/contact.png' });
   }
 
+  /**
+   *Método para manejar el evento de éxito del captcha.
+   * Se activa cuando el usuario completa el captcha.
+   * @param token - El token generado por el captcha.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @returns
+   */
+  onSubmit() {
+    if (!this.captchaPassed) return;
+    this.sendMessage();
+  }
   /**
    * Método para enviar el formulario de contacto.
    * Valida el formulario y simula el envío de datos.

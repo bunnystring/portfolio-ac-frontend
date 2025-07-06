@@ -27,7 +27,7 @@
     </ul>
   </div>
   <div class="col-md-6">
-    <form class="contact-form" autocomplete="off" [formGroup]="contactForm" (ngSubmit)="sendMessage()">
+    <form class="contact-form" autocomplete="off" [formGroup]="contactForm">
       <div class="form-group">
         <input formControlName="name" type="text" required [class.filled]="contactForm.get('name')?.value"
           placeholder=" " />
@@ -55,8 +55,11 @@
          Write your message.
         </div>
       </div>
+      <div class="row col-md-12 d-flex">
+        <div id="hcaptcha"></div>
+        </div>
       <div class="row d-flex justify-content-center col-md-12">
-        <button class="btn-primary btn-send w-50" [disabled]="!contactForm.valid || sending">
+        <button class="btn-primary btn-send w-50" [disabled]="!captchaPassed" (click)="onSubmit()">
           <span *ngIf="!sending">Send <ng-icon name="lucideSend" size="18"></ng-icon></span>
           <span *ngIf="sending" class="loading-dot">Sending...</span>
         </button>
