@@ -250,7 +250,7 @@ $img-rank-stack-offset: 200px; // antes -220px, ahora mucho más cerca del títu
 }
 
 .skills-title {
-  font-size: clamp(1.2rem, 5vw, 2.8rem);
+  font-size: 2.5rem !important;
   font-weight: 800;
   color: #1d1d2b;
   text-shadow:
@@ -284,8 +284,78 @@ $img-rank-stack-offset: 200px; // antes -220px, ahora mucho más cerca del títu
     font-size: 2.8rem; // ¡Fuerza el mismo tamaño que en desktop!
   }
 }
-@media (max-width: 480px) {
+
+
+@media (max-width: 1024px) {
+  #space {
+    min-height: 250px;
+    height: 320px;
+    max-height: unset;
+    justify-content: flex-start;
+  }
+  .skills-title-container {
+    position: static !important;
+    top: unset !important;
+    left: unset !important;
+    margin-bottom: 14px; // Ajusta el espacio entre título y cartas
+    pointer-events: auto;
+    z-index: 10;
+  }
+  .img-rank-stack {
+    margin-top: 0;
+  }
   .skills-title {
-    font-size: 2.8rem;
+    font-size: 2.1rem !important;
+    padding-bottom: 2px;
+    letter-spacing: 1.5px;
+  }
+  .skill-badge {
+    width: clamp(54px, 18vw, 90px);
+    height: clamp(64px, 22vw, 110px);
+    padding: 0.8em 0.5em 0.5em 0.5em;
+    font-size: 0.96em;
+  }
+  .skill-label {
+    font-size: clamp(0.7em, 3vw, 1em);
+    margin-top: 3px;
+  }
+  #rocket {
+    width: clamp(24px, 16vw, 80px);
+    height: clamp(14px, 6vw, 32px);
+    top: 75%; // ajusta según se vea mejor en mobile
+  }
+}
+
+@media (max-width: 700px) {
+  #space {
+    min-height: 170px;
+    height: 380px !important;
+  }
+  .skills-title-container {
+    margin-bottom: 120px !important;
+    margin-top: -50px !important;
+  }
+  .img-rank-stack {
+    height: 90px;
+    min-height: 70px;
+    top: -34px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #space {
+    min-height: 110px;
+    height: 130px;
+  }
+  .skills-title-container {
+    margin-bottom: 7px;
+  }
+  .img-rank-stack {
+    height: 58px;
+    min-height: 44px;
+    top: -15px;
+  }
+  .skills-title {
+    font-size: 1.5rem !important;
   }
 }

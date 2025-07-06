@@ -135,15 +135,18 @@
 
 /* ---------- CARD CONTENEDORA ---------- */
 .aboutit-card {
-  width: 85% !important;
   min-height: 340px;
   display: flex;
   flex-direction: row;
   gap: 2.2rem;
-  border-radius: 28px;
-  padding: 0 !important;
   box-sizing: border-box;
   color: var(--scolor);
+  border-radius: 20px;
+  width: 100%;
+  padding: 24px 0;
+  position: relative;
+
+  /* Gradiente animado tipo burbuja, opacidad baja */
   background:
     radial-gradient(circle at 20% 40%, rgba(255,193,7,0.17) 0%, rgba(255,193,7,0.09) 40%, transparent 70%),
     radial-gradient(circle at 80% 60%, rgba(0,174,255,0.12) 0%, rgba(0,174,255,0.07) 35%, transparent 75%),
@@ -155,6 +158,20 @@
   box-shadow: 0 8px 40px 0 rgba(0,0,0,0.13);
   position: relative;
   overflow: visible;
+}
+
+@keyframes gradientBubble {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 
@@ -992,5 +1009,10 @@
       font-size: 0.90rem;
       line-height: 1.4;
     }
+  }
+  .fullstack-animated{
+    font-size: 2.1rem !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 0.8rem !important;
   }
 }

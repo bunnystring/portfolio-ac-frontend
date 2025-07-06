@@ -1,5 +1,5 @@
-<div class="aboutit-main mt-5 mb-5" @fadeInContainer>
-  <section class="aboutit-card glass-effect">
+<div class="content aboutit-main mt-5 mb-5" @fadeInContainer>
+  <section class="aboutit-card glass-effect container">
     <div class="aboutit-content aboutit-wrap">
       <!-- Título animado -->
       <div id="txt" class="fullstack-animated" aria-label="About Me animado">
@@ -60,7 +60,7 @@
             <ng-icon *ngIf="!isMobile" name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
           </button>
         </a>
-        <a (click)="createRipple($event)" class="secondary">Contact</a>
+        <a [routerLink]="'/contact-me'" (click)="createRipple($event)" class="secondary">Contact</a>
       </div>
     </div>
   </section>

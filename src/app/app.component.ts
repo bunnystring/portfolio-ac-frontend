@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MenuHeaderComponent } from "./components/shared/menu-header/menu-header/menu-header.component";
-import { FooterComponent } from "./components/shared/footer/footer/footer.component";
+import { MenuHeaderComponent } from './components/shared/menu-header/menu-header/menu-header.component';
+import { FooterComponent } from './components/shared/footer/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { SpinnerIntro } from './components/shared/spinner-intro/spinner-intro';
 import { ReflectorBulbComponent } from './components/shared/reflector-bulb/reflector-bulb.component';
@@ -12,28 +12,34 @@ import {
 import { HomeServices } from '../app/components/services/home-services/home-services';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenuHeaderComponent, FooterComponent, CommonModule, SpinnerIntro, ReflectorBulbComponent],
+  imports: [
+    RouterOutlet,
+    MenuHeaderComponent,
+    FooterComponent,
+    CommonModule,
+    SpinnerIntro,
+    ReflectorBulbComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  @ViewChild('starCanvas', { static: true }) starCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('starCanvas', { static: true })
+  starCanvas!: ElementRef<HTMLCanvasElement>;
   title = 'portfolio-ac';
   showSpinner = true;
 
-  constructor(    private homeServices: HomeServices) { }
+  constructor(private homeServices: HomeServices) {}
 
   ngAfterViewInit(): void {
     this.initStars();
     this.validateModeGameSnake();
   }
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     quitarCanvasSnake();
   }
-
 
   /**
    * Método para inicializar el canvas de estrellas.
@@ -45,10 +51,16 @@ export class AppComponent implements OnInit {
   initStars() {
     const canvas = this.starCanvas.nativeElement;
     const ctx = canvas.getContext('2d')!;
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
     const STAR_COUNT = 120;
-    const stars: { x: number; y: number; r: number; speed: number; opacity: number }[] = [];
+    const stars: {
+      x: number;
+      y: number;
+      r: number;
+      speed: number;
+      opacity: number;
+    }[] = [];
 
     function randomStar() {
       return {
@@ -56,7 +68,7 @@ export class AppComponent implements OnInit {
         y: Math.random() * height,
         r: Math.random() * 1.4 + 0.6,
         speed: Math.random() * 0.16 + 0.04,
-        opacity: Math.random() * 0.7 + 0.3
+        opacity: Math.random() * 0.7 + 0.3,
       };
     }
 
@@ -103,16 +115,16 @@ export class AppComponent implements OnInit {
     animate();
   }
 
-
-    /**
-     * Método para activar el modo de juego de la serpiente.
-     * Cambia el estado del servicio de la serpiente y activa los efectos del mouse.
-     * @param {boolean} mode - Indica si se activa o desactiva el modo de juego.
-     * @returns {void}
-     * @version 1.0.0
-     * @author Arlez Camilo Ceron Herrera
-     */
-    validateModeGameSnake() {
+  /**
+   * Método para activar el modo de juego de la serpiente.
+   * Cambia el estado del servicio de la serpiente y activa los efectos del mouse.
+   * @param {boolean} mode - Indica si se activa o desactiva el modo de juego.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  validateModeGameSnake() {
+    if (!this.isMobile) {
       mouseEffectSnake({ gameMode: false });
       this.homeServices.snakeService.subscribe((mode: any) => {
         if (mode.action === 'activeModeGame') {
@@ -124,4 +136,15 @@ export class AppComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * Detecta si el dispositivo es móvil
+   * @returns true si el ancho de la ventana es menor a 992px, false en caso contrario
+   * Esta propiedad se usa para determinar si se debe mostrar el menú de navegación
+   * en modo móvil o de escritorio.
+   */
+  get isMobile() {
+    return window.innerWidth < 992;
+  }
 }
