@@ -4,6 +4,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { CommonModule } from '@angular/common';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { RouterModule } from '@angular/router';
+import {Title, Meta} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-about-it-component',
@@ -46,6 +47,8 @@ export class AboutItComponent implements OnInit {
     { year: 2024, text: 'I led a development team' },
   ];
 
+  constructor(private title: Title, private meta: Meta) {}
+
   /**
    * Detecta si el dispositivo es móvil
    * @returns true si el ancho de la ventana es menor a 992px, false en caso contrario
@@ -66,6 +69,24 @@ export class AboutItComponent implements OnInit {
     }, 120);
     this.typeName();
     setInterval(() => (this.showCursor = !this.showCursor), 500);
+    this.setMetaData();
+  }
+
+
+
+  /**
+   * Método para establecer los metadatos de la página.
+   * Actualiza el título y las etiquetas meta para SEO y redes sociales.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  setMetaData() {
+    this.title.setTitle('Portfolio-AC | About Me');
+    this.meta.updateTag({ name: 'description', content: 'Conoce más sobre mí. Descubre mi trayectoria, habilidades y proyectos destacados.' });
+    this.meta.updateTag({ property: 'og:title', content: 'Portfolio-AC | About Me' });
+    this.meta.updateTag({ property: 'og:description', content: 'Conoce más sobre mí. Descubre mi trayectoria, habilidades y proyectos destacados.' });
+    this.meta.updateTag({ property: 'og:image', content: 'https://portfolio-ac.com/assets/images/aboutit.png' });
   }
 
   /**
