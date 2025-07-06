@@ -91,7 +91,8 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.activeModeGame(false);
+  /* Este meotodo de eliminara en la proxma versión, ya que se ha movido a otro componente
+  this.activeModeGame(false); */
     this.onResize();
     window.addEventListener('resize', () => this.onResize());
   }
@@ -156,6 +157,8 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
    * @returns void
    * @version 1.0.0
    * @author Arlez Camilo Ceron Herrera
+   * @deprecated Este método se eliminará en la próxima versión,
+   * ya que el modo de juego se maneja en otro componente.
    */
   activeModeGame(turnOn?: boolean) {
     if (turnOn) {
@@ -177,7 +180,9 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
    *
    * @returns void
    * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
+   * @author Arlez Camilo Ceron
+   * @deprecated Este método se eliminará en la próxima versión,
+   * ya que el modo de juego se maneja en otro componente.
    */
   leaveModeGame() {
     this.homeServices.snakeService.next({

@@ -4,10 +4,15 @@ import { MenuHeaderComponent } from "./components/shared/menu-header/menu-header
 import { FooterComponent } from "./components/shared/footer/footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { SpinnerIntro } from './components/shared/spinner-intro/spinner-intro';
-
+import { ReflectorBulbComponent } from './components/shared/reflector-bulb/reflector-bulb.component';
+import {
+  mouseEffectSnake,
+  quitarCanvasSnake,
+} from '../app/utils/mouse-effects/mouse-effects';
+import { HomeServices } from '../app/components/services/home-services/home-services';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenuHeaderComponent, FooterComponent, CommonModule, SpinnerIntro],
+  imports: [RouterOutlet, MenuHeaderComponent, FooterComponent, CommonModule, SpinnerIntro, ReflectorBulbComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -16,14 +21,27 @@ export class AppComponent implements OnInit {
   title = 'portfolio-ac';
   showSpinner = true;
 
-  constructor() { }
+  constructor(    private homeServices: HomeServices) { }
 
   ngAfterViewInit(): void {
     this.initStars();
+    this.validateModeGameSnake();
   }
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    quitarCanvasSnake();
+  }
+
+
+  /**
+   * Método para inicializar el canvas de estrellas.
+   * Crea un fondo estrellado animado que se adapta al tamaño de la ventana.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
   initStars() {
     const canvas = this.starCanvas.nativeElement;
     const ctx = canvas.getContext('2d')!;
@@ -84,4 +102,26 @@ export class AppComponent implements OnInit {
     drawStars();
     animate();
   }
+
+
+    /**
+     * Método para activar el modo de juego de la serpiente.
+     * Cambia el estado del servicio de la serpiente y activa los efectos del mouse.
+     * @param {boolean} mode - Indica si se activa o desactiva el modo de juego.
+     * @returns {void}
+     * @version 1.0.0
+     * @author Arlez Camilo Ceron Herrera
+     */
+    validateModeGameSnake() {
+      mouseEffectSnake({ gameMode: false });
+      this.homeServices.snakeService.subscribe((mode: any) => {
+        if (mode.action === 'activeModeGame') {
+          quitarCanvasSnake();
+          mouseEffectSnake({ gameMode: true, endGame: mode.endGame });
+        } else if (mode.action === 'leaveModeGame') {
+          quitarCanvasSnake();
+          mouseEffectSnake({ gameMode: false, endGame: mode.endGame });
+        }
+      });
+    }
 }
