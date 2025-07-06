@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgIcon } from '@ng-icons/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { lucideUser, lucideMail, lucideMessageCircle } from '@ng-icons/lucide';
+
 @Component({
   selector: 'app-contact-me',
   imports: [NgIcon, CommonModule, ReactiveFormsModule ],
@@ -11,6 +14,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
   styleUrl: './contact-me.scss',
   providers: [provideAnimations()],
   standalone: true,
+  animations: [
+    trigger('fadeInContainer', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(30px)' }),
+        animate('600ms cubic-bezier(.35,0,.25,1)', style({ opacity: 1, transform: 'none' }))
+      ])
+    ]),
+  ],
+  viewProviders: [provideIcons({ lucideUser, lucideMail, lucideMessageCircle })],
 })
 export class ContactMe {
   contactForm: FormGroup;

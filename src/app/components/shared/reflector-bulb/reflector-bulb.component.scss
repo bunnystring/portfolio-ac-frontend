@@ -266,3 +266,13 @@
 #bulb {
   pointer-events: auto; /* Solo la bombilla recibe clicks */
 }
+
+// Responsive adjustments for mobile devices
+@media (max-width: 600px) {
+  .lamp-init,
+  .lamp-off,
+  .lamp,
+  .swinging {
+    left: 51% !important;
+  }
+}

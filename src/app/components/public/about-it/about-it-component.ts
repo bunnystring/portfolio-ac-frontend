@@ -40,6 +40,16 @@ export class AboutItComponent implements OnInit {
     { year: 2024, text: 'I led a development team' }
   ];
 
+    /**
+   * Detecta si el dispositivo es móvil
+   * @returns true si el ancho de la ventana es menor a 992px, false en caso contrario
+   * Esta propiedad se usa para determinar si se debe mostrar el menú de navegación
+   * en modo móvil o de escritorio.
+   */
+    get isMobile() {
+      return window.innerWidth < 992;
+    }
+
 
   ngOnInit(): void {
     let current = 0;

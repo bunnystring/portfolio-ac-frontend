@@ -18,7 +18,7 @@
   justify-content: center;
 }
 
-/* ---------- WRAP AJUSTADO A 80% ---------- */
+/* ---------- WRAP AJUSTADO A 100% ---------- */
 .wrap {
   height: 100vh;
   min-height: 100vh;
@@ -26,9 +26,7 @@
   max-width: 100%;
   margin: auto;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 /* ---------- CARD CONTENEDORA ---------- */
@@ -54,6 +52,17 @@
   0% {background-position:0% 50%;}
   50%{background-position:100% 50%;}
   100%{background-position:0% 50%;}
+}
+
+.text-white {
+  font-size: 1.18rem;
+  margin-bottom: 1.4rem;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+  text-align: justify;
+  transition: color 0.3s;
 }
 
 /* ---------- IMAGEN DE PERFIL ---------- */

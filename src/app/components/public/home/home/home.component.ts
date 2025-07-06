@@ -6,10 +6,8 @@ import {
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
-import { ReflectorBulbComponent } from '../../../shared/reflector-bulb/reflector-bulb.component';
 import { RocketScroll } from '../../../shared/rocket-scroll/rocket-scroll';
 import { HomeServices } from '../../../services/home-services/home-services';
-import { ReflectorBulbServices } from './../../../services/reflector-bulb-services/reflector-bulb-services';
 import {
   mouseEffectSnake,
   quitarCanvasSnake,
@@ -24,7 +22,6 @@ import { ProjectCard } from '../../../shared/project-card/project-card';
   imports: [
     NgIcon,
     FlexLayoutModule,
-    ReflectorBulbComponent,
     RocketScroll,
     CommonModule,
     ProjectCard,
@@ -51,14 +48,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private homeServices: HomeServices
   ) {}
 
-  ngOnInit(): void {
-    this.validateChartsMain();
-    this.validateModeGameSnake();
-  }
+  ngOnInit(): void {this.validateChartsMain();}
 
   ngOnDestroy() {
-    quitarCanvasSnake();
-    if (this.intervalId) clearInterval(this.intervalId);
+  if (this.intervalId) clearInterval(this.intervalId);
     this.destroy$.next();
     this.destroy$.complete();
   }
