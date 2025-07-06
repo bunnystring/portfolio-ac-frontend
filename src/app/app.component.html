@@ -4,7 +4,9 @@
 <ng-container *ngIf="!showSpinner">
   <app-menu-header></app-menu-header>
   <main class="main-content">
-    <router-outlet></router-outlet>
+    <router-outlet>
+      <app-reflector-bulb>  </app-reflector-bulb>
+    </router-outlet>
   </main>
   <app-footer></app-footer>
 </ng-container>
