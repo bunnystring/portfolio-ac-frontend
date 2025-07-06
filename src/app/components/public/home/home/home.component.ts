@@ -15,6 +15,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ProjectCard } from '../../../shared/project-card/project-card';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ import { ProjectCard } from '../../../shared/project-card/project-card';
     RocketScroll,
     CommonModule,
     ProjectCard,
+    RouterModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -45,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private homeServices: HomeServices
+    private homeServices: HomeServices,
   ) {}
 
   ngOnInit(): void {this.validateChartsMain();}
