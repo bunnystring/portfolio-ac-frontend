@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ProjectCard } from '../../../shared/project-card/project-card';
 import { RouterModule } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -48,9 +49,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private homeServices: HomeServices,
+    private title: Title, private meta: Meta
   ) {}
 
-  ngOnInit(): void {this.validateChartsMain();}
+  ngOnInit(): void {
+    this.validateChartsMain();
+    this.setMetaData();
+  }
 
   ngOnDestroy() {
   if (this.intervalId) clearInterval(this.intervalId);
@@ -91,5 +96,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.activeTitleIdx = (this.activeTitleIdx + 1) % this.titles.length;
       this.activeTitle = this.titles[this.activeTitleIdx];
     }, 2200);
+  }
+
+  /**
+   * Método para establecer los metadatos de la página.
+   * Actualiza el título y las etiquetas meta para SEO y redes sociales.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  setMetaData() {
+    this.title.setTitle('Portfolio-AC | Home');
+    this.meta.updateTag({ name: 'description', content: 'Bienvenido a mi portfolio. Descubre mis proyectos, habilidades y experiencia.' });
+    this.meta.updateTag({ property: 'og:title', content: 'Portfolio-AC | Home' });
+    this.meta.updateTag({ property: 'og:description', content: 'Bienvenido a mi portfolio. Descubre mis proyectos, habilidades y experiencia.' });
+    this.meta.updateTag({ property: 'og:image', content: 'https://portfolio-ac.com/assets/images/home.png' });
   }
 }

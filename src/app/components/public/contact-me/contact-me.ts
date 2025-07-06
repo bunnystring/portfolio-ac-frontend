@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { lucideUser, lucideMail, lucideMessageCircle } from '@ng-icons/lucide';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contact-me',
@@ -24,17 +25,39 @@ import { lucideUser, lucideMail, lucideMessageCircle } from '@ng-icons/lucide';
   ],
   viewProviders: [provideIcons({ lucideUser, lucideMail, lucideMessageCircle })],
 })
-export class ContactMe {
+export class ContactMe implements OnInit {
   contactForm: FormGroup;
   sending = false;
   sent = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private title: Title, private meta: Meta
+  ){
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
+  }
+
+  ngOnInit(): void {
+   this.setMetaData();
+  }
+
+  /**
+   * Método para establecer los metadatos de la página.
+   * Configura el título y la descripción para SEO.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   * @returns {void}
+   */
+  setMetaData() {
+    this.title.setTitle('Portfolio | Contact Me');
+    this.meta.updateTag({ name: 'description', content: 'Bienvenido a mi portfolio. Descubre mis proyectos, habilidades y experiencia.' });
+    this.meta.updateTag({ property: 'og:title', content: 'Portfolio | Contact Me' });
+    this.meta.updateTag({ property: 'og:description', content: 'Bienvenido a mi portfolio. Descubre mis proyectos, habilidades y experiencia.' });
+    this.meta.updateTag({ property: 'og:image', content: 'https://tu-dominio.com/assets/images/contact.png' });
   }
 
   /**
