@@ -3,19 +3,22 @@
   --scolor: #6c757d;
   --textcolor-light: #262626;
   --textcolor-dark: #fff;
+  --pcolor-rgb: 255,193,7;
 }
 
 /* ---------- CARD CONTENEDORA ---------- */
 .contact-card {
-  width: 85% !important;
   min-height: 340px;
   display: flex;
   flex-direction: row;
   gap: 2.2rem;
-  border-radius: 28px;
-  padding: 0 !important;
   box-sizing: border-box;
   color: var(--scolor);
+  border-radius: 20px;
+  width: 100%;
+  padding: 24px 0;
+  position: relative;
+  /* Gradiente animado tipo burbuja, opacidad baja */
   background:
     radial-gradient(circle at 20% 40%, rgba(255,193,7,0.17) 0%, rgba(255,193,7,0.09) 40%, transparent 70%),
     radial-gradient(circle at 80% 60%, rgba(0,174,255,0.12) 0%, rgba(0,174,255,0.07) 35%, transparent 75%),
@@ -23,12 +26,10 @@
     radial-gradient(circle at 40% 80%, rgba(240,142,255,0.13) 0%, transparent 60%),
     linear-gradient(-45deg, rgba(252,234,187,0.15), rgba(248,181,0,0.08), rgba(252,203,144,0.16), rgba(224,195,252,0.13));
   background-size: 400% 400%;
-  animation: gradientBubble 12s ease-in-out infinite;
-  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.13);
+  animation: gradientBubble 12s ease-in-out infinite;  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.13);
   position: relative;
   overflow: visible;
-  /* Animación de entrada suave */
-  animation: fadeInContainer 1s cubic-bezier(.61,-0.11,.56,1.34);
+
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 0.7rem;
@@ -39,14 +40,19 @@
 }
 
 @keyframes gradientBubble {
-  0% {background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
-@keyframes fadeInContainer {
-  from { opacity: 0; transform: translateY(32px) scale(0.96);}
-  to   { opacity: 1; transform: none;}
-}
+
 
 /* ---------- INFO LADO IZQUIERDO ---------- */
 .contact-info {
@@ -57,18 +63,28 @@
   justify-content: center;
   padding: 2.5rem 2.2rem 2.5rem 2.7rem;
   /* Animación de entrada lateral */
-  animation: slideLeftFade 1.1s 0.1s backwards cubic-bezier(.61,-0.11,.56,1.34);
+  animation: slideLeftFade 1.1s 0.1s backwards cubic-bezier(.61, -0.11, .56, 1.34);
+
   @media (max-width: 700px) {
     padding: 1.2rem 0.4rem 0.8rem 0.7rem;
   }
 }
+
 @keyframes slideLeftFade {
-  from { opacity: 0; transform: translateX(-40px);}
-  to   { opacity: 1; transform: none;}
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
+
 .contact-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 2.19rem;
+  font-size: 3.5rem !important;
   font-weight: 800;
   color: var(--pcolor);
   margin-bottom: 0.6rem;
@@ -76,6 +92,8 @@
   display: flex;
   align-items: center;
   gap: 0.5em;
+  text-shadow: 0 2px 10px rgba(255,193,7,0.2);
+
   .icon-mail {
     display: inline-block;
     width: 1.6em;
@@ -86,16 +104,27 @@
     animation: bounceMail 1.4s infinite alternate;
   }
 }
+
 @keyframes bounceMail {
-  0% { transform: scale(1) translateY(0);}
-  50% { transform: scale(1.08) translateY(-5px);}
-  100% { transform: scale(1) translateY(0);}
+  0% {
+    transform: scale(1) translateY(0);
+  }
+
+  50% {
+    transform: scale(1.08) translateY(-5px);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
 }
+
 .contact-desc {
   color: var(--textcolor-dark);
   font-size: 1.13rem;
   line-height: 1.7;
   margin-bottom: 1.2rem;
+
   .contact-tip {
     display: inline-block;
     color: var(--pcolor);
@@ -108,16 +137,24 @@
     animation: pulseGlow 2.2s infinite alternate;
   }
 }
+
 @keyframes pulseGlow {
-  0% { box-shadow: 0 0 6px #ffc10777;}
-  100% { box-shadow: 0 0 24px #ffc107bb;}
+  0% {
+    box-shadow: 0 0 6px #ffc10777;
+  }
+
+  100% {
+    box-shadow: 0 0 24px #ffc107bb;
+  }
 }
+
 .contact-social {
   list-style: none;
   display: flex;
   gap: 1.15rem !important;
   margin: 0.5rem 0 0 0;
   padding: 0;
+
   li {
     a {
       display: inline-flex;
@@ -129,16 +166,21 @@
       background: #fff3;
       transition: background 0.18s, transform 0.18s;
       box-shadow: 0 2px 6px #16124b22;
+
       img {
         width: 24px;
         height: 24px;
         filter: grayscale(1) brightness(0.9);
         transition: filter 0.23s;
       }
+
       &:hover {
         background: var(--pcolor);
         transform: scale(1.13) rotate(-6deg);
-        img { filter: grayscale(0) brightness(1.2);}
+
+        img {
+          filter: grayscale(0) brightness(1.2);
+        }
       }
     }
   }
@@ -153,24 +195,36 @@
   padding: 2.5rem 2.2rem 2.5rem 0;
   gap: 1.45rem;
   /* Animación de entrada lateral */
-  animation: slideRightFade 1.1s 0.3s backwards cubic-bezier(.61,-0.11,.56,1.34);
+  animation: slideRightFade 1.1s 0.3s backwards cubic-bezier(.61, -0.11, .56, 1.34);
+
   @media (max-width: 900px) {
     padding: 1.1rem 0.4rem 1.2rem 0.4rem;
   }
 }
+
 @keyframes slideRightFade {
-  from { opacity: 0; transform: translateX(40px);}
-  to   { opacity: 1; transform: none;}
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
+
 .form-group {
   position: relative;
   margin-bottom: 0.2rem;
+
   /* Sombra animada al focus */
-  input, textarea {
+  input,
+  textarea {
     width: 100%;
     font-size: 1.07rem;
     padding: 1.15em 1em 1.15em 2.6em;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     color: var(--textcolor-light);
     border: 2.3px solid #ffe082;
     border-radius: 1.9em;
@@ -179,19 +233,25 @@
     transition: border 0.2s, box-shadow 0.2s, background 0.15s;
     box-shadow: 0 3px 12px #ffc10711;
     resize: none;
-    &::placeholder { color: transparent; }
+
+    &::placeholder {
+      color: transparent;
+    }
+
     &:focus {
       border: 2.3px solid var(--pcolor);
       background: #fff;
       box-shadow: 0 2px 18px #ffc10744, 0 0 0 4px #ffe08233;
       animation: inputGlow 1s;
     }
+
     &.ng-invalid.ng-touched {
       border: 2.3px solid #ff5252;
       background: #fff8f8;
     }
-    &.filled + label,
-    &:focus + label {
+
+    &.filled+label,
+    &:focus+label {
       color: var(--pcolor);
       font-size: 0.92em;
       top: 0.42em;
@@ -205,10 +265,17 @@
       transition: all 0.18s;
     }
   }
+
   @keyframes inputGlow {
-    0% { box-shadow: 0 0 0 0 #ffe08233; }
-    100% { box-shadow: 0 2px 18px #ffc10744, 0 0 0 4px #ffe08233; }
+    0% {
+      box-shadow: 0 0 0 0 #ffe08233;
+    }
+
+    100% {
+      box-shadow: 0 2px 18px #ffc10744, 0 0 0 4px #ffe08233;
+    }
   }
+
   label {
     position: absolute;
     left: 2.8em;
@@ -221,6 +288,7 @@
     z-index: 1;
     font-weight: 500;
   }
+
   .form-icon {
     position: absolute;
     left: 0.8em;
@@ -233,13 +301,15 @@
     font-size: 1.13em;
     /* Animación de icono al focus */
     transition: color 0.2s, filter 0.2s, transform 0.18s;
-    .filled ~ &,
-    :focus ~ & {
+
+    .filled~&,
+    :focus~& {
       color: var(--pcolor);
       filter: brightness(1.15) drop-shadow(0 0 6px #ffc107aa);
       transform: scale(1.12) rotate(-8deg);
     }
   }
+
   .invalid {
     color: #ff5252;
     font-size: 0.98em;
@@ -250,12 +320,25 @@
     animation: shake 0.4s;
   }
 }
+
 @keyframes shake {
-  0% { transform: translateX(0);}
-  30% { transform: translateX(-4px);}
-  60% { transform: translateX(4px);}
-  100% { transform: translateX(0);}
+  0% {
+    transform: translateX(0);
+  }
+
+  30% {
+    transform: translateX(-4px);
+  }
+
+  60% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
+
 .btn-send {
   background: var(--pcolor);
   color: #fff;
@@ -267,52 +350,82 @@
   box-shadow: 0 6px 34px -8px #ffc10744;
   margin-top: 0.5em;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
   gap: 0.9em;
   transition: background 0.18s, transform 0.14s, box-shadow 0.15s;
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   /* Ripple click effect */
   &:active::after {
     content: "";
     position: absolute;
-    left: 50%; top: 50%;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.45);
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.45);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     animation: rippleBtn 0.4s linear;
     pointer-events: none;
     z-index: 2;
   }
+
   &:hover:not(:disabled) {
     background: var(--scolor);
     color: #fff;
     transform: scale(1.05);
     box-shadow: 0 8px 32px -6px #6c757d55;
   }
+
   &:disabled {
     opacity: 0.66;
     pointer-events: none;
     filter: grayscale(0.6);
   }
 }
+
 @keyframes rippleBtn {
-  0% { width: 0; height: 0; opacity: 1;}
-  100% { width: 250%; height: 250%; opacity: 0;}
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    width: 250%;
+    height: 250%;
+    opacity: 0;
+  }
 }
+
 .loading-dot {
   font-size: 1em;
   letter-spacing: 0.09em;
   animation: dots 1.5s infinite steps(3);
 }
+
 @keyframes dots {
-  0% { content: 'Enviando'; }
-  33% { content: 'Enviando.'; }
-  66% { content: 'Enviando..'; }
-  100% { content: 'Enviando...'; }
+  0% {
+    content: 'Enviando';
+  }
+
+  33% {
+    content: 'Enviando.';
+  }
+
+  66% {
+    content: 'Enviando..';
+  }
+
+  100% {
+    content: 'Enviando...';
+  }
 }
+
 .form-success {
   margin-top: 0.8em;
   color: #1db954;
@@ -325,10 +438,29 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .contact-info, .contact-form {
+
+  .contact-info,
+  .contact-form {
     padding: 1.1rem 0.7rem !important;
   }
-  .text-white{
+
+  .text-white {
     text-align: justify !important;
   }
+
+  .contact-card {
+    width: 88% !important;
+  }
 }
+
+@media (max-width: 600px) {
+  .contact-desc {
+    text-align: center !important;
+    font-size: 0.9rem !important;
+  }
+  .contact-title{
+    font-size: 2.1rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+}
+

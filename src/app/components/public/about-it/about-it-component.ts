@@ -3,10 +3,11 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { CommonModule } from '@angular/common';
 import { lucideExternalLink } from '@ng-icons/lucide';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-about-it-component',
-  imports: [NgIcon, CommonModule],
+  imports: [NgIcon, CommonModule, RouterModule],
   templateUrl: './about-it-component.html',
   styleUrl: './about-it-component.scss',
   viewProviders: [provideIcons({ lucideExternalLink })],
@@ -14,19 +15,24 @@ import { lucideExternalLink } from '@ng-icons/lucide';
     trigger('fadeInContainer', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(30px)' }),
-        animate('600ms cubic-bezier(.35,0,.25,1)', style({ opacity: 1, transform: 'none' }))
-      ])
+        animate(
+          '600ms cubic-bezier(.35,0,.25,1)',
+          style({ opacity: 1, transform: 'none' })
+        ),
+      ]),
     ]),
     trigger('popInImage', [
       transition(':enter', [
         style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate('600ms 100ms cubic-bezier(.35,0,.25,1)', style({ opacity: 1, transform: 'scale(1)' }))
-      ])
-    ])
-  ]
+        animate(
+          '600ms 100ms cubic-bezier(.35,0,.25,1)',
+          style({ opacity: 1, transform: 'scale(1)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class AboutItComponent implements OnInit {
-
   @Input() name = 'Arlez Camilo Ceron Herrera';
   displayedName: string[] = [];
   showCursor = true;
@@ -37,32 +43,30 @@ export class AboutItComponent implements OnInit {
     { year: 2017, text: 'Started programming as a hobby' },
     { year: 2019, text: 'First job as Frontend' },
     { year: 2021, text: 'I became Full Stack' },
-    { year: 2024, text: 'I led a development team' }
+    { year: 2024, text: 'I led a development team' },
   ];
 
-    /**
+  /**
    * Detecta si el dispositivo es móvil
    * @returns true si el ancho de la ventana es menor a 992px, false en caso contrario
    * Esta propiedad se usa para determinar si se debe mostrar el menú de navegación
    * en modo móvil o de escritorio.
    */
-    get isMobile() {
-      return window.innerWidth < 992;
-    }
-
+  get isMobile() {
+    return window.innerWidth < 992;
+  }
 
   ngOnInit(): void {
     let current = 0;
-  const target = 5; // tus años reales
-  const interval = setInterval(() => {
-    current++;
-    this.yearsExp = current;
-    if (current === target) clearInterval(interval);
-  }, 120);
-  this.typeName();
-  setInterval(() => this.showCursor = !this.showCursor, 500);
+    const target = 5; // tus años reales
+    const interval = setInterval(() => {
+      current++;
+      this.yearsExp = current;
+      if (current === target) clearInterval(interval);
+    }, 120);
+    this.typeName();
+    setInterval(() => (this.showCursor = !this.showCursor), 500);
   }
-
 
   /**
    * Método para crear un efecto de "ripple" al hacer clic en el botón.
@@ -78,7 +82,7 @@ export class AboutItComponent implements OnInit {
     const button = event.currentTarget as HTMLElement;
 
     // Elimina todos los ripples previos
-    button.querySelectorAll('.ripple').forEach(el => el.remove());
+    button.querySelectorAll('.ripple').forEach((el) => el.remove());
 
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
@@ -87,8 +91,8 @@ export class AboutItComponent implements OnInit {
     ripple.className = 'ripple';
 
     ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+    ripple.style.left = event.clientX - rect.left - size / 2 + 'px';
+    ripple.style.top = event.clientY - rect.top - size / 2 + 'px';
 
     // Safari: fuerza repaint antes de animar
     ripple.style.transform = 'scale(0)';
@@ -115,7 +119,7 @@ export class AboutItComponent implements OnInit {
     this.displayedName = [];
     for (let i = 0; i < this.name.length; i++) {
       this.displayedName.push(this.name[i]);
-      await new Promise(r => setTimeout(r, 55));
+      await new Promise((r) => setTimeout(r, 55));
     }
     this.isTyping = false;
   }

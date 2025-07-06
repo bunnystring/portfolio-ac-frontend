@@ -55,10 +55,12 @@
          Write your message.
         </div>
       </div>
-      <button class="btn-primary btn-send w-50" [disabled]="!contactForm.valid || sending">
-        <span *ngIf="!sending">Send <ng-icon name="lucideSend" size="18"></ng-icon></span>
-        <span *ngIf="sending" class="loading-dot">Sending...</span>
-      </button>
+      <div class="row d-flex justify-content-center col-md-12">
+        <button class="btn-primary btn-send w-50" [disabled]="!contactForm.valid || sending">
+          <span *ngIf="!sending">Send <ng-icon name="lucideSend" size="18"></ng-icon></span>
+          <span *ngIf="sending" class="loading-dot">Sending...</span>
+        </button>
+      </div>
       <div class="form-success" *ngIf="sent">¡Message sent! ... 🚀</div>
     </form>
   </div>

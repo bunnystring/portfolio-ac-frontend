@@ -226,6 +226,33 @@
     }
   }
 
+  .btn-return {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #00aeff;
+    color: #fff;
+    font-weight: 600;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 10px #ffc10733;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    font-family: inherit;
+    font-size: 1em;
+    letter-spacing: 0.5px;
+    text-align: center;
+    cursor: pointer;
+    &:hover, &:focus {
+      background: #fff !important; // amarillo
+      border: 2px solid #00aeff;
+      color: #00aeff !important;            // texto oscuro para contraste
+      box-shadow: 0 2px 12px #ffc10755;
+      text-decoration: none;
+      outline: none;
+    }
+  }
+
   .btn-outline-project {
     display: inline-block;
     margin-bottom: 6px;
@@ -397,12 +424,12 @@
     margin-bottom: 1.5rem !important;
   }
   .projects-title {
-    font-size: 2.8rem;
+    font-size: 1.6rem;
     letter-spacing: 2px;
     padding-bottom: 5px;
   }
   .section-subtitle {
-    font-size: 1.07rem;
+    font-size: 1rem;
     padding: 0 0.5rem;
   }
   .row {
@@ -443,7 +470,8 @@
       text-align: center;
     }
     .btn-project,
-    .btn-outline-project {
+    .btn-outline-project,
+    .btn-return {
       min-width: 80px;
       padding: 5px 8px;
       font-size: 0.92em;
@@ -475,7 +503,8 @@
 
 @media (max-width: 600px) {
   .btn-project,
-  .btn-outline-project {
+  .btn-outline-project,
+  .btn-return {
     min-width: 90px;
     padding: 6px 10px;
     font-size: 0.96em;
