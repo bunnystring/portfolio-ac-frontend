@@ -241,3 +241,110 @@
 .zoom-in {
   animation: zoomExplosion 0.7s cubic-bezier(0.42,2,0.58,1) 1;
 }
+
+/* --- ADAPTACIÓN MOBILE RESPONSIVE --- */
+@media (max-width: 800px), (max-aspect-ratio: 3/4) {
+  .spinner-center {
+    width: 84vw;         /* o usa clamp(240px, 90vw, 420px) */
+    height: 84vw;
+    max-width: 98vw;
+    max-height: 80vh;
+    min-width: 220px;
+    min-height: 220px;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -46%);
+    /* Elimina el tamaño fijo grande */
+  }
+  .planet {
+    width: 14vw;
+    height: 14vw;
+    min-width: 38px;
+    min-height: 38px;
+    max-width: 64px;
+    max-height: 64px;
+    left: calc(50% - 7vw);
+    top: calc(50% - 7vw);
+  }
+  .explosion {
+    width: 30vw;
+    height: 30vw;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 180px;
+    max-height: 180px;
+  }
+  .explosion-text {
+    font-size: 1.1rem;
+    top: 66%;
+  }
+  .particle {
+    width: 4vw;
+    height: 4vw;
+    min-width: 12px;
+    min-height: 12px;
+    max-width: 22px;
+    max-height: 22px;
+  }
+  .ashes-bg {
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+  }
+}
+
+@media (max-width: 800px), (max-aspect-ratio: 3/4) {
+  .spinner-center {
+    width: 90vw;
+    height: 90vw;
+    max-width: 98vw;
+    max-height: 70vh;
+    min-width: 160px;
+    min-height: 160px;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -48%);
+    overflow: visible;
+  }
+  .orbit {
+    width: 100% !important;
+    height: 100% !important;
+    left: 0;
+    top: 0;
+  }
+  .planet {
+    width: 12vw;
+    height: 12vw;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 44px;
+    max-height: 44px;
+    left: 50%;
+    top: 50%;
+    /* El planeta debe empezar en el centro; la órbita lo mueve */
+    transform: translate(-50%, -50%);
+    /* Asegura que el tamaño sea relativo al contenedor */
+  }
+  /* Ajusta el radio de la órbita usando una variable CSS */
+  .orbit {
+    --orbit-radius: 60vw !important; /* Máximo radio permitido en mobile */
+  }
+  .explosion {
+    width: 24vw;
+    height: 24vw;
+    min-width: 68px;
+    min-height: 68px;
+    max-width: 110px;
+    max-height: 110px;
+  }
+  .particle {
+    width: 3vw;
+    height: 3vw;
+    min-width: 8px;
+    min-height: 8px;
+    max-width: 16px;
+    max-height: 16px;
+  }
+}
+/* Fin Adaptación Mobile */

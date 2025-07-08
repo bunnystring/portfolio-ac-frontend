@@ -31,6 +31,8 @@ export class SpinnerIntro {
   particles: any[] = [];
   planetOrbits: OrbitConfig[] = [];
   planetStates: PlanetState[] = [];
+  isMobile = false;
+
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -48,8 +50,28 @@ export class SpinnerIntro {
     // Oculta el cursor en todo el body
     this.renderer.addClass(this.document.body, 'spinner-hide-cursor');
 
+    window.addEventListener('resize', this.handleResize);
+
     // Oculta todos los canvas mientras dura la animación
     this.toggleCanvasVisibility(false);
+
+    this.isMobile = window.innerWidth <= 800 || window.innerHeight / window.innerWidth > 1.2;
+
+    const baseOrbits = [
+      { duration: 2.6, radius: 250, delay: 0 },
+      { duration: 3.5, radius: 270, delay: 0.2 },
+      { duration: 2.1, radius: 230, delay: 0.4 },
+      { duration: 2.9, radius: 320, delay: 0.1 },
+      { duration: 3.2, radius: 295, delay: 0.3 },
+      { duration: 2.7, radius: 240, delay: 0.15 },
+      { duration: 3.0, radius: 310, delay: 0.05 },
+    ];
+
+    const scale = this.isMobile ? 0.36 : 1;
+    this.planetOrbits = baseOrbits.map((o) => ({
+      ...o,
+      radius: Math.round(o.radius * scale),
+    }));
 
     this.planetOrbits = [
       { duration: 2.6, radius: 250, delay: 0 },
@@ -100,6 +122,23 @@ export class SpinnerIntro {
     }, 5000);
   }
 
+  /**
+   * Método para manejar el evento de cambio de tamaño de la ventana.
+   * Actualiza la propiedad isMobile según el ancho y alto de la ventana.
+   * Si cambia el estado de mobile a desktop o viceversa, recalcula los orbits.
+   * @returns {void}
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  handleResize = () => {
+    const wasMobile = this.isMobile;
+    this.isMobile = window.innerWidth <= 800 || window.innerHeight / window.innerWidth > 1.2;
+    if (wasMobile !== this.isMobile) {
+      // Fuerza recalcular orbits si cambia de mobile a desktop o viceversa
+      // (puedes extraer la lógica de radio a un método y llamarlo aquí)
+    }
+  };
+
 
   /**
    *  Método para alternar la visibilidad de los canvas en el documento.
@@ -140,9 +179,11 @@ export class SpinnerIntro {
    * @author Arlez Camilo Ceron Herrera
    */
   createParticles(n: number) {
+    const base = this.isMobile ? 36 : 105;
+    const extra = this.isMobile ? 10 : 35;
     this.particles = Array(n).fill(0).map((_, i) => {
       const angle = (2 * Math.PI * i) / n;
-      const radius = 105 + Math.random() * 35;
+      const radius = base + Math.random() * extra;
       return {
         style: {
           '--tx': `${Math.cos(angle) * radius}px`,

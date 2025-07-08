@@ -54,7 +54,7 @@
           <div class="project-card-3d-back rounded-4">
             <h5 class="fw-bold project-title-back">{{ project.title }}</h5>
             <p class="project-desc">{{ project.description }}</p>
-            <div class="row col-md-12 d-flex justify-content-center project-actions">
+            <div class="col-md-12 d-flex justify-content-center project-actions">
                 <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">See Demo</a>
                 <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank"
                 class="btn btn-outline-project">GitHub</a>

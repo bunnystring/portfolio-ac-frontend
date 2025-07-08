@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  NgZone,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -21,7 +22,8 @@ import { ReflectorBulbServices } from '../../../services/reflector-bulb-services
 import { HomeServices } from '../../../services/home-services/home-services';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 export const headerSlideIn = trigger('headerSlideIn', [
   transition(':enter', [
     style({ transform: 'translateY(-100%)', opacity: 0 }),
@@ -73,7 +75,9 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
     private reflectorBulbServices: ReflectorBulbServices,
     private homeServices: HomeServices,
     private router: Router,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    private activateRoute: ActivatedRoute,
+    private ngZone: NgZone
   ) {}
 
   /**
@@ -95,6 +99,25 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
   this.activeModeGame(false); */
     this.onResize();
     window.addEventListener('resize', () => this.onResize());
+
+    // Espera a que el dom este cargado para ir al fragmento
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.activateRoute.fragment.subscribe(fragment => {
+        if (fragment) {
+          // Esperar al siguiente ciclo para asegurar que el DOM esté listo
+          this.ngZone.runOutsideAngular(() => {
+            setTimeout(() => {
+              const element = document.getElementById(fragment);
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          });
+        }
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -190,24 +213,6 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
       message: 'Leave mode game',
       endGame: true,
     });
-  }
-
-  /**
-   * Método para desplazar la ventana hacia una sección específica del documento.
-   * Utiliza el método scrollIntoView para un desplazamiento suave.
-   * Si el dispositivo es móvil, oculta el menú después de hacer scroll.
-   *
-   * @param sectionId - El ID de la sección a la que se desea desplazar.
-   * @returns void
-   * @version 1.0.0
-   * @author Arlez Camilo Ceron Herrera
-   */
-  scrollToSection(sectionId: string) {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      if (this.isMobile) this.showMenu = false;
-    }
   }
 
   /**
