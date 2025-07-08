@@ -30,8 +30,8 @@
         <nav class="menu mb-2 mb-lg-0 d-none d-lg-flex">
           <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home')}">Home</a>
           <a [routerLink]="'/about-it'" [ngClass]="{'active' : isActiveRoute('/about-it')}">About</a>
-          <a [routerLink]="'/home'" (click)="scrollToSection('skills')">Skills</a>
-          <a [routerLink]="'/home'" (click)="scrollToSection('projects')">Projects</a>
+          <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home#skills')}" fragment="skills" (click)="hideMenu()">Skills</a>
+          <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home#projects')}" fragment="projects" (click)="hideMenu()">Projects</a>
           <a [routerLink]="'/contact-me'" [ngClass]="{'active' : isActiveRoute('/contact-me')}">Contact me</a>
         </nav>
 
@@ -74,8 +74,8 @@
       >
         <a [routerLink]="'/home'" [ngClass]="{'active' : isActiveRoute('/home')}" (click)="hideMenu()">Home</a>
         <a [routerLink]="'/about-it'" [ngClass]="{'active' : isActiveRoute('/about-it')}" (click)="hideMenu()">About</a>
-        <a [routerLink]="'/home'" (click)="scrollToSection('skills'); hideMenu()">Skills</a>
-        <a [routerLink]="'/home'" (click)="scrollToSection('projects'); hideMenu()">Projects</a>
+        <a [routerLink]="'/home'"  [ngClass]="{'active' : isActiveRoute('/home#skills')}" fragment="skills" (click)="hideMenu()">Skills</a>
+        <a [routerLink]="'/home'"  [ngClass]="{'active' : isActiveRoute('/home#projects')}" fragment="projects" (click)="hideMenu()">Projects</a>
         <a [routerLink]="'/contact-me'" [ngClass]="{'active' : isActiveRoute('/contact-me')}" (click)="hideMenu()">Contact me</a>
       </nav>
     </div>

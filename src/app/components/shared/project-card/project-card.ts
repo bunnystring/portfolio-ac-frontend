@@ -64,43 +64,43 @@ export class ProjectCard implements OnInit {
     setTimeout(() => {
       this.projects = [
         {
-          title: 'Portfolio Angular',
+          title: 'Portfolio AC Angular',
           images: [
-            '/assets/images/angularRank.png',
-            '/assets/images/javaScriptRank.png',
-            '/assets/images/bootstrapRank.png',
+            '/assets/images/home.png',
+            '/assets/images/contactPage.png',
+            '/assets/images/aboutit.png',
           ],
           description:
             'A modern portfolio built with Angular 20 and Bootstrap 5. Featuring animations, responsive design, and an interactive pet.',
-          demoLink: 'https://tu-demo-angular.com',
-          repoLink: 'https://github.com/bunnystring/portfolio-angular',
-          createdAt: '2024-09-01',
-          updatedAt: '2025-06-01',
+          demoLink: 'https://portfolio-ac.com',
+          repoLink: 'https://github.com/bunnystring/portfolio-ac',
+          createdAt: '2025-05-01',
+          updatedAt: '2025-07-08',
         },
         {
           title: 'ToDo App',
           images: [
-            'https://picsum.photos/seed/todo1/400/250',
-            'https://picsum.photos/seed/todo2/400/250',
+            '',
+            '',
           ],
           description:
             'Task management app with authentication, drag & drop, and cloud sync (Firebase).',
-          demoLink: 'https://tu-todo-app.com',
-          repoLink: 'https://github.com/bunnystring/todo-app',
-          createdAt: '2024-05-10',
-          updatedAt: '2025-05-12',
+          demoLink: '',
+          repoLink: 'https://github.com/bunnystring',
+          createdAt: '2024-05-01',
+          updatedAt: '2025-05-08',
         },
         {
           title: 'E-commerce Angular',
           images: [
-            'https://picsum.photos/seed/ecommerce1/400/250',
-            'https://picsum.photos/seed/ecommerce2/400/250',
-            'https://picsum.photos/seed/todo2/400/250',
-            'https://picsum.photos/seed/todo2/400/250',
+            '',
+            '',
+            '',
+            '',
           ],
           description:
             'Store online with Angular, shopping cart, payment gateway and product management.',
-          demoLink: 'https://tu-ecommerce-angular.com',
+          demoLink: '',
           repoLink: '',
           createdAt: '',
           updatedAt: '',
@@ -108,12 +108,12 @@ export class ProjectCard implements OnInit {
         {
           title: 'Blog Angular',
           images: [
-            'https://picsum.photos/seed/blog1/400/250',
-            'https://picsum.photos/seed/blog2/400/250',
+            '',
+            '',
           ],
           description:
             'Personal blog with Angular, authentication, comments, and post management.',
-          demoLink: 'https://tu-blog-angular.com',
+          demoLink: '',
           repoLink: '',
           createdAt: '',
           updatedAt: '',
@@ -121,8 +121,8 @@ export class ProjectCard implements OnInit {
         {
           title: 'Chat App',
           images: [
-            'https://picsum.photos/seed/chat1/400/250',
-            'https://picsum.photos/seed/chat2/400/250',
+            '',
+            '',
           ],
           description:
             'Aplicación de chat en tiempo real con Angular, WebSockets y autenticación.',
@@ -134,12 +134,12 @@ export class ProjectCard implements OnInit {
         {
           title: 'Weather App',
           images: [
-            'https://picsum.photos/seed/weather1/400/250',
-            'https://picsum.photos/seed/weather2/400/250',
+            '',
+            '',
           ],
           description:
             'Weather app with Angular, weather API and geolocation.',
-          demoLink: 'https://tu-weather-app.com',
+          demoLink: 'https://github.com/bunnystring',
           repoLink: '',
           createdAt: '',
           updatedAt: '',
