@@ -1,9 +1,25 @@
 <div class="content card- mt-5">
   <div class="wrap">
     <div class="container">
+      <!-- IMAGEN GRANDE OVERLAY SOLO MOBILE -->
+      <div class="col-sm-12 col-12 d-flex align-items-center justify-content-center">
+        <div @fadeInContainer class="image-overlay-big d-flex align-items-center justify-content-center"
+          *ngIf="!isImageFlipped && isMobile">
+          <div class="flip3d-container">
+            <img class="image-overlay-big-img" [class.flipping]="isFlipping" src="/assets/images/profile12.png"
+              alt="Foto de Arlez Camilo Ceron Herrera" />
+            <div class="waiting-message mt-3 text-center">
+              <span>Please wait...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CARD PRINCIPAL -->
       <div class="row justify-content-center hero-row-animate">
-        <div class="col-12 col-md-10">
-          <div class="card-content row gx-4">
+        <div class="col-12 col-sm-12 col-md-10">
+          <div class="card-content row gx-4" [ngClass]="{'card-flip-bg': isImageFlipped && isMobile, 'hide-on-mobile': !isImageFlipped && isMobile,
+              'animate-bg': cardBgShouldAnimate
+            }">
             <div
               class="profile-image avatar-animated-border col-12 col-md-6 d-flex align-items-center justify-content-center">
               <img src="/assets/images/profile12.png" class="w-100" loading="lazy"
@@ -23,10 +39,10 @@
                 delivering high-quality results and taking full ownership of my projects.
               </p>
               <div class="col-md-12 btn-wrap">
-                <button [routerLink]="'/about-it'"  class="primary btn-principal">
+                <button [routerLink]="'/about-it'" class="primary btn-principal">
                   Resume <ng-icon name="lucideExternalLink" size="18" strokeWidth="2"></ng-icon>
                 </button>
-                <a [routerLink]="'/contact-me'"  class="secondary">Contact</a>
+                <a [routerLink]="'/contact-me'" class="secondary">Contact</a>
               </div>
             </div>
           </div>
