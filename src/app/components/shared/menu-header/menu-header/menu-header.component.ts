@@ -321,7 +321,6 @@ export class MenuHeaderComponent implements OnInit, AfterViewInit {
    * @author Arlez Camilo Ceron Herrera
    */
   goToPage(pageName: string) {
-    console.log('Navigating to:', pageName);
     this.router.navigateByUrl(pageName);
   }
 
