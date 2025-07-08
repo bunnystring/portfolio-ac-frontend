@@ -202,13 +202,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     let count = 3; // Valor inicial de la cuenta regresiva
     const interval = setInterval(() => {
       if (count > 0) {
-        console.log(count);
         count--;
       } else {
         this.onPressStart(); // Llama al método onPressStart cuando la cuenta regresiva termina
         this.animatedCardMain(true);
         clearInterval(interval);
-        console.log('Cuenta regresiva finalizada');
       }
     }, 1000); // Intervalo de 1 segundo
   }
@@ -216,12 +214,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   animatedCardMain(cardBgShouldAnimate:boolean) {
     if (!this.isImageFlipped && this.isMobile) {
       setTimeout(() => {
-        console.log('Animación de fondo de tarjeta iniciada');
         this.cardBgShouldAnimate = true;
       }, 1500); // 1 segundos
       // despues de los 4 segundos se desactiva la animacion
       setTimeout(() => {
-        console.log('Animación de fondo de tarjeta finalizada');
         this.cardBgShouldAnimate = false;
       }, 4000); // 8 segundos
     }
