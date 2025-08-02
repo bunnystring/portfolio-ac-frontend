@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ProjectCardServices } from '../../services/project-card-services/project-card-services';
 
 export interface Project {
-  title: string;
-  images: string[];
+  name: string;
+  projectImageDTO: string[] | any[]; // Cambia a un tipo más específico si tienes un DTO definido;
   description: string;
-  demoLink: string;
-  repoLink: string;
-  createdAt: string;
-  updatedAt: string;
+  url: string;
+  repository_url: string;
+  start_date: string;
+  end_date: string;
 }
 
 @Component({
@@ -54,6 +55,8 @@ export class ProjectCard implements OnInit {
     return window.innerWidth < 700;
   }
 
+  constructor(private projectCardServices: ProjectCardServices) {}
+
   /**
    * Inicializa el componente y carga los proyectos después de un breve retraso.
    * @version 1.0.0
@@ -61,98 +64,35 @@ export class ProjectCard implements OnInit {
    */
   ngOnInit(): void {
     // Simula una carga de datos con un retraso Ojo: Eliminar esta data despues de la demo
-    setTimeout(() => {
-      this.projects = [
-        {
-          title: 'Portfolio AC Angular',
-          images: [
-            '/assets/images/home.png',
-            '/assets/images/contactPage.png',
-            '/assets/images/aboutit.png',
-          ],
-          description:
-            'A modern portfolio built with Angular 20 and Bootstrap 5. Featuring animations, responsive design, and an interactive pet.',
-          demoLink: 'https://portfolio-ac.com',
-          repoLink: 'https://github.com/bunnystring/portfolio-ac',
-          createdAt: '2025-05-01',
-          updatedAt: '2025-07-08',
-        },
-        {
-          title: 'ToDo App',
-          images: [
-            '',
-            '',
-          ],
-          description:
-            'Task management app with authentication, drag & drop, and cloud sync (Firebase).',
-          demoLink: '',
-          repoLink: 'https://github.com/bunnystring',
-          createdAt: '2024-05-01',
-          updatedAt: '2025-05-08',
-        },
-        {
-          title: 'E-commerce Angular',
-          images: [
-            '',
-            '',
-            '',
-            '',
-          ],
-          description:
-            'Store online with Angular, shopping cart, payment gateway and product management.',
-          demoLink: '',
-          repoLink: '',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          title: 'Blog Angular',
-          images: [
-            '',
-            '',
-          ],
-          description:
-            'Personal blog with Angular, authentication, comments, and post management.',
-          demoLink: '',
-          repoLink: '',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          title: 'Chat App',
-          images: [
-            '',
-            '',
-          ],
-          description:
-            'Aplicación de chat en tiempo real con Angular, WebSockets y autenticación.',
-          demoLink: 'https://tu-chat-app.com',
-          repoLink: '',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          title: 'Weather App',
-          images: [
-            '',
-            '',
-          ],
-          description:
-            'Weather app with Angular, weather API and geolocation.',
-          demoLink: 'https://github.com/bunnystring',
-          repoLink: '',
-          createdAt: '',
-          updatedAt: '',
-        },
-      ];
+
+    this.getAllProjects();
+    if (this.isMobile) {
+      this.itemsPerPage = 1; // Ajusta el número de proyectos por página en dispositivos móviles
+    }
+  }
+
+  /**
+   * Obtiene todos los proyectos desde el servicio y los asigna a la propiedad `projects`.
+   * @version 1.0.0
+   * @author Arlez Camilo Ceron Herrera
+   */
+  getAllProjects() {
+    this.projectCardServices.getProjects().subscribe({
+      next: (data) => {
+        setTimeout(() => {
+      this.projects = data;
       this.selectedImageIndex = this.projects.map(() => 0);
       this.flipped = this.projects.map(() => false);
       this.loading = false;
     }, 1800);
-
-    if (this.isMobile) {
-      this.itemsPerPage = 1; // Ajusta el número de proyectos por página en dispositivos móviles
-    }
+      },
+      error: (error) => {
+        console.error('Error al obtener los proyectos:', error);
+      },
+      complete: () => {
+        console.log('Proyectos cargados exitosamente');
+      }
+    });
   }
 
   /**
@@ -164,10 +104,10 @@ export class ProjectCard implements OnInit {
    *  @author Arlez Camilo Ceron Herrera
    */
   prevImage(i: number) {
-    if (!this.projects[i] || this.projects[i].images.length < 2) return;
+    if (!this.projects[i] || this.projects[i].projectImageDTO.length < 2) return;
     this.selectedImageIndex[i] =
-      (this.selectedImageIndex[i] - 1 + this.projects[i].images.length) %
-      this.projects[i].images.length;
+      (this.selectedImageIndex[i] - 1 + this.projects[i].projectImageDTO.length) %
+      this.projects[i].projectImageDTO.length;
   }
 
   /**
@@ -179,9 +119,9 @@ export class ProjectCard implements OnInit {
    *  @author Arlez Camilo Ceron Herrera
    */
   nextImage(i: number) {
-    if (!this.projects[i] || this.projects[i].images.length < 2) return;
+    if (!this.projects[i] || this.projects[i].projectImageDTO.length < 2) return;
     this.selectedImageIndex[i] =
-      (this.selectedImageIndex[i] + 1) % this.projects[i].images.length;
+      (this.selectedImageIndex[i] + 1) % this.projects[i].projectImageDTO.length;
   }
 
   /**

@@ -30,33 +30,33 @@
             (click)="flipCard(getGlobalIndex(idx))">
             <!-- Carrusel de imágenes -->
             <div class="project-gallery mb-2">
-              <button *ngIf="project.images.length > 1" class="gallery-arrow left"
+              <button *ngIf="project.projectImageDTO.length > 1" class="gallery-arrow left"
                 (click)="$event.stopPropagation(); prevImage(getGlobalIndex(idx))">&#8249;</button>
-              <img [src]="project.images[selectedImageIndex[getGlobalIndex(idx)]]"
-                class="img-fluid rounded-top-4 project-thumb" [alt]="project.title" />
-              <button *ngIf="project.images.length > 1" class="gallery-arrow right"
+              <img [src]="project.projectImageDTO[selectedImageIndex[getGlobalIndex(idx)]].image_url"
+                class="img-fluid rounded-top-4 project-thumb" [alt]="project.name" />
+              <button *ngIf="project.projectImageDTO.length > 1" class="gallery-arrow right"
                 (click)="$event.stopPropagation(); nextImage(getGlobalIndex(idx))">&#8250;</button>
-              <div *ngIf="project.images.length > 1" class="gallery-dots">
-                <span *ngFor="let img of project.images; let i = index"
+              <div *ngIf="project.projectImageDTO.length > 1" class="gallery-dots">
+                <span *ngFor="let img of project.projectImageDTO; let i = index"
                   [class.active]="selectedImageIndex[getGlobalIndex(idx)] === i"></span>
               </div>
             </div>
-            <div class="fw-bold mt-2 project-title">{{ project.title }}</div>
+            <div class="fw-bold mt-2 project-title">{{ project.name }}</div>
             <div class="project-dates  mt-2">
               <small>
-                <span class="date-label">Created: </span>{{ project.createdAt | date:'mediumDate' }}
+                <span class="date-label">Created: </span>{{ project.start_date | date:'mediumDate' }}
                 <span class="dot"></span>
-                <span class="date-label">Updated: </span>{{ project.updatedAt | date:'mediumDate' }}
+                <span class="date-label">Updated: </span>{{ project.end_date | date:'mediumDate' }}
               </small>
             </div>
           </div>
           <!-- Cara trasera -->
           <div class="project-card-3d-back rounded-4">
-            <h5 class="fw-bold project-title-back">{{ project.title }}</h5>
+            <h5 class="fw-bold project-title-back">{{ project.name }}</h5>
             <p class="project-desc">{{ project.description }}</p>
             <div class="col-md-12 d-flex justify-content-center project-actions">
-                <a *ngIf="project.demoLink" [href]="project.demoLink" target="_blank" class="btn btn-project">See Demo</a>
-                <a *ngIf="project.repoLink" [href]="project.repoLink" target="_blank"
+                <a *ngIf="project.url" [href]="project.url" target="_blank" class="btn btn-project">See Demo</a>
+                <a *ngIf="project.repository_url" [href]="project.repository_url" target="_blank"
                 class="btn btn-outline-project">GitHub</a>
                 <a class="btn btn-return" (click)="flipCard(getGlobalIndex(idx))">Return</a>
             </div>
