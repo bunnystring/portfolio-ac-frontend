@@ -5,7 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { lucideUser, lucideMail, lucideMessageCircle } from '@ng-icons/lucide';
+import { lucideUser, lucideMail, lucideMessageCircle, lucideSend } from '@ng-icons/lucide';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
@@ -23,9 +23,9 @@ import { Title, Meta } from '@angular/platform-browser';
       ])
     ]),
   ],
-  viewProviders: [provideIcons({ lucideUser, lucideMail, lucideMessageCircle })],
+  viewProviders: [provideIcons({ lucideUser, lucideMail, lucideMessageCircle, lucideSend })],
 })
-export class ContactMe implements OnInit, AfterViewInit {
+export class ContactMeComponent implements OnInit, AfterViewInit {
   contactForm: FormGroup;
   sending = false;
   sent = false;
