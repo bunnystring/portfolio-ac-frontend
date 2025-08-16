@@ -7,15 +7,15 @@ import {
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
-import { RocketScroll } from '../../../shared/rocket-scroll/rocket-scroll';
-import { HomeServices } from '../../../services/home-services/home-services';
+import { RocketScroll } from '../../shared/rocket-scroll/rocket-scroll';
+import { HomeServices } from '../../services/home-services/home-services';
 import {
   mouseEffectSnake,
   quitarCanvasSnake,
-} from '../../../../utils/mouse-effects/mouse-effects';
+} from '../../../utils/mouse-effects/mouse-effects';
 import { CommonModule } from '@angular/common';
 import { filter, Subject } from 'rxjs';
-import { ProjectCard } from '../../../shared/project-card/project-card';
+import { ProjectCard } from '../../shared/project-card/project-card';
 import { RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
