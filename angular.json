@@ -48,7 +48,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "extractLicenses": true,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
