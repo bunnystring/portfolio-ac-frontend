@@ -1,0 +1,99 @@
+<div class="container login-card mt-5 col-md-12" @fadeInContainer>
+  <!-- Columna IZQUIERDA -->
+  <div class="login-info side-visual col-md-6">
+    <div class="d-flex justify-content-center align-items-center mb-4">
+      <h2 class="brand-title brand login-title-left text-center">
+        <span class="accent">Welcome Back</span>
+        <small>Access Panel</small>
+      </h2>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center mb-4 p-2">
+      <p class="side-text">
+        Manage your <b>projects & dashboards</b> securely.<br />
+        Enter your credentials to continue.<br />
+        <span class="contact-tip">Secure area - Authorized users.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Columna DERECHA (Formulario) -->
+  <div class="col-md-6 form-section">
+    <h1 class="login-title d-md-none d-block text-center">Login</h1>
+
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate autocomplete="off">
+      <!-- ERROR GLOBAL -->
+      <div class="alert-error-slot">
+        <div class="alert-error" *ngIf="errorMsg()" @fadeError role="alert" aria-live="assertive">
+          {{ errorMsg() }}
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field" [class.invalid]="controlInvalid(f.email)" [class.filled]="f.email.value">
+        <div class="form-group-like">
+          <input id="email" formControlName="email" type="email" placeholder=" " autocomplete="username"
+            [attr.aria-invalid]="f.email.invalid ? true : null"
+            [attr.aria-describedby]="f.email.invalid ? 'email-error' : null" [class.filled]="f.email.value" />
+          <label for="email">Email</label>
+          <span class="form-icon">
+            <ng-icon name="lucideMail" size="18"></ng-icon>
+          </span>
+        </div>
+        <div class="error-msg" id="email-error" *ngIf="f.email.errors && controlInvalid(f.email)">
+          <span *ngIf="f.email.errors['required']">Email required.</span>
+          <span *ngIf="f.email.errors['email']">Invalid email.</span>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="field" [class.invalid]="controlInvalid(f.password)" [class.filled]="f.password.value">
+        <div class="password-wrapper form-group-like">
+          <input id="password" formControlName="password" [type]="showPassword() ? 'text' : 'password'" placeholder=" "
+            autocomplete="current-password" [attr.aria-invalid]="f.password.invalid ? true : null"
+            [attr.aria-describedby]="f.password.invalid ? 'password-error' : null" [class.filled]="f.password.value" />
+          <label for="password">Password</label>
+          <button type="button" class="toggle-eye" (click)="toggleShowPassword()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+            <span *ngIf="!showPassword()">👁️</span>
+            <span *ngIf="showPassword()">🙈</span>
+          </button>
+          <span class="form-icon">
+            <ng-icon name="lucideLock" size="18"></ng-icon>
+          </span>
+        </div>
+        <div class="error-msg" id="password-error" *ngIf="f.password.errors && controlInvalid(f.password)">
+          <span *ngIf="f.password.errors['required']">Password required.</span>
+          <span *ngIf="f.password.errors['minlength']">
+            Min {{ f.password.errors['minlength'].requiredLength }} chars.
+          </span>
+        </div>
+      </div>
+
+      <!-- REMEMBER + FORGOT -->
+      <div class="field-inline remember">
+        <label class="remember-check">
+          <input type="checkbox" formControlName="remember" />
+          <span>Remember me</span>
+        </label>
+        <a href="javascript:void(0)" class="forgot" (click)="$event.preventDefault()">Forgot password?</a>
+      </div>
+
+      <!-- SUBMIT -->
+      <button class="submit-btn" type="submit" [disabled]="disabledSubmit">
+        <ng-container *ngIf="!loading(); else loadingTpl">
+          <span>{{ submitLabel() }}</span>
+          <ng-icon name="lucideLogIn" size="18"></ng-icon>
+        </ng-container>
+        <ng-template #loadingTpl>
+          <span class="spinner"></span>
+        </ng-template>
+      </button>
+
+      <!-- HINT / CTA -->
+      <div class="login-hint">
+        Need an account? <a [routerLink]="'/contact-me'" >Contact me</a>
+      </div>
+    </form>
+  </div>
+</div>
